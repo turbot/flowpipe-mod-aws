@@ -44,9 +44,9 @@ pipeline "describe_ec2_instances" {
         }
     }
     output "stdout" {
-        value = step.container.container_run_aws.stdout
+        value = jsondecode(step.container.container_run_aws.stdout)
     }
     output "stderr" {
-        value = step.container.container_run_aws.stderr
+        value = jsondecode(step.container.container_run_aws.stderr)
     }
 }
