@@ -41,7 +41,7 @@ pipeline "describe_ec2_instances" {
 
       cmd = concat(
         ["ec2", "describe-instances"],
-        param.instance_ids != null && length(param.instance_ids) > 0 ? concat(["--instance-ids"], param.instance_ids) : [],
+        param.instance_ids != null && try(length(param.instance_ids), 0) > 0 ? concat(["--instance-ids"], param.instance_ids) : [],
         param.instance_type != null ? ["--filters", "Name=instance-type,Values=${param.instance_type}"] : [],
         param.ebs_optimized != null ? ["--filters", "Name=ebs-optimized,Values=${param.ebs_optimized}"] : []
       )
@@ -54,10 +54,10 @@ pipeline "describe_ec2_instances" {
     }
 
     output "stdout" {
-      value = jsondecode(step.container.container_run_aws.stdout)
+      value = jsondecode(step.container.describe_ec2_instances.stdout)
     }
 
     output "stderr" {
-      value = jsondecode(step.container.container_run_aws.stderr)
+      value = jsondecode(step.container.describe_ec2_instances.stderr)
     }
 }

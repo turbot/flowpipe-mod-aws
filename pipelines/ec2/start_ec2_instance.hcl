@@ -27,17 +27,17 @@ pipeline "start_ec2_instance" {
         image = "amazon/aws-cli"
         cmd = ["ec2", "start-instances", "--instance-ids", param.instance_id]
         env = {
-            AWS_REGION            = param.aws_region
-            AWS_ACCESS_KEY_ID     = param.aws_access_key_id
-            AWS_SECRET_ACCESS_KEY = param.aws_secret_access_key
+            AWS_REGION            = param.region
+            AWS_ACCESS_KEY_ID     = param.access_key_id
+            AWS_SECRET_ACCESS_KEY = param.secret_access_key
         }
     }
 
     output "stdout" {
-        value = step.container.container_run_aws.stdout
+        value = step.container.start_ec2_instance.stdout
     }
 
      output "stderr" {
-        value = step.container.container_run_aws.stderr
+        value = step.container.start_ec2_instance.stderr
     }
 }
