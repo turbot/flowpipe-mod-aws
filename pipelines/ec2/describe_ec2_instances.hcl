@@ -18,13 +18,25 @@ pipeline "describe_ec2_instances" {
       default     = var.aws_secret_access_key
     }
 
-    param "instance_id" {
+    param "instance_ids" {
+        type = list(string)
+    }
+
+    param "filter" {
         type = string
+        optional = true
     }
 
     step "container" "container_run_aws" {
         image = "amazon/aws-cli"
-        cmd = ["ec2", "describe-instances", "--instance-ids", param.instance_id]
+
+        cmd = concat([
+          "ec2",
+          "describe-instances",
+          ## TODO next step is to only include instance-ids if any are provided
+          "--instance-ids",
+        ], param.instance_ids)
+
         env = {
             AWS_REGION            = param.aws_region
             AWS_ACCESS_KEY_ID     = param.aws_access_key_id
@@ -34,7 +46,7 @@ pipeline "describe_ec2_instances" {
     output "stdout" {
         value = step.container.container_run_aws.stdout
     }
-     output "stderr" {
+    output "stderr" {
         value = step.container.container_run_aws.stderr
     }
 }
