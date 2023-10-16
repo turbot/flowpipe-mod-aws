@@ -1,28 +1,29 @@
 pipeline "start_ec2_instance" {
-    # Credentials
-    param "aws_region" {
+
+    param "region" {
       type        = string
-      description = "AWS Region"
-      default     = var.aws_region
+      description = "The name of the Region."
+      default     = var.region
     }
 
-    param "aws_access_key_id" {
+    param "access_key_id" {
       type        = string
-      description = "AWS Access Key ID"
-      default     = var.aws_access_key_id
+      description = "The ID for this access key."
+      default     = var.access_key_id
     }
 
-    param "aws_secret_access_key" {
+    param "secret_access_key" {
       type        = string
-      description = "AWS Secret Access Key"
-      default     = var.aws_secret_access_key
+      description = "The secret key used to sign requests."
+      default     = var.secret_access_key
     }
 
     param "instance_id" {
-        type = string
+      type        = string
+      description = "The IDs of the instances."
     }
 
-    step "container" "container_run_aws" {
+    step "container" "start_ec2_instance" {
         image = "amazon/aws-cli"
         cmd = ["ec2", "start-instances", "--instance-ids", param.instance_id]
         env = {
@@ -31,10 +32,12 @@ pipeline "start_ec2_instance" {
             AWS_SECRET_ACCESS_KEY = param.aws_secret_access_key
         }
     }
-    output "stdout_aws" {
+
+    output "stdout" {
         value = step.container.container_run_aws.stdout
     }
-     output "stderr_aws" {
+
+     output "stderr" {
         value = step.container.container_run_aws.stderr
     }
 }
