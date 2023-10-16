@@ -19,8 +19,24 @@ pipeline "describe_ec2_instances" {
     }
 
     param "instance_ids" {
-        type = list(string)
+      type     = list(string)
+      # TODO: Should we use [] or optional = true?
+      #default = []
+      optional = true
     }
+
+    param "instance_type" {
+      type        = string
+      description = "The type of instance (for example, t2.micro)."
+      optional    = true
+    }
+
+    param "ebs_optimized" {
+      type        = bool
+      description = "A Boolean that indicates whether the instance is optimized for Amazon EBS I/O."
+      optional    = true
+    }
+
 
     param "filter" {
         type = string
@@ -30,12 +46,13 @@ pipeline "describe_ec2_instances" {
     step "container" "container_run_aws" {
         image = "amazon/aws-cli"
 
-        cmd = concat([
-          "ec2",
-          "describe-instances",
-          ## TODO next step is to only include instance-ids if any are provided
-          "--instance-ids",
-        ], param.instance_ids)
+        cmd = concat(
+          ["ec2", "describe-instances"],
+          # TODO: Do I need to check for empty list to?
+          param.instance_ids != nil && length(param.instance_ids) > 0 ? concat(["--instance-ids"], param.instance_ids) : [],
+          param.instance_type != nil ? ["--filters", "Name=instance-type,Values=${param.instance_type}"]) : [],
+          param.instance_type != nil ? ["--filters", "Name=ebs-optimized,Values=${param.ebs_optimized}"]) : [],
+        )
 
         env = {
             AWS_REGION            = param.aws_region
