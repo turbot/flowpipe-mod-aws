@@ -1,5 +1,6 @@
 pipeline "describe_ec2_instances" {
-  title = "Describe EC2 Instances"
+  title       = "Describe EC2 Instances"
+  description = "Describes the specified instances or all instances."
 
   param "region" {
     type        = string

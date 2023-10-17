@@ -1,5 +1,6 @@
 pipeline "tag_resources" {
-  title = "Tag Resources"
+  title       = "Tag Resources"
+  description = "Applies one or more tags to the specified resources."
 
   param "region" {
     type        = string

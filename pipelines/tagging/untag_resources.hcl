@@ -1,5 +1,6 @@
 pipeline "untag_resources" {
-  title = "Untag Resources"
+  title       = "Untag Resources"
+  description = "Removes the specified tags from the specified resources."
 
   param "region" {
     type        = string

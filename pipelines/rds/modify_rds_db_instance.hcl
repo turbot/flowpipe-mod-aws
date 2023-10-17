@@ -1,5 +1,6 @@
 pipeline "modify_rds_db_instance" {
-  title = "Modify RDS DB Instance"
+  title       = "Modify RDS DB Instance"
+  description = "Modifies settings for a DB instance."
 
   param "region" {
     type        = string

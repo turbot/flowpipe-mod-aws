@@ -1,5 +1,6 @@
 pipeline "update_s3_bucket_versioning" {
-  title = "Update S3 Bucket Versioning"
+  title       = "Update S3 Bucket Versioning"
+  description = "Sets the versioning state of an existing bucket."
 
   param "region" {
     type        = string

@@ -1,5 +1,6 @@
 pipeline "create_iam_role" {
-  title = "Create IAM Role"
+  title       = "Create IAM Role"
+  description = "Creates a new role for your Amazon Web Services account."
 
   param "region" {
     type        = string
