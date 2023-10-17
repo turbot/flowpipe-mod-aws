@@ -43,10 +43,10 @@ pipeline "update_s3_bucket_versioning" {
   }
 
   output "stdout" {
-    value = jsondecode(step.container.update_s3_bucket_versioning.stdout)
+    value = step.container.update_s3_bucket_versioning.stdout
   }
 
   output "stderr" {
-    value = jsondecode(step.container.update_s3_bucket_versioning.stderr)
+    value = step.container.update_s3_bucket_versioning.stderr
   }
 }
