@@ -1,4 +1,6 @@
 pipeline "update_s3_bucket_versioning" {
+  title = "Update S3 Bucket Versioning"
+
   param "region" {
     type        = string
     description = "The name of the Region."
@@ -18,8 +20,8 @@ pipeline "update_s3_bucket_versioning" {
   }
 
   param "name" {
-    type = string
-    description = "The name of the bucket."
+    type        = string
+    description = "The bucket name."
   }
 
   param "versioning" {
