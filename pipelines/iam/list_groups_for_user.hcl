@@ -1,6 +1,6 @@
-pipeline "list_groups_by_user_name" {
+pipeline "list_groups_for_user" {
   title       = "List Groups by User"
-  description = "List groups by user name."
+  description = "Lists the IAM groups that the specified IAM user belongs to."
 
   param "region" {
     type        = string
@@ -22,10 +22,10 @@ pipeline "list_groups_by_user_name" {
 
   param "user_name" {
     type        = string
-    description = "The name of the user."
+    description = "The name of the user to list groups for."
   }
 
-  step "container" "list_groups_by_user_name" {
+  step "container" "list_groups_for_user" {
     image = "amazon/aws-cli"
     cmd = [
       "iam", "list-groups-for-user",
@@ -40,10 +40,10 @@ pipeline "list_groups_by_user_name" {
   }
 
   output "stdout" {
-    value = jsondecode(step.container.list_groups_by_user_name.stdout)
+    value = jsondecode(step.container.list_groups_for_user.stdout)
   }
 
   output "stderr" {
-    value = step.container.list_groups_by_user_name.stderr
+    value = step.container.list_groups_for_user.stderr
   }
 }
