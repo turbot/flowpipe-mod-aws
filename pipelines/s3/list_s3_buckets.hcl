@@ -20,6 +20,13 @@ pipeline "list_s3_buckets" {
     default     = var.secret_access_key
   }
 
+  param "session_token" {
+    type        = string
+    description = "The secret key used to sign requests."
+    default     = var.session_token
+    optional    = true
+  }
+
   param "query" {
     type        = string
     description = "A JMESPath query to use in filtering the response data."
@@ -38,6 +45,7 @@ pipeline "list_s3_buckets" {
       AWS_REGION            = param.region
       AWS_ACCESS_KEY_ID     = param.access_key_id
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
+      AWS_SESSION_TOKEN     = param.session_token
     }
   }
 
