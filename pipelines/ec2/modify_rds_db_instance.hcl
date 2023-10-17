@@ -18,15 +18,14 @@ pipeline "modify_rds_db_instance" {
       default     = var.secret_access_key
     }
 
-    param "instance_identifier" {
+    param "db_instance_identifier" {
       type        = string
-      description = "The instance ID."
-      optional    = true
+      description = "The identifier of DB instance to modify. This value is stored as a lowercase string."
     }
 
     param "publicly_accessible" {
       type        = bool
-      description = "Whether the DB instance is publicly accessible."
+      description = "Specifies whether the DB instance is publicly accessible."
       optional    = true
     }
 
@@ -34,7 +33,7 @@ pipeline "modify_rds_db_instance" {
       image = "amazon/aws-cli"
 
       cmd = concat(
-        ["rds", "modify-db-instance", "--apply-immediately", "--db-instance-identifier", param.instance_identifier],
+        ["rds", "modify-db-instance", "--apply-immediately", "--db-instance-identifier", param.db_instance_identifier],
         param.publicly_accessible != null ? param.publicly_accessible ? ["--publicly-accessible"] : ["--no-publicly-accessible"] : [],
       )
 
@@ -50,6 +49,6 @@ pipeline "modify_rds_db_instance" {
     }
 
     output "stderr" {
-      value = jsondecode(step.container.modify_rds_db_instance.stderr)
+      value = step.container.modify_rds_db_instance.stderr
     }
 }
