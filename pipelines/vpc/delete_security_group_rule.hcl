@@ -47,10 +47,10 @@ pipeline "delete_security_group_rule" {
   }
 
   output "stdout" {
-    value = step.container.update_s3_bucket_versioning.stdout
+    value = step.container.delete_security_group_rule.stdout
   }
 
   output "stderr" {
-    value = step.container.update_s3_bucket_versioning.stderr
+    value = step.container.delete_security_group_rule.stderr
   }
 }
