@@ -2,12 +2,6 @@ pipeline "create_iam_role" {
   title       = "Create IAM Role"
   description = "Creates a new role for your Amazon Web Services account."
 
-  param "region" {
-    type        = string
-    description = "The name of the Region."
-    default     = var.region
-  }
-
   param "access_key_id" {
     type        = string
     description = "The ID for this access key."
@@ -39,7 +33,6 @@ pipeline "create_iam_role" {
     ]
 
     env = {
-      AWS_REGION            = param.region
       AWS_ACCESS_KEY_ID     = param.access_key_id
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
     }
