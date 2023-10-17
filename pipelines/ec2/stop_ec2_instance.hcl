@@ -1,7 +1,6 @@
-# TODO: Should this be capable of starting more than 1?
-# It is more useful but harder to run for just 1 instance
-pipeline "start_ec2_instances" {
-  title       = "Start EC2 Instances"
+
+pipeline "stop_ec2_instance" {
+  title       = "Start EC2 Instance"
   description = "Starts an Amazon EBS-backed instance that you've previously stopped."
 
   param "region" {
@@ -22,17 +21,14 @@ pipeline "start_ec2_instances" {
     default     = var.secret_access_key
   }
 
-  param "instance_ids" {
-    type        = list(string)
-    description = "The IDs of the instances."
+  param "instance_id" {
+    type        = string
+    description = "The ID of the instance."
   }
 
-  step "container" "start_ec2_instances" {
+  step "container" "stop_ec2_instance" {
     image = "amazon/aws-cli"
-    cmd = concat(
-      ["ec2", "start-instances", "--instance-ids"],
-      param.instance_ids
-    )
+    cmd   = ["ec2", "stop-instances", "--instance-ids", param.instance_id]
     env = {
       AWS_REGION            = param.region
       AWS_ACCESS_KEY_ID     = param.access_key_id
@@ -41,10 +37,10 @@ pipeline "start_ec2_instances" {
   }
 
   output "stdout" {
-    value = jsondecode(step.container.start_ec2_instances.stdout)
+    value = jsondecode(step.container.stop_ec2_instance.stdout.json)
   }
 
   output "stderr" {
-    value = jsondecode(step.container.start_ec2_instances.stderr)
+    value = jsondecode(step.container.stop_ec2_instance.stderr)
   }
 }
