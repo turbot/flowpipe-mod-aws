@@ -35,6 +35,12 @@ pipeline "modify_rds_db_instance" {
     optional    = true
   }
 
+  param "backup_retention_period" {
+    type        = number
+    description = "The number of days to retain automated backups. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups."
+    optional    = true
+  }
+
   param "apply_immediately" {
     type        = bool
     description = "Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB instance. By default, this parameter is disabled."
@@ -49,6 +55,7 @@ pipeline "modify_rds_db_instance" {
       param.apply_immediately != null ? param.apply_immediately ? ["--apply-immediately"] : ["--no-apply-immediately"] : [],
       param.publicly_accessible != null ? param.publicly_accessible ? ["--publicly-accessible"] : ["--no-publicly-accessible"] : [],
       param.db_instance_class != null ? ["--db-instance-class", param.db_instance_class] : [],
+      param.backup_retention_period != null ? ["--backup-retention-period", param.backup_retention_period] : [],
     )
 
     env = {
