@@ -1,6 +1,6 @@
 pipeline "modify_ebs_volume" {
-  title       = "Convert EBS Volume Types"
-  description = "Convert EBS Volume Types."
+  title       = "Modify EBS Volume"
+  description = "Modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity."
 
   param "region" {
     type        = string
@@ -22,32 +22,30 @@ pipeline "modify_ebs_volume" {
 
   param "volume_id" {
     type        = string
-    description = "List of Volume IDs."
+    description = "The ID of the volume."
   }
 
   param "volume_type" {
     type        = string
-    description = "Specify the desired volume type."
+    description = "The target EBS volume type of the volume."
     optional    = true
   }
 
   param "iops" {
     type        = number
-    description = "Specify the desired IOPs"
+    description = "The target IOPS rate of the volume."
     optional    = true
   }
 
   step "container" "convert_volume" {
     image = "amazon/aws-cli"
 
-    description = "Get the current state of EBS default encryption."
     cmd = concat(
       [
         "ec2", "modify-volume",
-        "--region", "${ var.region }",
-        "--volume-type=${param.volume_type}",
         "--volume-id", param.volume_id
       ],
+      param.volume_type != null ? ["--volume-type", param.volume_type] : [],
       param.iops != null ? ["--iops", param.iops] : [],
     )
 
