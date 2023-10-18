@@ -24,9 +24,8 @@ pipeline "enable_ebs_encryption_by_default {
     description = "Update the state of EBS default encryption."
 
     image = "amazon/aws-cli"
-    cmd         = [
-      "ec2", "enable-ebs-encryption-by-default",
-      "--region", "${ var.region }"
+    cmd   = [
+      "ec2", "enable-ebs-encryption-by-default"
     ]
     env = {
       AWS_REGION            = var.region
