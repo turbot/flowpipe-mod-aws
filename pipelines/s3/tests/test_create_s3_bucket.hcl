@@ -20,7 +20,7 @@ pipeline "test_create_s3_bucket" {
     default     = var.secret_access_key
   }
 
-  param "name" {
+  param "bucket" {
     type        = string
     description = "The name of the bucket."
     default     = "flowpipe-test-bucket-${uuid()}"
@@ -32,7 +32,7 @@ pipeline "test_create_s3_bucket" {
      region            = param.region
      access_key_id     = param.access_key_id
      secret_access_key = param.secret_access_key
-     name              = param.name
+     bucket              = param.bucket
     }
   }
 
@@ -62,7 +62,7 @@ pipeline "test_create_s3_bucket" {
      region            = param.region
      access_key_id     = param.access_key_id
      secret_access_key = param.secret_access_key
-     name              = param.name
+     bucket            = param.bucket
     }
   }
 
@@ -73,9 +73,9 @@ pipeline "test_create_s3_bucket" {
   }
   */
 
-  output "bucket_name" {
+  output "bucket" {
     description = "Bucket name used in the test."
-    value = param.name
+    value = param.bucket
   }
 
   output "create_s3_bucket" {
@@ -85,7 +85,7 @@ pipeline "test_create_s3_bucket" {
 
   output "list_s3_buckets" {
     description = "Check for pipeline.list_s3_buckets."
-    value       = step.pipeline.list_s3_buckets.stderr == "" && length([for bucket in step.pipeline.list_s3_buckets.stdout.Buckets : bucket if bucket.Name == param.name]) > 0  ? "succeeded" : "failed: ${step.pipeline.list_s3_buckets.stderr}"
+    value       = step.pipeline.list_s3_buckets.stderr == "" && length([for bucket in step.pipeline.list_s3_buckets.stdout.Buckets : bucket if bucket.Name == param.bucket]) > 0  ? "succeeded" : "failed: ${step.pipeline.list_s3_buckets.stderr}"
   }
 
   output "delete_s3_bucket" {

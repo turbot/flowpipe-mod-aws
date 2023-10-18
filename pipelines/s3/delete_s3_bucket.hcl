@@ -20,7 +20,7 @@ pipeline "delete_s3_bucket" {
     default     = var.secret_access_key
   }
 
-  param "name" {
+  param "bucket" {
     type        = string
     description = "The name of the S3 bucket to delete."
   }
@@ -31,7 +31,7 @@ pipeline "delete_s3_bucket" {
     cmd = [
       "s3api",
       "delete-bucket",
-      "--bucket", param.name
+      "--bucket", param.bucket
     ]
 
     env = {

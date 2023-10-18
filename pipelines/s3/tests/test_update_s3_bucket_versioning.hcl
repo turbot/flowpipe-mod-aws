@@ -20,7 +20,7 @@ pipeline "test_update_s3_bucket_versioning" {
     default     = var.secret_access_key
   }
 
-  param "name" {
+  param "bucket" {
     type        = string
     description = "The name of the bucket."
     default     = "flowpipe-test-bucket-${uuid()}"
@@ -32,7 +32,7 @@ pipeline "test_update_s3_bucket_versioning" {
      region            = param.region
      access_key_id     = param.access_key_id
      secret_access_key = param.secret_access_key
-     name              = param.name
+     bucket              = param.bucket
     }
   }
 
@@ -43,7 +43,7 @@ pipeline "test_update_s3_bucket_versioning" {
      region            = param.region
      access_key_id     = param.access_key_id
      secret_access_key = param.secret_access_key
-     name              = param.name
+     bucket              = param.bucket
      versioning        = true
     }
 
@@ -60,7 +60,7 @@ pipeline "test_update_s3_bucket_versioning" {
      region            = param.region
      access_key_id     = param.access_key_id
      secret_access_key = param.secret_access_key
-     name              = param.name
+     bucket              = param.bucket
      versioning        = false
     }
 
@@ -81,13 +81,13 @@ pipeline "test_update_s3_bucket_versioning" {
      region            = param.region
      access_key_id     = param.access_key_id
      secret_access_key = param.secret_access_key
-     name              = param.name
+     bucket            = param.bucket
     }
   }
 
-  output "bucket_name" {
+  output "bucket" {
     description = "Bucket name used in the test."
-    value = param.name
+    value = param.bucket
   }
 
   output "create_s3_bucket" {

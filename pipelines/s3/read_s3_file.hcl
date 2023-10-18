@@ -27,7 +27,7 @@ pipeline "read_s3_file" {
     optional    = true
   }
 
-  param "bucket_name" {
+  param "bucket" {
     type        = string
     description = "S3 bucket name."
   }
@@ -39,7 +39,7 @@ pipeline "read_s3_file" {
 
   step "container" "read_s3_file" {
     image = "amazon/aws-cli"
-    cmd = ["s3", "cp", "s3://${param.bucket_name}/${param.path_to_file}", "-"]
+    cmd = ["s3", "cp", "s3://${param.bucket}/${param.path_to_file}", "-"]
 
     env = {
       AWS_REGION            = param.region

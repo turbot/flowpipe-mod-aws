@@ -20,7 +20,7 @@ pipeline "update_s3_public_access_block" {
     default     = var.secret_access_key
   }
 
-  param "bucket_name" {
+  param "bucket" {
     type        = string
     description = "The name of the S3 bucket."
   }
@@ -35,7 +35,7 @@ pipeline "update_s3_public_access_block" {
 
     cmd = concat(
       ["s3api", "put-public-access-block"],
-      ["--bucket", param.bucket_name],
+      ["--bucket", param.bucket],
       ["--public-access-block-configuration", param.public_access_block_configuration]
     )
 
