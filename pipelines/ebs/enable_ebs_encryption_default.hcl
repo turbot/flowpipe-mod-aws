@@ -20,7 +20,6 @@ pipeline "enable_ebs_encryption_default" {
     default     = var.secret_access_key
   }
 
-
   step "container" "enable_encryption_defaults" {
     description = "Update the state of EBS default encryption."
 
