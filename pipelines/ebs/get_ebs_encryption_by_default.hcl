@@ -1,4 +1,4 @@
-pipeline "get_ebs_encryption_default" {
+pipeline "get_ebs_encryption_bdefault" {
 
   param "region" {
     type        = string
@@ -19,12 +19,10 @@ pipeline "get_ebs_encryption_default" {
   }
 
   step "container" "get_encryption_defaults" {
-    description = "Get EBS Default Encryption"
     # Call the AWS CLI
-    image       = "amazon/aws-cli"
-    cmd         = [
-      "ec2", "get-ebs-encryption-by-default",
-      "--region", "${ var.region }"
+    image = "amazon/aws-cli"
+    cmd   = [
+      "ec2", "get-ebs-encryption-by-default"
     ]
     env = {
       AWS_REGION            = var.region
