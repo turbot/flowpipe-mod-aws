@@ -56,10 +56,12 @@ pipeline "describe_ec2_instances" {
   }
 
   output "stdout" {
-    value = jsondecode(step.container.describe_ec2_instances.stdout)
+    description = "The JSON output from the AWS CLI."
+    value       = jsondecode(step.container.describe_ec2_instances.stdout)
   }
 
   output "stderr" {
-    value = jsondecode(step.container.describe_ec2_instances.stderr)
+    description = "The error output from the AWS CLI."
+    value       = step.container.describe_ec2_instances.stderr
   }
 }

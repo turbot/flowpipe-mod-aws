@@ -34,11 +34,12 @@ pipeline "list_users" {
   }
 
   output "stdout" {
-    description = "List of available users."
-    value = jsondecode(step.container.list_users.stdout)
+    description = "The JSON output from the AWS CLI."
+    value       = jsondecode(step.container.list_users.stdout)
   }
 
   output "stderr" {
-    value = step.container.list_users.stderr
+    description = "The error output from the AWS CLI."
+    value       = step.container.list_users.stderr
   }
 }

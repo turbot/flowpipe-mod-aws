@@ -36,10 +36,12 @@ pipeline "start_ec2_instance" {
   }
 
   output "stdout" {
-    value = step.container.start_ec2_instance.stdout
+    description = "The JSON output from the AWS CLI."
+    value       = step.container.start_ec2_instance.stdout
   }
 
    output "stderr" {
-    value = step.container.start_ec2_instance.stderr
+    description = "The error output from the AWS CLI."
+    value       = step.container.start_ec2_instance.stderr
   }
 }

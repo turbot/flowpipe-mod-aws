@@ -48,10 +48,12 @@ pipeline "untag_resources" {
   }
 
   output "stdout" {
-    value = step.container.untag_resources.stdout
+    description = "The JSON output from the AWS CLI."
+    value       = step.container.untag_resources.stdout
   }
 
   output "stderr" {
-    value = step.container.untag_resources.stderr
+    description = "The error output from the AWS CLI."
+    value       = step.container.untag_resources.stderr
   }
 }

@@ -39,10 +39,12 @@ pipeline "create_iam_role" {
   }
 
   output "stdout" {
-    value = jsondecode(step.container.create_iam_role.stdout)
+    description = "The JSON output from the AWS CLI."
+    value       = jsondecode(step.container.create_iam_role.stdout)
   }
 
    output "stderr" {
-    value = step.container.create_iam_role.stderr
+    description = "The error output from the AWS CLI."
+    value       = step.container.create_iam_role.stderr
   }
 }

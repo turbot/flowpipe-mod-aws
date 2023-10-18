@@ -1,5 +1,5 @@
-pipeline "list_groups_for_user" {
-  title       = "List Groups by User"
+pipeline "list_iam_groups_for_user" {
+  title       = "List IAM Groups for User"
   description = "Lists the IAM groups that the specified IAM user belongs to."
 
   param "region" {
@@ -40,10 +40,12 @@ pipeline "list_groups_for_user" {
   }
 
   output "stdout" {
-    value = jsondecode(step.container.list_groups_for_user.stdout)
+    description = "The JSON output from the AWS CLI."
+    value       = jsondecode(step.container.list_groups_for_user.stdout)
   }
 
   output "stderr" {
-    value = step.container.list_groups_for_user.stderr
+    description = "The error output from the AWS CLI."
+    value       = step.container.list_groups_for_user.stderr
   }
 }

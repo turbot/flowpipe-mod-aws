@@ -52,10 +52,12 @@ pipeline "read_s3_file" {
   }
 
   output "stdout" {
-    value = step.container.read_s3_file.stdout
+    description = "The JSON output from the AWS CLI."
+    value       = step.container.read_s3_file.stdout
   }
 
   output "stderr" {
-    value = step.container.read_s3_file.stderr
+    description = "The error output from the AWS CLI."
+    value       = step.container.read_s3_file.stderr
   }
 }

@@ -58,10 +58,12 @@ pipeline "get_s3_object" {
   }
 
   output "stdout" {
-    value = step.container.get_s3_object.stdout
+    description = "The JSON output from the AWS CLI."
+    value       = step.container.get_s3_object.stdout
   }
 
   output "stderr" {
-    value = step.container.get_s3_object.stderr
+    description = "The error output from the AWS CLI."
+    value       = step.container.get_s3_object.stderr
   }
 }

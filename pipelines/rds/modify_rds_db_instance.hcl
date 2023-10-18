@@ -68,10 +68,12 @@ pipeline "modify_rds_db_instance" {
   }
 
   output "stdout" {
-    value = jsondecode(step.container.modify_rds_db_instance.stdout)
+    description = "The JSON output from the AWS CLI."
+    value       = jsondecode(step.container.modify_rds_db_instance.stdout)
   }
 
   output "stderr" {
-    value = step.container.modify_rds_db_instance.stderr
+    description = "The error output from the AWS CLI."
+    value       = step.container.modify_rds_db_instance.stderr
   }
 }

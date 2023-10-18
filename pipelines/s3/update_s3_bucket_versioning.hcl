@@ -46,10 +46,12 @@ pipeline "update_s3_bucket_versioning" {
   }
 
   output "stdout" {
-    value = step.container.update_s3_bucket_versioning.stdout
+    description = "The JSON output from the AWS CLI."
+    value       = step.container.update_s3_bucket_versioning.stdout
   }
 
   output "stderr" {
-    value = step.container.update_s3_bucket_versioning.stderr
+    description = "The error output from the AWS CLI."
+    value       = step.container.update_s3_bucket_versioning.stderr
   }
 }
