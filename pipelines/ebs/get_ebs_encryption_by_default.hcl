@@ -1,4 +1,6 @@
-pipeline "get_ebs_encryption_bdefault" {
+pipeline "get_ebs_encryption_by_default" {
+  title       = "Get EBS Encryption by Default"
+  description = "Describes whether EBS encryption by default is enabled for your account in the current Region."
 
   param "region" {
     type        = string
@@ -19,9 +21,9 @@ pipeline "get_ebs_encryption_bdefault" {
   }
 
   step "container" "get_encryption_defaults" {
-    # Call the AWS CLI
     image = "amazon/aws-cli"
-    cmd   = [
+
+    cmd = [
       "ec2", "get-ebs-encryption-by-default"
     ]
     env = {
