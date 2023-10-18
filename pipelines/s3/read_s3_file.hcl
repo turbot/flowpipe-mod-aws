@@ -27,21 +27,19 @@ pipeline "read_s3_file" {
     optional    = true
   }
 
-  param "bucket_name" {
+  param "bucket" {
     type        = string
     description = "S3 bucket name."
-    default     = "turbot-aws-marketplace-data-feed"
   }
 
   param "path_to_file" {
     type        = string
     description = "Path to S3 file."
-    default = "BillingEventFeed_V1/year=2023/month=10/data.csv"
   }
 
   step "container" "read_s3_file" {
     image = "amazon/aws-cli"
-    cmd = ["s3", "cp", "s3://${param.bucket_name}/${param.path_to_file}", "-"]
+    cmd = ["s3", "cp", "s3://${param.bucket}/${param.path_to_file}", "-"]
 
     env = {
       AWS_REGION            = param.region

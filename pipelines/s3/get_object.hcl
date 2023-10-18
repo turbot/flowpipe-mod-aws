@@ -27,7 +27,7 @@ pipeline "get_s3_object" {
     optional    = true
   }
 
-  param "bucket_name" {
+  param "bucket" {
     type        = string
     description = "Bucket name."
     default     = ""

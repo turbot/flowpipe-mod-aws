@@ -1,6 +1,6 @@
-pipeline "update_s3_bucket_versioning" {
-  title       = "Update S3 Bucket Versioning"
-  description = "Sets the versioning state of an existing bucket."
+pipeline "describe_vpcs" {
+  title       = "Describe VPCs"
+  description = "Describes the specified VPCs or all VPCs."
 
   param "region" {
     type        = string
@@ -20,22 +20,18 @@ pipeline "update_s3_bucket_versioning" {
     default     = var.secret_access_key
   }
 
-  param "bucket" {
-    type        = string
-    description = "The bucket name."
+  param "vpc_ids" {
+    type        = list(string)
+    description = "The VPC IDs."
+    optional    = true
   }
 
-  param "versioning" {
-    type        = bool
-    description = "The versioning state of the bucket."
-  }
-
-  step "container" "update_s3_bucket_versioning" {
+  step "container" "describe_vpcs" {
     image = "amazon/aws-cli"
 
     cmd = concat(
-      ["s3api", "put-bucket-versioning", "--bucket", param.bucket, "--versioning-configuration"],
-      param.versioning ? ["Status=Enabled"] : ["Status=Suspended"],
+      ["ec2", "describe-vpcs"],
+      try(length(param.vpc_ids), 0) > 0 ? concat(["--vpc-ids"], param.vpc_ids) : []
     )
 
     env = {
@@ -47,11 +43,11 @@ pipeline "update_s3_bucket_versioning" {
 
   output "stdout" {
     description = "The JSON output from the AWS CLI."
-    value       = jsondecode(step.container.update_s3_bucket_versioning.stdout)
+    value       = jsondecode(step.container.describe_vpcs.stdout)
   }
 
   output "stderr" {
     description = "The error output from the AWS CLI."
-    value       = step.container.update_s3_bucket_versioning.stderr
+    value       = step.container.describe_vpcs.stderr
   }
 }

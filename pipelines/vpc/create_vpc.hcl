@@ -1,6 +1,6 @@
-pipeline "update_s3_bucket_versioning" {
-  title       = "Update S3 Bucket Versioning"
-  description = "Sets the versioning state of an existing bucket."
+pipeline "create_vpc" {
+  title       = "Create VPC"
+  description = "Creates a new Virtual Private Cloud (VPC) in your AWS account."
 
   param "region" {
     type        = string
@@ -20,23 +20,18 @@ pipeline "update_s3_bucket_versioning" {
     default     = var.secret_access_key
   }
 
-  param "bucket" {
+  param "cidr_block" {
     type        = string
-    description = "The bucket name."
+    description = "The IPv4 network range for the VPC, in CIDR notation (e.g., 10.0.0.0/16)."
   }
 
-  param "versioning" {
-    type        = bool
-    description = "The versioning state of the bucket."
-  }
-
-  step "container" "update_s3_bucket_versioning" {
+  step "container" "create_vpc" {
     image = "amazon/aws-cli"
 
-    cmd = concat(
-      ["s3api", "put-bucket-versioning", "--bucket", param.bucket, "--versioning-configuration"],
-      param.versioning ? ["Status=Enabled"] : ["Status=Suspended"],
-    )
+    cmd = [
+      "ec2", "create-vpc",
+      "--cidr-block", param.cidr_block
+    ]
 
     env = {
       AWS_REGION            = param.region
@@ -47,11 +42,11 @@ pipeline "update_s3_bucket_versioning" {
 
   output "stdout" {
     description = "The JSON output from the AWS CLI."
-    value       = jsondecode(step.container.update_s3_bucket_versioning.stdout)
+    value       = jsondecode(step.container.create_vpc.stdout)
   }
 
   output "stderr" {
     description = "The error output from the AWS CLI."
-    value       = step.container.update_s3_bucket_versioning.stderr
+    value       = step.container.create_vpc.stderr
   }
 }
