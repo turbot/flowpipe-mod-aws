@@ -1,4 +1,4 @@
-pipeline "update_ebs_type_conversion" {
+pipeline "modify_ebs_volume" {
   title       = "Convert EBS Volume Types"
   description = "Convert EBS Volume Types."
 
