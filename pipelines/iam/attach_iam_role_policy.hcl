@@ -1,5 +1,5 @@
-pipeline "attach_role_policy" {
-  title       = "Attach policy to role"
+pipeline "attach_iam_role_policy" {
+  title       = "Attach IAM Role Policy"
   description = "Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy."
 
   param "access_key_id" {
@@ -39,10 +39,12 @@ pipeline "attach_role_policy" {
   }
 
   output "stdout" {
-    value = step.container.attach_role_policy.stdout
+    description = "The JSON output from the AWS CLI."
+    value       = step.container.attach_role_policy.stdout
   }
 
    output "stderr" {
-    value = step.container.attach_role_policy.stderr
+    description = "The error output from the AWS CLI."
+    value       = step.container.attach_role_policy.stderr
   }
 }

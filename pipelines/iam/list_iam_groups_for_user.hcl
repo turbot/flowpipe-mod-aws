@@ -1,6 +1,6 @@
-pipeline "list_users" {
-  title       = "List Users"
-  description = "Lists the IAM users."
+pipeline "list_iam_groups_for_user" {
+  title       = "List IAM Groups for User"
+  description = "Lists the IAM groups that the specified IAM user belongs to."
 
   param "region" {
     type        = string
@@ -20,10 +20,16 @@ pipeline "list_users" {
     default     = var.secret_access_key
   }
 
-  step "container" "list_users" {
+  param "user_name" {
+    type        = string
+    description = "The name of the user to list groups for."
+  }
+
+  step "container" "list_groups_for_user" {
     image = "amazon/aws-cli"
     cmd = [
-      "iam", "list-users"
+      "iam", "list-groups-for-user",
+      "--user-name", param.user_name
     ]
 
     env = {
@@ -34,11 +40,12 @@ pipeline "list_users" {
   }
 
   output "stdout" {
-    description = "List of available users."
-    value = jsondecode(step.container.list_users.stdout)
+    description = "The JSON output from the AWS CLI."
+    value       = jsondecode(step.container.list_groups_for_user.stdout)
   }
 
   output "stderr" {
-    value = step.container.list_users.stderr
+    description = "The error output from the AWS CLI."
+    value       = step.container.list_groups_for_user.stderr
   }
 }

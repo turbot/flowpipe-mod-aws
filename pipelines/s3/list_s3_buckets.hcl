@@ -50,10 +50,12 @@ pipeline "list_s3_buckets" {
   }
 
   output "stdout" {
-    value = jsondecode(step.container.list_s3_buckets.stdout)
+    description = "The JSON output from the AWS CLI."
+    value       = jsondecode(step.container.list_s3_buckets.stdout)
   }
 
   output "stderr" {
-    value = jsondecode(step.container.list_s3_buckets.stderr)
+    description = "The error output from the AWS CLI."
+    value       = step.container.list_s3_buckets.stderr
   }
 }
