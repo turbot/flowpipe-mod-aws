@@ -20,7 +20,7 @@ pipeline "get_ebs_encryption_by_default" {
     default     = var.secret_access_key
   }
 
-  step "container" "get_encryption_defaults" {
+  step "container" "get_ebs_encryption_by_default" {
     image = "amazon/aws-cli"
 
     cmd = [
@@ -34,11 +34,11 @@ pipeline "get_ebs_encryption_by_default" {
   }
 
   output "stdout" {
-    value = jsondecode(step.container.get_encryption_defaults.stdout)
+    value = jsondecode(step.container.get_ebs_encryption_by_default.stdout)
   }
 
   output "stderr" {
-    value = step.container.get_encryption_defaults.stderr
+    value = step.container.get_ebs_encryption_by_default.stderr
   }
 
 }
