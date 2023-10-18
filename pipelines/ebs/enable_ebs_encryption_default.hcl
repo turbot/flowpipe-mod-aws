@@ -20,7 +20,7 @@ pipeline "enable_ebs_encryption_by_default {
     default     = var.secret_access_key
   }
 
-  step "container" "enable_encryption_defaults" {
+  step "container" "enable_ebs_encryption_by_default" {
     description = "Update the state of EBS default encryption."
 
     image = "amazon/aws-cli"
