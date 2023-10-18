@@ -1,4 +1,4 @@
-pipeline "enable_ebs_encryption_by_default {
+pipeline "enable_ebs_encryption_by_default" {
   title       = "Enable EBS Encryption by Default"
   description = "Enables EBS encryption by default for your account in the current Region."
 
