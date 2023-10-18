@@ -1,6 +1,6 @@
 pipeline "create_s3_bucket" {
   title       = "Create S3 Bucket"
-  description = "Creates an Amazon S3 bucket."
+  description = "Creates a new Amazon S3 bucket."
 
   param "region" {
     type        = string
@@ -20,23 +20,36 @@ pipeline "create_s3_bucket" {
     default     = var.secret_access_key
   }
 
-  param "name" {
+  param "bucket" {
     type        = string
-    description = "The name of the S3 bucket to create."
+    description = "The name of the new S3 bucket."
+  }
+
+  param "acl" {
+    type        = string
+    description = "The access control list (ACL) for the new bucket (e.g., private, public-read)."
+    optional = true
+  }
+
+  param "create_bucket_configuration" {
+    type        = string
+    description = "A JSON string containing the create bucket configuration settings."
+    optional    = true
   }
 
   step "container" "create_s3_bucket" {
     image = "amazon/aws-cli"
 
-    cmd = [
-      "s3api",
-      "create-bucket",
-      "--bucket", param.name,
-    ]
+    cmd = concat(
+      ["s3api", "create-bucket"],
+      ["--bucket", param.bucket],
+      param.acl != null ? ["--acl", param.acl] : [],
+      param.create_bucket_configuration != null ? ["--create-bucket-configuration", param.create_bucket_configuration] : [],
+    )
 
     env = {
-      AWS_REGION            = param.region
-      AWS_ACCESS_KEY_ID     = param.access_key_id
+      AWS_REGION            = param.region,
+      AWS_ACCESS_KEY_ID     = param.access_key_id,
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
     }
   }
