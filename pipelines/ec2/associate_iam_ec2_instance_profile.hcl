@@ -32,7 +32,7 @@ pipeline "associate_iam_ec2_instance_profile" {
 
   step "container" "associate_iam_ec2_instance_profile" {
     image = "amazon/aws-cli"
-  to EC2   cmd = [
+    cmd = [
       "ec2", "associate-iam-instance-profile",
       "--instance-id", param.instance_id,
       "--iam-instance-profile", param.iam_instance_profile,
@@ -48,7 +48,7 @@ pipeline "associate_iam_ec2_instance_profile" {
     value = jsondecode(step.container.associate_iam_ec2_instance_profile.stdout)
   }
 
- to EC2   output "stderr" {
+  output "stderr" {
     value = step.container.associate_iam_ec2_instance_profile.stderr
   }
-}to EC2
+}
