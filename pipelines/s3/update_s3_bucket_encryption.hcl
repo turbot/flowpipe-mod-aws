@@ -1,5 +1,5 @@
-pipeline "put_s3_bucket_encryption" {
-  title       = "Put S3 Bucket Encryption"
+pipeline "update_s3_bucket_encryption" {
+  title       = "Update S3 Bucket Encryption"
   description = "Configures encryption settings for an Amazon S3 bucket."
 
   param "region" {
@@ -30,7 +30,7 @@ pipeline "put_s3_bucket_encryption" {
     description = "Specifies the default server-side-encryption configuration. A JSON document that has been converted to a string."
   }
 
-  step "container" "put_s3_bucket_encryption" {
+  step "container" "update_s3_bucket_encryption" {
     image = "amazon/aws-cli"
 
     cmd = concat(
@@ -48,11 +48,11 @@ pipeline "put_s3_bucket_encryption" {
 
   output "stdout" {
     description = "The JSON output from the AWS CLI."
-    value       = jsondecode(step.container.put_s3_bucket_encryption.stdout)
+    value       = jsondecode(step.container.update_s3_bucket_encryption.stdout)
   }
 
   output "stderr" {
     description = "The error output from the AWS CLI."
-    value       = step.container.put_s3_bucket_encryption.stderr
+    value       = step.container.update_s3_bucket_encryption.stderr
   }
 }

@@ -1,4 +1,4 @@
-pipeline "create_instance_profile" {
+pipeline "create_iam_instance_profile" {
   title       = "Create Instance Profile"
   description = "Creates a new instance profile."
 
@@ -25,7 +25,7 @@ pipeline "create_instance_profile" {
     description = "The name of the instance profile to create."
   }
 
-  step "container" "create_instance_profile" {
+  step "container" "create_iam_instance_profile" {
     image = "amazon/aws-cli"
     cmd = [
       "iam", "create-instance-profile",
@@ -40,10 +40,10 @@ pipeline "create_instance_profile" {
   }
 
   output "stdout" {
-    value = jsondecode(step.container.create_instance_profile.stdout)
+    value = jsondecode(step.container.create_iam_instance_profile.stdout)
   }
 
    output "stderr" {
-    value = step.container.create_instance_profile.stderr
+    value = step.container.create_iam_instance_profile.stderr
   }
 }
