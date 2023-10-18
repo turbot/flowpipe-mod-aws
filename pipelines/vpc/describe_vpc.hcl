@@ -1,6 +1,6 @@
-pipeline "untag_resources" {
-  title       = "Untag Resources"
-  description = "Removes the specified tags from the specified resources."
+pipeline "describe_vpc" {
+  title       = "Describe VPCs"
+  description = "Describes the specified VPCs or all VPCs."
 
   param "region" {
     type        = string
@@ -20,25 +20,15 @@ pipeline "untag_resources" {
     default     = var.secret_access_key
   }
 
-  param "resource_arns" {
-    type        = list(string)
-    description = "Specifies the list of ARNs of the resources that you want to apply tags to."
+  param "vpc_id" {
+    type        = string
+    description = "The VPC ID."
   }
 
-  param "tag_keys" {
-    type        = list(string)
-    description = "Specifies a list of tag keys that you want to remove from the specified resources."
-  }
-
-  step "container" "untag_resources" {
+  step "container" "describe_vpc" {
     image = "amazon/aws-cli"
 
-    cmd = concat(
-      ["resourcegroupstaggingapi", "untag-resources", "--resource-arn-list"],
-      param.resource_arns,
-      ["--tag-keys"],
-      param.tag_keys
-    )
+    cmd = ["ec2", "describe-vpcs", "--vpc-ids", param.vpc_id]
 
     env = {
       AWS_REGION            = param.region
@@ -49,11 +39,11 @@ pipeline "untag_resources" {
 
   output "stdout" {
     description = "The JSON output from the AWS CLI."
-    value       = step.container.untag_resources.stdout
+    value       = jsondecode(step.container.describe_vpc.stdout)
   }
 
   output "stderr" {
     description = "The error output from the AWS CLI."
-    value       = step.container.untag_resources.stderr
+    value       = step.container.describe_vpc.stderr
   }
 }

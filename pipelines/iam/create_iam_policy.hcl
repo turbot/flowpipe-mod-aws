@@ -39,10 +39,12 @@ pipeline "create_iam_policy" {
   }
 
   output "stdout" {
-    value = jsondecode(step.container.create_iam_policy.stdout)
+    description = "The JSON output from the AWS CLI."
+    value       = jsondecode(step.container.create_iam_policy.stdout)
   }
 
    output "stderr" {
-    value = step.container.create_iam_policy.stderr
+    description = "The error output from the AWS CLI."
+    value       = step.container.create_iam_policy.stderr
   }
 }

@@ -1,6 +1,6 @@
-pipeline "list_groups_for_user" {
-  title       = "List Groups by User"
-  description = "Lists the IAM groups that the specified IAM user belongs to."
+pipeline "create_vpc" {
+  title       = "Create VPC"
+  description = "Creates a new Virtual Private Cloud (VPC) in your AWS account."
 
   param "region" {
     type        = string
@@ -20,16 +20,17 @@ pipeline "list_groups_for_user" {
     default     = var.secret_access_key
   }
 
-  param "user_name" {
+  param "cidr_block" {
     type        = string
-    description = "The name of the user to list groups for."
+    description = "The IPv4 network range for the VPC, in CIDR notation (e.g., 10.0.0.0/16)."
   }
 
-  step "container" "list_groups_for_user" {
+  step "container" "create_vpc" {
     image = "amazon/aws-cli"
+
     cmd = [
-      "iam", "list-groups-for-user",
-      "--user-name", param.user_name
+      "ec2", "create-vpc",
+      "--cidr-block", param.cidr_block
     ]
 
     env = {
@@ -40,10 +41,12 @@ pipeline "list_groups_for_user" {
   }
 
   output "stdout" {
-    value = jsondecode(step.container.list_groups_for_user.stdout)
+    description = "The JSON output from the AWS CLI."
+    value       = jsondecode(step.container.create_vpc.stdout)
   }
 
   output "stderr" {
-    value = step.container.list_groups_for_user.stderr
+    description = "The error output from the AWS CLI."
+    value       = step.container.create_vpc.stderr
   }
 }

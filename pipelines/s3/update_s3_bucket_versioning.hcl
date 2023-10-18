@@ -20,7 +20,7 @@ pipeline "update_s3_bucket_versioning" {
     default     = var.secret_access_key
   }
 
-  param "name" {
+  param "bucket" {
     type        = string
     description = "The bucket name."
   }
@@ -34,7 +34,7 @@ pipeline "update_s3_bucket_versioning" {
     image = "amazon/aws-cli"
 
     cmd = concat(
-      ["s3api", "put-bucket-versioning", "--bucket", param.name, "--versioning-configuration"],
+      ["s3api", "put-bucket-versioning", "--bucket", param.bucket, "--versioning-configuration"],
       param.versioning ? ["Status=Enabled"] : ["Status=Suspended"],
     )
 
@@ -46,10 +46,12 @@ pipeline "update_s3_bucket_versioning" {
   }
 
   output "stdout" {
-    value = step.container.update_s3_bucket_versioning.stdout
+    description = "The JSON output from the AWS CLI."
+    value       = jsondecode(step.container.update_s3_bucket_versioning.stdout)
   }
 
   output "stderr" {
-    value = step.container.update_s3_bucket_versioning.stderr
+    description = "The error output from the AWS CLI."
+    value       = step.container.update_s3_bucket_versioning.stderr
   }
 }

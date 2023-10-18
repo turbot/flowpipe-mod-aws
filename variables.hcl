@@ -1,3 +1,4 @@
+# TODO: Remove all defaults once variables can be passed to mod dependencies properly
 variable "region" {
   type        = string
   description = "The name of the Region."
@@ -18,6 +19,6 @@ variable "secret_access_key" {
 
 variable "session_token" {
   type        = string
-  description = "If needing an AWS session token."
+  description = "The token that users must pass to the service API to use the temporary credentials."
   default     = ""
 }

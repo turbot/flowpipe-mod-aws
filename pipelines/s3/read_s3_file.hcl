@@ -1,6 +1,6 @@
-pipeline "untag_resources" {
-  title       = "Untag Resources"
-  description = "Removes the specified tags from the specified resources."
+pipeline "read_s3_file" {
+  title       = "Reads an object from S3 bucket"
+  description = "Gets an object from an S3 buckets owned by the authenticated sender of the request."
 
   param "region" {
     type        = string
@@ -20,40 +20,42 @@ pipeline "untag_resources" {
     default     = var.secret_access_key
   }
 
-  param "resource_arns" {
-    type        = list(string)
-    description = "Specifies the list of ARNs of the resources that you want to apply tags to."
+  param "session_token" {
+    type        = string
+    description = "The secret key used to sign requests."
+    default     = var.session_token
+    optional    = true
   }
 
-  param "tag_keys" {
-    type        = list(string)
-    description = "Specifies a list of tag keys that you want to remove from the specified resources."
+  param "bucket" {
+    type        = string
+    description = "S3 bucket name."
   }
 
-  step "container" "untag_resources" {
+  param "path_to_file" {
+    type        = string
+    description = "Path to S3 file."
+  }
+
+  step "container" "read_s3_file" {
     image = "amazon/aws-cli"
-
-    cmd = concat(
-      ["resourcegroupstaggingapi", "untag-resources", "--resource-arn-list"],
-      param.resource_arns,
-      ["--tag-keys"],
-      param.tag_keys
-    )
+    cmd = ["s3", "cp", "s3://${param.bucket}/${param.path_to_file}", "-"]
 
     env = {
       AWS_REGION            = param.region
       AWS_ACCESS_KEY_ID     = param.access_key_id
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
+      AWS_SESSION_TOKEN     = param.session_token
     }
   }
 
   output "stdout" {
     description = "The JSON output from the AWS CLI."
-    value       = step.container.untag_resources.stdout
+    value       = step.container.read_s3_file.stdout
   }
 
   output "stderr" {
     description = "The error output from the AWS CLI."
-    value       = step.container.untag_resources.stderr
+    value       = step.container.read_s3_file.stderr
   }
 }

@@ -1,6 +1,6 @@
-pipeline "untag_resources" {
-  title       = "Untag Resources"
-  description = "Removes the specified tags from the specified resources."
+pipeline "get_s3_bucket_versioning" {
+  title       = "Get S3 Bucket Versioning"
+  description = "Get the versioning state of an S3 bucket."
 
   param "region" {
     type        = string
@@ -20,25 +20,15 @@ pipeline "untag_resources" {
     default     = var.secret_access_key
   }
 
-  param "resource_arns" {
-    type        = list(string)
-    description = "Specifies the list of ARNs of the resources that you want to apply tags to."
+  param "bucket" {
+    type        = string
+    description = "The bucket name."
   }
 
-  param "tag_keys" {
-    type        = list(string)
-    description = "Specifies a list of tag keys that you want to remove from the specified resources."
-  }
-
-  step "container" "untag_resources" {
+  step "container" "get_s3_bucket_versioning" {
     image = "amazon/aws-cli"
 
-    cmd = concat(
-      ["resourcegroupstaggingapi", "untag-resources", "--resource-arn-list"],
-      param.resource_arns,
-      ["--tag-keys"],
-      param.tag_keys
-    )
+    cmd = ["s3api", "get-bucket-versioning", "--bucket", param.bucket]
 
     env = {
       AWS_REGION            = param.region
@@ -49,11 +39,11 @@ pipeline "untag_resources" {
 
   output "stdout" {
     description = "The JSON output from the AWS CLI."
-    value       = step.container.untag_resources.stdout
+    value       = jsondecode(step.container.get_s3_bucket_versioning.stdout)
   }
 
   output "stderr" {
     description = "The error output from the AWS CLI."
-    value       = step.container.untag_resources.stderr
+    value       = step.container.get_s3_bucket_versioning.stderr
   }
 }

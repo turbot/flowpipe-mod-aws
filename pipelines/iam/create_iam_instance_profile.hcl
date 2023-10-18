@@ -1,6 +1,6 @@
-pipeline "start_ec2_instance" {
-  title       = "Start EC2 Instance"
-  description = "Starts an Amazon EBS-backed instance that you've previously stopped."
+pipeline "create_iam_instance_profile" {
+  title       = "Create Instance Profile"
+  description = "Creates a new instance profile."
 
   param "region" {
     type        = string
@@ -20,14 +20,18 @@ pipeline "start_ec2_instance" {
     default     = var.secret_access_key
   }
 
-  param "instance_id" {
+  param "instance_profile_name" {
     type        = string
-    description = "The ID of the instance."
+    description = "The name of the instance profile to create."
   }
 
-  step "container" "start_ec2_instance" {
+  step "container" "create_iam_instance_profile" {
     image = "amazon/aws-cli"
-    cmd   = ["ec2", "start-instances", "--instance-ids", param.instance_id]
+    cmd = [
+      "iam", "create-instance-profile",
+      "--instance-profile-name", param.instance_profile_name,
+    ]
+
     env = {
       AWS_REGION            = param.region
       AWS_ACCESS_KEY_ID     = param.access_key_id
@@ -36,12 +40,10 @@ pipeline "start_ec2_instance" {
   }
 
   output "stdout" {
-    description = "The JSON output from the AWS CLI."
-    value       = step.container.start_ec2_instance.stdout
+    value = jsondecode(step.container.create_iam_instance_profile.stdout)
   }
 
    output "stderr" {
-    description = "The error output from the AWS CLI."
-    value       = step.container.start_ec2_instance.stderr
+    value = step.container.create_iam_instance_profile.stderr
   }
 }

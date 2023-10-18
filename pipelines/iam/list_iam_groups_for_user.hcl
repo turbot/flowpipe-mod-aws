@@ -1,6 +1,6 @@
-pipeline "start_ec2_instance" {
-  title       = "Start EC2 Instance"
-  description = "Starts an Amazon EBS-backed instance that you've previously stopped."
+pipeline "list_iam_groups_for_user" {
+  title       = "List IAM Groups for User"
+  description = "Lists the IAM groups that the specified IAM user belongs to."
 
   param "region" {
     type        = string
@@ -20,14 +20,18 @@ pipeline "start_ec2_instance" {
     default     = var.secret_access_key
   }
 
-  param "instance_id" {
+  param "user_name" {
     type        = string
-    description = "The ID of the instance."
+    description = "The name of the user to list groups for."
   }
 
-  step "container" "start_ec2_instance" {
+  step "container" "list_groups_for_user" {
     image = "amazon/aws-cli"
-    cmd   = ["ec2", "start-instances", "--instance-ids", param.instance_id]
+    cmd = [
+      "iam", "list-groups-for-user",
+      "--user-name", param.user_name
+    ]
+
     env = {
       AWS_REGION            = param.region
       AWS_ACCESS_KEY_ID     = param.access_key_id
@@ -35,13 +39,13 @@ pipeline "start_ec2_instance" {
     }
   }
 
-  output "stdout" {
+  output "associatedGroups" {
     description = "The JSON output from the AWS CLI."
-    value       = step.container.start_ec2_instance.stdout
+    value       = step.container.list_groups_for_user
   }
 
-   output "stderr" {
-    description = "The error output from the AWS CLI."
-    value       = step.container.start_ec2_instance.stderr
+  output "userName" {
+    description = "The name of the user."
+    value       = param.user_name
   }
 }

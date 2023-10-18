@@ -48,10 +48,12 @@ pipeline "tag_resources" {
   }
 
   output "stdout" {
-    value = step.container.tag_resources.stdout
+    description = "The JSON output from the AWS CLI."
+    value       = step.container.tag_resources.stdout
   }
 
   output "stderr" {
-    value = step.container.tag_resources.stderr
+    description = "The error output from the AWS CLI."
+    value       = step.container.tag_resources.stderr
   }
 }
