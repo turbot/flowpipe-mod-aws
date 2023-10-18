@@ -22,7 +22,7 @@ pipeline "list_s3_buckets" {
 
   param "session_token" {
     type        = string
-    description = "The secret key used to sign requests."
+    description = "The token that users must pass to the service API to use the temporary credentials."
     default     = var.session_token
     optional    = true
   }
