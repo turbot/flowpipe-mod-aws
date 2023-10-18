@@ -1,6 +1,6 @@
-pipeline "update_s3_public_access_block" {
+pipeline "update_s3_bucket_public_access_block" {
   title       = "Update S3 Public Access Block"
-  description = "Configures public access settings for an Amazon S3 bucket."
+  description = "Creates or modifies the PublicAccessBlock configuration for an Amazon S3 bucket."
 
   param "region" {
     type        = string
@@ -25,12 +25,13 @@ pipeline "update_s3_public_access_block" {
     description = "The name of the S3 bucket."
   }
 
+  # TODO: Break this out into 4 separate bool params, 1 for each setting
   param "public_access_block_configuration" {
     type        = string
     description = "A JSON string containing the public access block settings for the bucket."
   }
 
-  step "container" "update_s3_public_access_block" {
+  step "container" "update_s3_bucket_public_access_block" {
     image = "amazon/aws-cli"
 
     cmd = concat(
@@ -48,11 +49,11 @@ pipeline "update_s3_public_access_block" {
 
   output "stdout" {
     description = "The JSON output from the AWS CLI."
-    value       = jsondecode(step.container.update_s3_public_access_block.stdout)
+    value       = jsondecode(step.container.update_s3_bucket_public_access_block.stdout)
   }
 
   output "stderr" {
     description = "The error output from the AWS CLI."
-    value       = step.container.update_s3_public_access_block.stderr
+    value       = step.container.update_s3_bucket_public_access_block.stderr
   }
 }
