@@ -1,5 +1,5 @@
-pipeline "associate_iam_instance_profile" {
-  title       = "Associate IAM Instance Profile"
+pipeline "associate_iam_ec2_instance_profile" {
+  title       = "Associate IAM to EC2 Instance Profile"
   description = "Associates an IAM instance profile with a running or stopped instance. You cannot associate more than one IAM instance profile with an instance."
 
   param "region" {
@@ -30,9 +30,9 @@ pipeline "associate_iam_instance_profile" {
     description = "The IAM instance profile."
   }
 
-  step "container" "associate_iam_instance_profile" {
+  step "container" "associate_iam_ec2_instance_profile" {
     image = "amazon/aws-cli"
-    cmd = [
+  to EC2   cmd = [
       "ec2", "associate-iam-instance-profile",
       "--instance-id", param.instance_id,
       "--iam-instance-profile", param.iam_instance_profile,
@@ -45,10 +45,10 @@ pipeline "associate_iam_instance_profile" {
   }
 
   output "stdout" {
-    value = jsondecode(step.container.associate_iam_instance_profile.stdout)
+    value = jsondecode(step.container.associate_iam_ec2_instance_profile.stdout)
   }
 
-   output "stderr" {
-    value = step.container.associate_iam_instance_profile.stderr
+ to EC2   output "stderr" {
+    value = step.container.associate_iam_ec2_instance_profile.stderr
   }
-}
+}to EC2
