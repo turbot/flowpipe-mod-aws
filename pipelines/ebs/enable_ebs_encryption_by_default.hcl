@@ -1,6 +1,6 @@
 pipeline "enable_ebs_encryption_by_default {
-  title       = "Enable EBS Default Encryption"
-  description = "Enable EBS Default Encryption in a specific region."
+  title       = "Enable EBS Encryption by Default"
+  description = "Enables EBS encryption by default for your account in the current Region."
 
   param "region" {
     type        = string
@@ -35,11 +35,11 @@ pipeline "enable_ebs_encryption_by_default {
   }
 
   output "stdout" {
-    value = jsondecode(step.container.enable_encryption_defaults.stdout)
+    value = jsondecode(step.container.enable_ebs_encryption_by_default.stdout)
   }
 
   output "stderr" {
-    value = step.container.enable_encryption_defaults.stderr
+    value = step.container.enable_ebs_encryption_by_default.stderr
   }
 
 }
