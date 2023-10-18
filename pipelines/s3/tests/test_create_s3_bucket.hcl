@@ -46,7 +46,7 @@ pipeline "test_create_s3_bucket" {
      secret_access_key = param.secret_access_key
     }
 
-    // Ignore errors so we can delete
+    # Ignore errors so we can delete
     error {
       ignore = true
     }

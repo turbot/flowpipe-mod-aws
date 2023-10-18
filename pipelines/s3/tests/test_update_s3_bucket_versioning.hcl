@@ -23,7 +23,6 @@ pipeline "test_update_s3_bucket_versioning" {
   param "name" {
     type        = string
     description = "The name of the bucket."
-    #default     = "flowpipe-test-bucket-${timestamp()}"
     default     = "flowpipe-test-bucket-${uuid()}"
   }
 
@@ -48,7 +47,7 @@ pipeline "test_update_s3_bucket_versioning" {
      versioning        = true
     }
 
-    // Ignore errors so we can delete
+    # Ignore errors so we can delete
     error {
       ignore = true
     }
@@ -65,7 +64,7 @@ pipeline "test_update_s3_bucket_versioning" {
      versioning        = false
     }
 
-    // Ignore errors so we can delete
+    # Ignore errors so we can delete
     error {
       ignore = true
     }
