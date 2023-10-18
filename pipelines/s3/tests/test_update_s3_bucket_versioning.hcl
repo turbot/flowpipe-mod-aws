@@ -32,10 +32,11 @@ pipeline "test_update_s3_bucket_versioning" {
      region            = param.region
      access_key_id     = param.access_key_id
      secret_access_key = param.secret_access_key
-     bucket              = param.bucket
+     bucket            = param.bucket
     }
   }
 
+  # New buckets have versioning disabled by default
   step "pipeline" "enable_s3_bucket_versioning" {
     if = step.pipeline.create_s3_bucket.stderr == ""
     pipeline = pipeline.update_s3_bucket_versioning
@@ -43,7 +44,7 @@ pipeline "test_update_s3_bucket_versioning" {
      region            = param.region
      access_key_id     = param.access_key_id
      secret_access_key = param.secret_access_key
-     bucket              = param.bucket
+     bucket            = param.bucket
      versioning        = true
     }
 
@@ -53,14 +54,30 @@ pipeline "test_update_s3_bucket_versioning" {
     }
   }
 
-  step "pipeline" "disable_s3_bucket_versioning" {
+  step "pipeline" "check_s3_bucket_versioning_enabled" {
     if = step.pipeline.enable_s3_bucket_versioning.stderr == ""
+    pipeline = pipeline.get_s3_bucket_versioning
+    args = {
+     region            = param.region
+     access_key_id     = param.access_key_id
+     secret_access_key = param.secret_access_key
+     bucket            = param.bucket
+    }
+
+    # Ignore errors so we can delete
+    error {
+      ignore = true
+    }
+  }
+
+  step "pipeline" "disable_s3_bucket_versioning" {
+    if = step.pipeline.check_s3_bucket_versioning_enabled.stderr == ""
     pipeline = pipeline.update_s3_bucket_versioning
     args = {
      region            = param.region
      access_key_id     = param.access_key_id
      secret_access_key = param.secret_access_key
-     bucket              = param.bucket
+     bucket            = param.bucket
      versioning        = false
     }
 
@@ -70,11 +87,26 @@ pipeline "test_update_s3_bucket_versioning" {
     }
   }
 
+  step "pipeline" "check_s3_bucket_versioning_disabled" {
+    if = step.pipeline.disable_s3_bucket_versioning.stderr == ""
+    pipeline = pipeline.get_s3_bucket_versioning
+    args = {
+     region            = param.region
+     access_key_id     = param.access_key_id
+     secret_access_key = param.secret_access_key
+     bucket            = param.bucket
+    }
+
+    # Ignore errors so we can delete
+    error {
+      ignore = true
+    }
+  }
 
   step "pipeline" "delete_s3_bucket" {
     if = step.pipeline.create_s3_bucket.stderr == ""
     # Don't run before we've had a chance to list buckets
-    depends_on = [step.pipeline.disable_s3_bucket_versioning]
+    depends_on = [step.pipeline.check_s3_bucket_versioning_disabled]
 
     pipeline = pipeline.delete_s3_bucket
     args = {
@@ -100,9 +132,19 @@ pipeline "test_update_s3_bucket_versioning" {
     value       = step.pipeline.enable_s3_bucket_versioning.stderr == "" ? "succeeded" : "failed: ${step.pipeline.enable_s3_bucket_versioning.stderr}"
   }
 
+  output "check_s3_bucket_versioning_enabled" {
+    description = "Check for pipeline.check_s3_bucket_versioning_enabled."
+    value       = step.pipeline.check_s3_bucket_versioning_enabled.stderr == "" && step.pipeline.check_s3_bucket_versioning_enabled.Status == "Enabled" ? "succeeded" : "failed: ${step.pipeline.check_s3_bucket_versioning_enabled.stderr}"
+  }
+
   output "disable_s3_bucket_versioning" {
     description = "Check for pipeline.disable_s3_bucket_versioning."
     value       = step.pipeline.disable_s3_bucket_versioning.stderr == "" ? "succeeded" : "failed: ${step.pipeline.disable_s3_bucket_versioning.stderr}"
+  }
+
+  output "check_s3_bucket_versioning_disabled" {
+    description = "Check for pipeline.check_s3_bucket_versioning_disabled."
+    value       = step.pipeline.check_s3_bucket_versioning_disabled.stderr == "" && step.pipeline.check_s3_bucket_versioning_disabled.Status == "Suspended" ? "succeeded" : "failed: ${step.pipeline.check_s3_bucket_versioning_disabled.stderr}"
   }
 
   output "delete_s3_bucket" {
