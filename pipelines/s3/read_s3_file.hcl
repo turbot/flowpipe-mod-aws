@@ -30,13 +30,11 @@ pipeline "read_s3_file" {
   param "bucket_name" {
     type        = string
     description = "S3 bucket name."
-    default     = "turbot-aws-marketplace-data-feed"
   }
 
   param "path_to_file" {
     type        = string
     description = "Path to S3 file."
-    default = "BillingEventFeed_V1/year=2023/month=10/data.csv"
   }
 
   step "container" "read_s3_file" {
