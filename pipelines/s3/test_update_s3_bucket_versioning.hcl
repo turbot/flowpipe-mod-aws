@@ -1,6 +1,6 @@
-pipeline "test_create_s3_bucket" {
-  title       = "Test Create S3 Bucket"
-  description = "Test the create_s3_bucket pipeline."
+pipeline "test_update_s3_bucket_versioning" {
+  title       = "Test Update S3 Bucket Versioning"
+  description = "Test the update_s3_bucket_versioning pipeline."
 
   param "region" {
     type        = string
@@ -23,6 +23,7 @@ pipeline "test_create_s3_bucket" {
   param "name" {
     type        = string
     description = "The name of the bucket."
+    #default     = "flowpipe-test-bucket-${timestamp()}"
     default     = "flowpipe-test-bucket-${uuid()}"
   }
 
@@ -36,14 +37,15 @@ pipeline "test_create_s3_bucket" {
     }
   }
 
-  # There is no get_s3_bucket pipeline, so use list instead
-  step "pipeline" "list_s3_buckets" {
+  step "pipeline" "enable_s3_bucket_versioning" {
     if = step.pipeline.create_s3_bucket.stderr == ""
-    pipeline = pipeline.list_s3_buckets
+    pipeline = pipeline.update_s3_bucket_versioning
     args = {
      region            = param.region
      access_key_id     = param.access_key_id
      secret_access_key = param.secret_access_key
+     name              = param.name
+     versioning        = true
     }
 
     // Ignore errors so we can delete
@@ -52,10 +54,28 @@ pipeline "test_create_s3_bucket" {
     }
   }
 
+  step "pipeline" "disable_s3_bucket_versioning" {
+    if = step.pipeline.enable_s3_bucket_versioning.stderr == ""
+    pipeline = pipeline.update_s3_bucket_versioning
+    args = {
+     region            = param.region
+     access_key_id     = param.access_key_id
+     secret_access_key = param.secret_access_key
+     name              = param.name
+     versioning        = false
+    }
+
+    // Ignore errors so we can delete
+    error {
+      ignore = true
+    }
+  }
+
+
   step "pipeline" "delete_s3_bucket" {
     if = step.pipeline.create_s3_bucket.stderr == ""
     # Don't run before we've had a chance to list buckets
-    depends_on = [step.pipeline.list_s3_buckets]
+    depends_on = [step.pipeline.disable_s3_bucket_versioning]
 
     pipeline = pipeline.delete_s3_bucket
     args = {
@@ -65,13 +85,6 @@ pipeline "test_create_s3_bucket" {
      name              = param.name
     }
   }
-
-  /*
-  step "assert" "create_s3_bucket_check" {
-    if = step.pipeline.create_s3_bucket.stderr != ""
-    message = step.pipeline.create_s3_bucket.stderr
-  }
-  */
 
   output "bucket_name" {
     description = "Bucket name used in the test."
@@ -83,31 +96,19 @@ pipeline "test_create_s3_bucket" {
     value       = step.pipeline.create_s3_bucket.stderr == "" ? "succeeded" : "failed: ${step.pipeline.create_s3_bucket.stderr}"
   }
 
-  output "list_s3_buckets" {
-    description = "Check for pipeline.list_s3_buckets."
-    value       = step.pipeline.list_s3_buckets.stderr == "" && length([for bucket in step.pipeline.list_s3_buckets.stdout.Buckets : bucket if bucket.Name == param.name]) > 0  ? "succeeded" : "failed: ${step.pipeline.list_s3_buckets.stderr}"
+  output "enable_s3_bucket_versioning" {
+    description = "Check for pipeline.enable_s3_bucket_versioning."
+    value       = step.pipeline.enable_s3_bucket_versioning.stderr == "" ? "succeeded" : "failed: ${step.pipeline.enable_s3_bucket_versioning.stderr}"
+  }
+
+  output "disable_s3_bucket_versioning" {
+    description = "Check for pipeline.disable_s3_bucket_versioning."
+    value       = step.pipeline.disable_s3_bucket_versioning.stderr == "" ? "succeeded" : "failed: ${step.pipeline.disable_s3_bucket_versioning.stderr}"
   }
 
   output "delete_s3_bucket" {
     description = "Check for pipeline.delete_s3_bucket."
     value       = step.pipeline.delete_s3_bucket.stderr == "" ? "succeeded" : "failed: ${step.pipeline.create_s3_bucket.stderr}"
   }
-
- /*
- output "create_s3_bucket" {
-   description = "pipeline.create_s3_bucket output."
-   value = step.pipeline.create_s3_bucket
- }
-
- output "list_s3_buckets" {
-   description = "pipeline.list_s3_buckets output."
-   value = step.pipeline.list_s3_buckets
- }
-
- output "delete_s3_bucket" {
-   description = "pipeline.delete_s3_bucket output."
-   value = step.pipeline.delete_s3_bucket
- }
- */
 
 }
