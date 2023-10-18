@@ -1,6 +1,6 @@
-pipeline "list_s3_buckets" {
-  title       = "List S3 Buckets"
-  description = "Returns a list of all buckets owned by the authenticated sender of the request."
+pipeline "get_s3_object" {
+  title       = "Get object from S3 bucket"
+  description = "Gets an object from an S3 buckets owned by the authenticated sender of the request."
 
   param "region" {
     type        = string
@@ -27,19 +27,27 @@ pipeline "list_s3_buckets" {
     optional    = true
   }
 
-  param "query" {
+  param "bucket_name" {
     type        = string
-    description = "A JMESPath query to use in filtering the response data."
-    optional    = true
+    description = "Bucket name."
+    default     = ""
   }
 
-  step "container" "list_s3_buckets" {
-    image = "amazon/aws-cli"
+  param "key" {
+    type        = string
+    description = "Key to object."
+    default     = ""
+  }
 
-    cmd = concat(
-      ["s3api", "list-buckets"],
-      param.query != null ? ["--query", param.query] : [],
-    )
+  param "destination" {
+    type        = string
+    description = "Key to object."
+    default     = ""
+  }
+
+  step "container" "get_s3_object" {
+    image = "amazon/aws-cli"
+    cmd = ["s3api", "get-object", "--bucket", param.bucket, "--key", param.key, param.destination]
 
     env = {
       AWS_REGION            = param.region
@@ -50,10 +58,10 @@ pipeline "list_s3_buckets" {
   }
 
   output "stdout" {
-    value = jsondecode(step.container.list_s3_buckets.stdout)
+    value = step.container.get_s3_object.stdout
   }
 
   output "stderr" {
-    value = jsondecode(step.container.list_s3_buckets.stderr)
+    value = step.container.get_s3_object.stderr
   }
 }
