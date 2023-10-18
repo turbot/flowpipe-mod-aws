@@ -1,6 +1,6 @@
 pipeline "enable_ebs_encryption_default" {
   title       = "Enable EBS Default Encryption"
-  description = "Enable EBS Default Encryption on a specific region."
+  description = "Enable EBS Default Encryption in a specific region."
 
   param "region" {
     type        = string
