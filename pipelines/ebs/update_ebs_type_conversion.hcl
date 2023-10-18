@@ -28,6 +28,7 @@ pipeline "modify_ebs_volume" {
   param "volume_type" {
     type        = string
     description = "Specify the desired volume type."
+    optional    = true
   }
 
   param "iops" {
