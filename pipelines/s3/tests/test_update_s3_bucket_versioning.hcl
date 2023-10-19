@@ -136,7 +136,7 @@ pipeline "test_update_s3_bucket_versioning" {
 
   output "check_s3_bucket_versioning_enabled" {
     description = "Check for pipeline.check_s3_bucket_versioning_enabled."
-    value       = step.pipeline.check_s3_bucket_versioning_enabled.stderr == "" && step.pipeline.check_s3_bucket_versioning_enabled.Status == "Enabled" ? "succeeded" : "failed: ${step.pipeline.check_s3_bucket_versioning_enabled.stderr}"
+    value       = step.pipeline.check_s3_bucket_versioning_enabled.stderr == "" && step.pipeline.check_s3_bucket_versioning_enabled.stdout.Status == "Enabled" ? "succeeded" : "failed: ${step.pipeline.check_s3_bucket_versioning_enabled.stderr}"
   }
 
   output "disable_s3_bucket_versioning" {
@@ -146,7 +146,7 @@ pipeline "test_update_s3_bucket_versioning" {
 
   output "check_s3_bucket_versioning_disabled" {
     description = "Check for pipeline.check_s3_bucket_versioning_disabled."
-    value       = step.pipeline.check_s3_bucket_versioning_disabled.stderr == "" && step.pipeline.check_s3_bucket_versioning_disabled.Status == "Suspended" ? "succeeded" : "failed: ${step.pipeline.check_s3_bucket_versioning_disabled.stderr}"
+    value       = step.pipeline.check_s3_bucket_versioning_disabled.stderr == "" && step.pipeline.check_s3_bucket_versioning_disabled.stdout.Status == "Suspended" ? "succeeded" : "failed: ${step.pipeline.check_s3_bucket_versioning_disabled.stderr}"
   }
 
   output "delete_s3_bucket" {
