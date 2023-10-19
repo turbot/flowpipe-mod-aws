@@ -1,6 +1,6 @@
 pipeline "start_ec2_instance" {
   title       = "Start EC2 Instance"
-  description = "Starts an Amazon EBS-backed instance that you've previously stopped."
+  description = "Starts an Amazon EC2 instance that you've previously stopped."
 
   param "region" {
     type        = string
@@ -40,7 +40,7 @@ pipeline "start_ec2_instance" {
     value       = step.container.start_ec2_instance.stdout
   }
 
-   output "stderr" {
+  output "stderr" {
     description = "The error output from the AWS CLI."
     value       = step.container.start_ec2_instance.stderr
   }
