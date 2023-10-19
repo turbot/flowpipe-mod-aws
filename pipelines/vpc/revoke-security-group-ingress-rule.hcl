@@ -1,4 +1,4 @@
-pipeline "delete_security_group_rule" {
+pipeline "revoke-security-group-ingress-rule" {
   title       = "Delete security group."
   description = "Delete a security group rule."
 
