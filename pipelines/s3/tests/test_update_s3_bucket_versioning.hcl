@@ -54,6 +54,7 @@ pipeline "test_update_s3_bucket_versioning" {
     }
   }
 
+  # The update command doesn't return the new state
   step "pipeline" "check_s3_bucket_versioning_enabled" {
     if = step.pipeline.enable_s3_bucket_versioning.stderr == ""
     pipeline = pipeline.get_s3_bucket_versioning
@@ -87,6 +88,7 @@ pipeline "test_update_s3_bucket_versioning" {
     }
   }
 
+  # The update command doesn't return the new state
   step "pipeline" "check_s3_bucket_versioning_disabled" {
     if = step.pipeline.disable_s3_bucket_versioning.stderr == ""
     pipeline = pipeline.get_s3_bucket_versioning
