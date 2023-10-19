@@ -26,10 +26,12 @@ pipeline "test_create_s3_bucket" {
     default     = "flowpipe-test-bucket-${uuid()}"
   }
 
+  # Handle regions better and use --create-bucket-configuration
   step "pipeline" "create_s3_bucket" {
     pipeline = pipeline.create_s3_bucket
     args = {
-     region            = param.region
+     # Handle regions better and use --create-bucket-configuration
+     #region            = param.region
      access_key_id     = param.access_key_id
      secret_access_key = param.secret_access_key
      bucket              = param.bucket
