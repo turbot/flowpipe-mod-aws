@@ -1,6 +1,6 @@
-pipeline "delete_security_group_rule" {
-  title       = "Delete security group."
-  description = "Delete a security group rule."
+pipeline "revoke-security-group-ingress-rule" {
+  title       = "Delete security group ingress rule."
+  description = "Delete a security group ingress rule from an existing security group."
 
   param "region" {
     type        = string
