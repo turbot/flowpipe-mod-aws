@@ -1,7 +1,7 @@
 
 pipeline "stop_ec2_instance" {
-  title       = "Start EC2 Instance"
-  description = "Starts an EC2 instance that you've previously started."
+  title       = "Stop EC2 Instance"
+  description = "Stops an Amazon EBS-backed instance."
 
   param "region" {
     type        = string

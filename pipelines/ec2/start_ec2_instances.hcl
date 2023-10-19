@@ -2,7 +2,7 @@
 # It is more useful but harder to run for just 1 instance
 pipeline "start_ec2_instances" {
   title       = "Start EC2 Instances"
-  description = "Starts an Amazon EC2 instance that you've previously stopped."
+  description = "Starts an Amazon EBS-backed instance."
 
   param "region" {
     type        = string
