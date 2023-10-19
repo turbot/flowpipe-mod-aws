@@ -35,43 +35,43 @@ pipeline "test_create_ec2_instance" {
   step "pipeline" "run_ec2_instances" {
     pipeline = pipeline.run_ec2_instances
     args = {
-     region            = param.region
-     access_key_id     = param.access_key_id
-     secret_access_key = param.secret_access_key
-     instance_type     = param.instance_type
-     image_id          = param.image_id
+      region            = param.region
+      access_key_id     = param.access_key_id
+      secret_access_key = param.secret_access_key
+      instance_type     = param.instance_type
+      image_id          = param.image_id
     }
   }
 
-  // # There is no get_s3_bucket pipeline, so use list instead
-  // step "pipeline" "list_s3_buckets" {
-  //   if = step.pipeline.run_ec2_instances.stderr == ""
-  //   pipeline = pipeline.list_s3_buckets
-  //   args = {
-  //    region            = param.region
-  //    access_key_id     = param.access_key_id
-  //    secret_access_key = param.secret_access_key
-  //   }
+  step "pipeline" "describe_ec2_instances" {
+    if = step.pipeline.run_ec2_instances.stderr == ""
+    pipeline = pipeline.describe_ec2_instances
+    args = {
+      region            = param.region
+      access_key_id     = param.access_key_id
+      secret_access_key = param.secret_access_key
+      instance_ids      = [step.pipeline.run_ec2_instances.stdout.Instances[0].InstanceId]
+    }
 
-  //   # Ignore errors so we can delete
-  //   error {
-  //     ignore = true
-  //   }
-  // }
+    # Ignore errors so we can delete
+    error {
+      ignore = true
+    }
+  }
 
-  // step "pipeline" "terminate_ec2_instances" {
-  //   if = step.pipeline.run_ec2_instances.stderr == ""
-  //   # Don't run before we've had a chance to list buckets
-  //   depends_on = [step.pipeline.list_s3_buckets]
+  step "pipeline" "terminate_ec2_instances" {
+    if = step.pipeline.run_ec2_instances.stderr == ""
+    # Don't run before we've had a chance to describe the instance
+    depends_on = [step.pipeline.describe_ec2_instances]
 
-  //   pipeline = pipeline.terminate_ec2_instances
-  //   args = {
-  //    region            = param.region
-  //    access_key_id     = param.access_key_id
-  //    secret_access_key = param.secret_access_key
-  //    instance_ids      = param.bucket
-  //   }
-  // }
+    pipeline = pipeline.terminate_ec2_instances
+    args = {
+      region            = param.region
+      access_key_id     = param.access_key_id
+      secret_access_key = param.secret_access_key
+      instance_ids      = [step.pipeline.run_ec2_instances.stdout.Instances[0].InstanceId]
+    }
+  }
 
   output "created_instance_id" {
     description = "Check for pipeline.run_ec2_instances."
@@ -83,14 +83,14 @@ pipeline "test_create_ec2_instance" {
     value       = step.pipeline.run_ec2_instances.stderr == "" ? "succeeded" : "failed: ${step.pipeline.run_ec2_instances.stderr}"
   }
 
-  // output "list_s3_buckets" {
-  //   description = "Check for pipeline.list_s3_buckets."
-  //   value       = step.pipeline.list_s3_buckets.stderr == "" && length([for bucket in step.pipeline.list_s3_buckets.stdout.Buckets : bucket if bucket.Name == param.bucket]) > 0  ? "succeeded" : "failed: ${step.pipeline.list_s3_buckets.stderr}"
-  // }
+  output "describe_ec2_instances" {
+    description = "Check for pipeline.describe_ec2_instances."
+    value       = step.pipeline.describe_ec2_instances.stderr == "" ? "succeeded" : "failed: ${step.pipeline.describe_ec2_instances.stderr}"
+  }
 
-  // output "terminate_ec2_instances" {
-  //   description = "Check for pipeline.terminate_ec2_instances."
-  //   value       = step.pipeline.terminate_ec2_instances.stderr == "" ? "succeeded" : "failed: ${step.pipeline.run_ec2_instances.stderr}"
-  // }
+  output "terminate_ec2_instances" {
+    description = "Check for pipeline.terminate_ec2_instances."
+    value       = step.pipeline.terminate_ec2_instances.stderr == "" ? "succeeded" : "failed: ${step.pipeline.run_ec2_instances.stderr}"
+  }
 
 }
