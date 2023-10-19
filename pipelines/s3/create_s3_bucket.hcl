@@ -40,6 +40,7 @@ pipeline "create_s3_bucket" {
   step "container" "create_s3_bucket" {
     image = "amazon/aws-cli"
 
+    # TODO: Add param to take in location more easily/update it to use region param
     cmd = concat(
       ["s3api", "create-bucket"],
       ["--bucket", param.bucket],
