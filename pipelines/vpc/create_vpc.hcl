@@ -4,7 +4,7 @@ pipeline "create_vpc" {
 
   param "region" {
     type        = string
-    description = "The name of the Region."
+    description = "The name of the region."
     default     = var.region
   }
 
@@ -41,12 +41,12 @@ pipeline "create_vpc" {
   }
 
   output "stdout" {
-    description = "The JSON output from the AWS CLI."
+    description = "The standard output stream from the AWS CLI."
     value       = jsondecode(step.container.create_vpc.stdout)
   }
 
   output "stderr" {
-    description = "The error output from the AWS CLI."
+    description = "The standard error stream from the AWS CLI."
     value       = step.container.create_vpc.stderr
   }
 }
