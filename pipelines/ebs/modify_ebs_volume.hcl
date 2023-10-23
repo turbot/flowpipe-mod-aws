@@ -4,7 +4,7 @@ pipeline "modify_ebs_volume" {
 
   param "region" {
     type        = string
-    description = "The name of the Region."
+    description = "The region to use."
     default     = var.region
   }
 
@@ -57,10 +57,12 @@ pipeline "modify_ebs_volume" {
   }
 
   output "stdout" {
+    description = "The standard output stream from the AWS CLI."
     value = jsondecode(step.container.convert_volume.stdout)
   }
 
   output "stderr" {
+    description = "The standard error stream from the AWS CLI."
     value = step.container.convert_volume.stderr
   }
 }

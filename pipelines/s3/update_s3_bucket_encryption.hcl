@@ -4,7 +4,7 @@ pipeline "update_s3_bucket_encryption" {
 
   param "region" {
     type        = string
-    description = "The name of the Region."
+    description = "The name of the region."
     default     = var.region
   }
 
@@ -47,12 +47,12 @@ pipeline "update_s3_bucket_encryption" {
   }
 
   output "stdout" {
-    description = "The JSON output from the AWS CLI."
+    description = "The standard output stream from the AWS CLI."
     value       = jsondecode(step.container.update_s3_bucket_encryption.stdout)
   }
 
   output "stderr" {
-    description = "The error output from the AWS CLI."
+    description = "The standard error stream from the AWS CLI."
     value       = step.container.update_s3_bucket_encryption.stderr
   }
 }

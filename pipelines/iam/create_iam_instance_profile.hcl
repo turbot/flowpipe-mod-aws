@@ -4,7 +4,7 @@ pipeline "create_iam_instance_profile" {
 
   param "region" {
     type        = string
-    description = "The name of the Region."
+    description = "The name of the region."
     default     = var.region
   }
 
@@ -40,10 +40,12 @@ pipeline "create_iam_instance_profile" {
   }
 
   output "stdout" {
+    description = "The standard output stream from the AWS CLI."
     value = jsondecode(step.container.create_iam_instance_profile.stdout)
   }
 
    output "stderr" {
+    description = "The standard error stream from the AWS CLI."
     value = step.container.create_iam_instance_profile.stderr
   }
 }

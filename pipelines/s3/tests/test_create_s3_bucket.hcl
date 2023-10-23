@@ -4,7 +4,7 @@ pipeline "test_create_s3_bucket" {
 
   param "region" {
     type        = string
-    description = "The name of the Region."
+    description = "The name of the region."
     default     = var.region
   }
 
