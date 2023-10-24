@@ -26,11 +26,11 @@ pipeline "test_update_s3_bucket_versioning" {
     default     = "flowpipe-test-bucket-${uuid()}"
   }
 
-  # Handle regions better and use --create-bucket-configuration
+  # TODO: Handle regions better and use --create-bucket-configuration
   step "pipeline" "create_s3_bucket" {
     pipeline = pipeline.create_s3_bucket
     args = {
-     # Handle regions better and use --create-bucket-configuration
+     # TODO: Handle regions better and use --create-bucket-configuration
      #region            = param.region
      access_key_id     = param.access_key_id
      secret_access_key = param.secret_access_key
@@ -50,7 +50,7 @@ pipeline "test_update_s3_bucket_versioning" {
      versioning        = true
     }
 
-    # Ignore errors so we can delete
+    # Ignore errors so we always delete
     error {
       ignore = true
     }
@@ -84,7 +84,7 @@ pipeline "test_update_s3_bucket_versioning" {
      versioning        = false
     }
 
-    # Ignore errors so we can delete
+    # Ignore errors so we always delete
     error {
       ignore = true
     }
@@ -101,7 +101,7 @@ pipeline "test_update_s3_bucket_versioning" {
      bucket            = param.bucket
     }
 
-    # Ignore errors so we can delete
+    # Ignore errors so we always delete
     error {
       ignore = true
     }
@@ -128,32 +128,32 @@ pipeline "test_update_s3_bucket_versioning" {
 
   output "create_s3_bucket" {
     description = "Check for pipeline.create_s3_bucket."
-    value       = step.pipeline.create_s3_bucket.stderr == "" ? "succeeded" : "failed: ${step.pipeline.create_s3_bucket.stderr}"
+    value       = step.pipeline.create_s3_bucket.stderr == "" ? "pass" : "fail: ${step.pipeline.create_s3_bucket.stderr}"
   }
 
   output "enable_s3_bucket_versioning" {
     description = "Check for pipeline.enable_s3_bucket_versioning."
-    value       = step.pipeline.enable_s3_bucket_versioning.stderr == "" ? "succeeded" : "failed: ${step.pipeline.enable_s3_bucket_versioning.stderr}"
+    value       = step.pipeline.enable_s3_bucket_versioning.stderr == "" ? "pass" : "fail: ${step.pipeline.enable_s3_bucket_versioning.stderr}"
   }
 
   output "check_s3_bucket_versioning_enabled" {
     description = "Check for pipeline.check_s3_bucket_versioning_enabled."
-    value       = step.pipeline.check_s3_bucket_versioning_enabled.stderr == "" && step.pipeline.check_s3_bucket_versioning_enabled.stdout.Status == "Enabled" ? "succeeded" : "failed: ${step.pipeline.check_s3_bucket_versioning_enabled.stderr}"
+    value       = step.pipeline.check_s3_bucket_versioning_enabled.stderr == "" && step.pipeline.check_s3_bucket_versioning_enabled.stdout.Status == "Enabled" ? "pass" : "fail: ${step.pipeline.check_s3_bucket_versioning_enabled.stderr}"
   }
 
   output "disable_s3_bucket_versioning" {
     description = "Check for pipeline.disable_s3_bucket_versioning."
-    value       = step.pipeline.disable_s3_bucket_versioning.stderr == "" ? "succeeded" : "failed: ${step.pipeline.disable_s3_bucket_versioning.stderr}"
+    value       = step.pipeline.disable_s3_bucket_versioning.stderr == "" ? "pass" : "fail: ${step.pipeline.disable_s3_bucket_versioning.stderr}"
   }
 
   output "check_s3_bucket_versioning_disabled" {
     description = "Check for pipeline.check_s3_bucket_versioning_disabled."
-    value       = step.pipeline.check_s3_bucket_versioning_disabled.stderr == "" && step.pipeline.check_s3_bucket_versioning_disabled.stdout.Status == "Suspended" ? "succeeded" : "failed: ${step.pipeline.check_s3_bucket_versioning_disabled.stderr}"
+    value       = step.pipeline.check_s3_bucket_versioning_disabled.stderr == "" && step.pipeline.check_s3_bucket_versioning_disabled.stdout.Status == "Suspended" ? "pass" : "fail: ${step.pipeline.check_s3_bucket_versioning_disabled.stderr}"
   }
 
   output "delete_s3_bucket" {
     description = "Check for pipeline.delete_s3_bucket."
-    value       = step.pipeline.delete_s3_bucket.stderr == "" ? "succeeded" : "failed: ${step.pipeline.create_s3_bucket.stderr}"
+    value       = step.pipeline.delete_s3_bucket.stderr == "" ? "pass" : "fail: ${step.pipeline.create_s3_bucket.stderr}"
   }
 
 }
