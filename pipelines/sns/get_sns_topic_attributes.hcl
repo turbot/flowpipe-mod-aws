@@ -1,10 +1,10 @@
-pipeline "create_ec2_snapshot" {
-  title       = "Create EC2 Snapshot"
-  description = "Creates a snapshot of the specified EBS volume."
+pipeline "get_sns_topic_attributes" {
+  title       = "Get SNS Topic Attributes"
+  description = "Retrieves attributes of an Amazon SNS topic."
 
   param "region" {
     type        = string
-    description = "The name of the Region."
+    description = "The name of the region."
     default     = var.region
   }
 
@@ -20,16 +20,17 @@ pipeline "create_ec2_snapshot" {
     default     = var.secret_access_key
   }
 
-  param "volume_id" {
+  param "topic_arn" {
     type        = string
-    description = "The ID of the EBS volume to create a snapshot of."
+    description = "The Amazon Resource Name (ARN) of the Amazon SNS topic."
   }
 
-  step "container" "create_ec2_snapshot" {
+  step "container" "get_sns_topic_attributes" {
     image = "amazon/aws-cli"
 
     cmd = concat(
-      ["ec2", "create-snapshot", "--volume-id", param.volume_id]
+      ["sns", "get-topic-attributes"],
+      ["--topic-arn", param.topic_arn],
     )
 
     env = {
@@ -41,11 +42,11 @@ pipeline "create_ec2_snapshot" {
 
   output "stdout" {
     description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.create_ec2_snapshot.stdout)
+    value       = jsondecode(step.container.get_sns_topic_attributes.stdout)
   }
 
   output "stderr" {
     description = "The standard error stream from the AWS CLI."
-    value       = step.container.create_ec2_snapshot.stderr
+    value       = step.container.get_sns_topic_attributes.stderr
   }
 }

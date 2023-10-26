@@ -41,12 +41,12 @@ pipeline "delete_ec2_snapshot" {
   }
 
   output "stdout" {
-    description = "The JSON output from the AWS CLI."
+    description = "The standard output stream from the AWS CLI."
     value       = jsondecode(step.container.delete_ec2_snapshot.stdout)
   }
 
   output "stderr" {
-    description = "The error output from the AWS CLI."
+    description = "The standard error stream from the AWS CLI."
     value       = step.container.delete_ec2_snapshot.stderr
   }
 }

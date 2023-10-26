@@ -45,7 +45,7 @@ pipeline "list_iam_groups_for_user" {
   }
 
   output "stderr" {
-    description = "The error output from the AWS CLI."
+    description = "The standard error stream from the AWS CLI."
     value       = step.container.list_groups_for_user.stderr
   }
 }

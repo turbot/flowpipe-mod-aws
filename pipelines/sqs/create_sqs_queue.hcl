@@ -1,10 +1,10 @@
-pipeline "create_ec2_snapshot" {
-  title       = "Create EC2 Snapshot"
-  description = "Creates a snapshot of the specified EBS volume."
+pipeline "create_sqs_queue" {
+  title       = "Create SQS Queue"
+  description = "Creates an Amazon SQS queue."
 
   param "region" {
     type        = string
-    description = "The name of the Region."
+    description = "The name of the region."
     default     = var.region
   }
 
@@ -20,16 +20,17 @@ pipeline "create_ec2_snapshot" {
     default     = var.secret_access_key
   }
 
-  param "volume_id" {
+  param "queue_name" {
     type        = string
-    description = "The ID of the EBS volume to create a snapshot of."
+    description = "The name of the Amazon SQS queue to create."
   }
 
-  step "container" "create_ec2_snapshot" {
+  step "container" "create_sqs_queue" {
     image = "amazon/aws-cli"
 
     cmd = concat(
-      ["ec2", "create-snapshot", "--volume-id", param.volume_id]
+      ["sqs", "create-queue"],
+      ["--queue-name", param.queue_name],
     )
 
     env = {
@@ -41,11 +42,11 @@ pipeline "create_ec2_snapshot" {
 
   output "stdout" {
     description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.create_ec2_snapshot.stdout)
+    value       = jsondecode(step.container.create_sqs_queue.stdout)
   }
 
   output "stderr" {
     description = "The standard error stream from the AWS CLI."
-    value       = step.container.create_ec2_snapshot.stderr
+    value       = step.container.create_sqs_queue.stderr
   }
 }
