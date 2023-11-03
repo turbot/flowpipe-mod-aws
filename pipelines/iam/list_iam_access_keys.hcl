@@ -1,4 +1,4 @@
-pipeline "list_access_keys" {
+pipeline "list_iam_access_keys" {
   title       = "List Access Keys"
   description = "Returns information about the access key IDs associated with the specified IAM user. If no user is specified, the user name defaults to the current user."
 
@@ -26,7 +26,7 @@ pipeline "list_access_keys" {
     optional    = true
   }
 
-  step "container" "list_access_keys" {
+  step "container" "list_iam_access_keys" {
     image = "amazon/aws-cli"
 
     cmd = concat(
@@ -43,10 +43,10 @@ pipeline "list_access_keys" {
 
   output "stdout" {
     description = "List of access keys and their metadata."
-    value       = jsondecode(step.container.list_access_keys.stdout)
+    value       = jsondecode(step.container.list_iam_access_keys.stdout)
   }
 
   output "stderr" {
-    value = step.container.list_access_keys.stderr
+    value = step.container.list_iam_access_keys.stderr
   }
 }

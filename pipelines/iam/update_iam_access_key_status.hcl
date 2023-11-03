@@ -1,4 +1,4 @@
-pipeline "update_access_key" {
+pipeline "update_iam_access_key_status" {
   title       = "Update Access Key"
   description = "Changes the status of the specified access key from Active to Inactive, or vice versa. This is useful when you want to rotate access keys or to disable an access key temporarily."
 
@@ -36,7 +36,7 @@ pipeline "update_access_key" {
     optional    = true
   }
 
-  step "container" "update_access_key" {
+  step "container" "update_iam_access_key_status" {
     image = "amazon/aws-cli"
 
     cmd = concat(
@@ -55,10 +55,10 @@ pipeline "update_access_key" {
 
   output "stdout" {
     description = "Confirmation message of access key status update."
-    value       = step.container.update_access_key.stdout
+    value       = step.container.update_iam_access_key_status.stdout
   }
 
   output "stderr" {
-    value = step.container.update_access_key.stderr
+    value = step.container.update_iam_access_key_status.stderr
   }
 }
