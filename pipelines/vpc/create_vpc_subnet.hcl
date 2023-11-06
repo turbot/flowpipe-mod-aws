@@ -1,10 +1,10 @@
-pipeline "create_subnet" {
-  title       = "Create Subnet"
+pipeline "create_vpc_subnet" {
+  title       = "Create VPC Subnet"
   description = "Creates a new subnet in an existing Virtual Private Cloud (VPC) in your AWS account."
 
   param "region" {
     type        = string
-    description = "The name of the Region."
+    description = "The name of the region."
     default     = var.region
   }
 
@@ -30,7 +30,7 @@ pipeline "create_subnet" {
     description = "The IPv4 network range for the subnet, in CIDR notation (e.g., 10.0.0.0/24)."
   }
 
-  step "container" "create_subnet" {
+  step "container" "create_vpc_subnet" {
     image = "amazon/aws-cli"
 
     cmd = [
@@ -47,12 +47,12 @@ pipeline "create_subnet" {
   }
 
   output "stdout" {
-    description = "The JSON output from the AWS CLI."
-    value       = jsondecode(step.container.create_subnet.stdout)
+    description = "The standard output stream from the AWS CLI."
+    value       = jsondecode(step.container.create_vpc_subnet.stdout)
   }
 
   output "stderr" {
-    description = "The error output from the AWS CLI."
-    value       = step.container.create_subnet.stderr
+    description = "The standard error stream from the AWS CLI."
+    value       = step.container.create_vpc_subnet.stderr
   }
 }

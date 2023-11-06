@@ -1,8 +1,8 @@
 mod "aws" {
   title         = "AWS Library"
   description   = "Run pipelines to supercharge your AWS workflows using Flowpipe."
-  color         = "#FCA121"
-  // documentation = file("./docs/index.md")
+  color         = "#FF9900"
+  documentation = file("./docs/index.md")
   icon          = "/images/flowpipe/mods/turbot/aws.svg"
   categories    = ["aws", "library"]
 

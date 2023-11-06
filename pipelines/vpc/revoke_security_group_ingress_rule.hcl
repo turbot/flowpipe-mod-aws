@@ -4,7 +4,7 @@ pipeline "revoke_security_group_ingress_rule" {
 
   param "region" {
     type        = string
-    description = "The name of the Region."
+    description = "The name of the region."
     default     = var.region
   }
 
@@ -34,7 +34,7 @@ pipeline "revoke_security_group_ingress_rule" {
     image = "amazon/aws-cli"
 
     cmd = [
-      "ec2", "revoke-security-group-ingress", 
+      "ec2", "revoke-security-group-ingress",
       "--group-id", param.security_group_id,
       "--security-group-rule-ids", param.security_group_rule_id
     ]
@@ -47,10 +47,12 @@ pipeline "revoke_security_group_ingress_rule" {
   }
 
   output "stdout" {
+    description = "The standard output stream from the AWS CLI."
     value = step.container.delete_security_group_rule.stdout
   }
 
   output "stderr" {
+    description = "The standard error stream from the AWS CLI."
     value = step.container.delete_security_group_rule.stderr
   }
 }

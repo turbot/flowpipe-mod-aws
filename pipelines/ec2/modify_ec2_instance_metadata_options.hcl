@@ -4,7 +4,7 @@ pipeline "modify_ec2_instance_metadata_options" {
 
   param "region" {
     type        = string
-    description = "The name of the Region."
+    description = "The name of the region."
     default     = var.region
   }
 
@@ -55,12 +55,12 @@ pipeline "modify_ec2_instance_metadata_options" {
   }
 
   output "stdout" {
-    description = "The JSON output from the AWS CLI."
+    description = "The standard output stream from the AWS CLI."
     value       = jsondecode(step.container.modify_ec2_instance_metadata_options.stdout)
   }
 
   output "stderr" {
-    description = "The error output from the AWS CLI."
+    description = "The standard error stream from the AWS CLI."
     value       = step.container.modify_ec2_instance_metadata_options.stderr
   }
 }

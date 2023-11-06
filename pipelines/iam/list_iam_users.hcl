@@ -4,7 +4,7 @@ pipeline "list_iam_users" {
 
   param "region" {
     type        = string
-    description = "The name of the Region."
+    description = "The name of the region."
     default     = var.region
   }
 
@@ -47,6 +47,7 @@ pipeline "list_iam_users" {
   }
 
   output "stderr" {
+    description = "The standard error stream from the AWS CLI."
     value = step.container.list_iam_users.stderr
   }
 }

@@ -5,7 +5,7 @@ pipeline "stop_ec2_instance" {
 
   param "region" {
     type        = string
-    description = "The name of the Region."
+    description = "The name of the region."
     default     = var.region
   }
 
@@ -37,10 +37,12 @@ pipeline "stop_ec2_instance" {
   }
 
   output "stdout" {
+    description = "The standard output stream from the AWS CLI."
     value = jsondecode(step.container.stop_ec2_instance.stdout.json)
   }
 
   output "stderr" {
+    description = "The standard error stream from the AWS CLI."
     value = jsondecode(step.container.stop_ec2_instance.stderr)
   }
 }

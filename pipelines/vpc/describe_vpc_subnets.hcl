@@ -1,10 +1,10 @@
-pipeline "describe_subnets" {
-  title       = "Describe Subnets"
-  description = "Describes the specified subnets or all subnets."
+pipeline "describe_vpc_subnets" {
+  title       = "Describe VPC Subnets"
+  description = "Describes the specified VPC subnets or all subnets."
 
   param "region" {
     type        = string
-    description = "The name of the Region."
+    description = "The name of the region."
     default     = var.region
   }
 
@@ -32,7 +32,7 @@ pipeline "describe_subnets" {
     optional    = true
   }
 
-  step "container" "describe_subnets" {
+  step "container" "describe_vpc_subnets" {
     image = "amazon/aws-cli"
 
     cmd = concat(
@@ -49,12 +49,12 @@ pipeline "describe_subnets" {
   }
 
   output "stdout" {
-    description = "The JSON output from the AWS CLI."
-    value       = jsondecode(step.container.describe_subnets.stdout)
+    description = "The standard output stream from the AWS CLI."
+    value       = jsondecode(step.container.describe_vpc_subnets.stdout)
   }
 
   output "stderr" {
-    description = "The error output from the AWS CLI."
-    value       = step.container.describe_subnets.stderr
+    description = "The standard error stream from the AWS CLI."
+    value       = step.container.describe_vpc_subnets.stderr
   }
 }

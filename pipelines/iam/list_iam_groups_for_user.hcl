@@ -4,7 +4,7 @@ pipeline "list_iam_groups_for_user" {
 
   param "region" {
     type        = string
-    description = "The name of the Region."
+    description = "The name of the region."
     default     = var.region
   }
 
@@ -39,13 +39,13 @@ pipeline "list_iam_groups_for_user" {
     }
   }
 
-  output "associatedGroups" {
-    description = "The JSON output from the AWS CLI."
-    value       = step.container.list_groups_for_user
+  output "stdout" {
+    description = "The standard output stream from the AWS CLI."
+    value       = step.container.list_groups_for_user.stdout
   }
 
-  output "userName" {
-    description = "The name of the user."
-    value       = param.user_name
+  output "stderr" {
+    description = "The error output from the AWS CLI."
+    value       = step.container.list_groups_for_user.stderr
   }
 }

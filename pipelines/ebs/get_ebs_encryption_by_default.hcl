@@ -4,7 +4,7 @@ pipeline "get_ebs_encryption_by_default" {
 
   param "region" {
     type        = string
-    description = "The name of the Region."
+    description = "The region to use."
     default     = var.region
   }
 
@@ -34,10 +34,12 @@ pipeline "get_ebs_encryption_by_default" {
   }
 
   output "stdout" {
+    description = "The standard output stream from the AWS CLI."
     value = jsondecode(step.container.get_ebs_encryption_by_default.stdout)
   }
 
   output "stderr" {
+    description = "The standard error stream from the AWS CLI."
     value = step.container.get_ebs_encryption_by_default.stderr
   }
 

@@ -4,7 +4,7 @@ pipeline "test_update_s3_bucket_versioning" {
 
   param "region" {
     type        = string
-    description = "The name of the Region."
+    description = "The name of the region."
     default     = var.region
   }
 
