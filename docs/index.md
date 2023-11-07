@@ -5,9 +5,9 @@ repository: "https://github.com/turbot/flowpipe-mod-aws"
 # AWS Mod for Flowpipe
 
 A collection of [Flowpipe](https://flowpipe.io) pipelines that can be used to:
-- Create EC2 Instances
-- List S3 Buckets
-- Create VPCs and Subnets
+- Create EC2 instances
+- List S3 buckets
+- Create VPCs and subnets
 - And more!
 
 ## Documentation

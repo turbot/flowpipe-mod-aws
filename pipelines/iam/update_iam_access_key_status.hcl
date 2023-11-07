@@ -16,7 +16,7 @@ pipeline "update_iam_access_key_status" {
 
   param "secret_access_key" {
     type        = string
-    description = "The secret key used to sign requests."
+    description = local.secret_access_key_param_description
     default     = var.secret_access_key
   }
 

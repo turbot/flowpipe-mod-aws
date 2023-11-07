@@ -4,27 +4,20 @@ pipeline "get_s3_object_content" {
 
   param "region" {
     type        = string
-    description = "The name of the region."
+    description = local.region_param_description
     default     = var.region
   }
 
   param "access_key_id" {
     type        = string
-    description = "The ID for this access key."
+    description = local.access_key_id_param_description
     default     = var.access_key_id
   }
 
   param "secret_access_key" {
     type        = string
-    description = "The secret key used to sign requests."
+    description = local.secret_access_key_param_description
     default     = var.secret_access_key
-  }
-
-  param "session_token" {
-    type        = string
-    description = "The secret key used to sign requests."
-    default     = var.session_token
-    optional    = true
   }
 
   param "bucket" {
@@ -45,7 +38,6 @@ pipeline "get_s3_object_content" {
       AWS_REGION            = param.region
       AWS_ACCESS_KEY_ID     = param.access_key_id
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
-      AWS_SESSION_TOKEN     = param.session_token
     }
   }
 

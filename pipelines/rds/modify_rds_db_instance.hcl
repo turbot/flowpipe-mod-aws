@@ -4,19 +4,19 @@ pipeline "modify_rds_db_instance" {
 
   param "region" {
     type        = string
-    description = "The name of the region."
+    description = local.region_param_description
     default     = var.region
   }
 
   param "access_key_id" {
     type        = string
-    description = "The ID for this access key."
+    description = local.access_key_id_param_description
     default     = var.access_key_id
   }
 
   param "secret_access_key" {
     type        = string
-    description = "The secret key used to sign requests."
+    description = local.secret_access_key_param_description
     default     = var.secret_access_key
   }
 
