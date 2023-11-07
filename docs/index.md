@@ -1,12 +1,14 @@
+---
+repository: "https://github.com/turbot/flowpipe-mod-aws"
+---
+
 # AWS Mod for Flowpipe
 
 A collection of [Flowpipe](https://flowpipe.io) pipelines that can be used to:
-- Create EC2 Instances
-- List S3 Buckets
-- Create VPCs and Subnets
+- Create EC2 instances
+- List S3 buckets
+- Create VPCs and subnets
 - And more!
-
-![image](https://github.com/turbot/flowpipe-mod-aws/blob/staging/docs/images/flowpipe_test_run.png?raw=true)
 
 ## Documentation
 
@@ -43,7 +45,6 @@ vi flowpipe.pvars
 It's recommended to configure credentials through [input variables](https://flowpipe.io/docs/using-flowpipe/mod-variables) by setting them in the `flowpipe.pvars` file.
 
 **Note:** Credentials can also be passed in each pipeline run with `--pipeline-arg region=us-east-1 --pipeline-arg access_key_id=YourAccessKeyID --pipeline-arg secret_access_key=YourSecretAccessKey`.
-
 
 Additional input variables may be defined in the mod's `variables.hcl` file that can be configured to better match your environment and requirements.
 
