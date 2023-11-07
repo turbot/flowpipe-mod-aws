@@ -31,7 +31,7 @@ pipeline "run_ec2_instances" {
   }
 
   step "container" "run_ec2_instances" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = [
       "ec2", "run-instances",

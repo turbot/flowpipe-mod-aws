@@ -31,7 +31,7 @@ pipeline "untag_resources" {
   }
 
   step "container" "untag_resources" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["resourcegroupstaggingapi", "untag-resources", "--resource-arn-list"],

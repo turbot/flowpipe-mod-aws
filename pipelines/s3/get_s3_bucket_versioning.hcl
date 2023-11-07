@@ -26,7 +26,7 @@ pipeline "get_s3_bucket_versioning" {
   }
 
   step "container" "get_s3_bucket_versioning" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = ["s3api", "get-bucket-versioning", "--bucket", param.bucket]
 

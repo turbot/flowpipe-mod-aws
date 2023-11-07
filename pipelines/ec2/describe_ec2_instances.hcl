@@ -39,7 +39,7 @@ pipeline "describe_ec2_instances" {
   }
 
   step "container" "describe_ec2_instances" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["ec2", "describe-instances"],

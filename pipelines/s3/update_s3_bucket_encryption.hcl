@@ -31,7 +31,7 @@ pipeline "update_s3_bucket_encryption" {
   }
 
   step "container" "update_s3_bucket_encryption" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["s3api", "put-bucket-encryption"],

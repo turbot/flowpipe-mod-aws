@@ -31,7 +31,7 @@ pipeline "revoke_security_group_ingress_rule" {
   }
 
   step "container" "delete_security_group_rule" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = [
       "ec2", "revoke-security-group-ingress",

@@ -32,7 +32,7 @@ pipeline "update_s3_bucket_public_access_block" {
   }
 
   step "container" "update_s3_bucket_public_access_block" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["s3api", "put-public-access-block"],

@@ -38,7 +38,7 @@ pipeline "modify_ec2_instance_metadata_options" {
   }
 
   step "container" "modify_ec2_instance_metadata_options" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["ec2", "modify-instance-metadata-options"],

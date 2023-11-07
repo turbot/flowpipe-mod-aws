@@ -26,7 +26,7 @@ pipeline "create_vpc" {
   }
 
   step "container" "create_vpc" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = [
       "ec2", "create-vpc",

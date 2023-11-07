@@ -26,7 +26,7 @@ pipeline "describe_vpc" {
   }
 
   step "container" "describe_vpc" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = ["ec2", "describe-vpcs", "--vpc-ids", param.vpc_id]
 

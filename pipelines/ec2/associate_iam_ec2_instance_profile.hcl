@@ -31,7 +31,7 @@ pipeline "associate_iam_ec2_instance_profile" {
   }
 
   step "container" "associate_iam_ec2_instance_profile" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
     cmd = [
       "ec2", "associate-iam-instance-profile",
       "--instance-id", param.instance_id,

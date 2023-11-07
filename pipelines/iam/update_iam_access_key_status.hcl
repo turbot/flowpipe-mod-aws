@@ -37,7 +37,7 @@ pipeline "update_iam_access_key_status" {
   }
 
   step "container" "update_iam_access_key_status" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["iam", "update-access-key"],

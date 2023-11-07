@@ -28,7 +28,7 @@ pipeline "start_ec2_instances" {
   }
 
   step "container" "start_ec2_instances" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
     cmd = concat(
       ["ec2", "start-instances", "--instance-ids"],
       param.instance_ids

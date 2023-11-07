@@ -26,7 +26,7 @@ pipeline "create_iam_instance_profile" {
   }
 
   step "container" "create_iam_instance_profile" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
     cmd = [
       "iam", "create-instance-profile",
       "--instance-profile-name", param.instance_profile_name,

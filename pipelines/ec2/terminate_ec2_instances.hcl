@@ -26,7 +26,7 @@ pipeline "terminate_ec2_instances" {
   }
 
   step "container" "terminate_instances" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["ec2", "terminate-instances"],

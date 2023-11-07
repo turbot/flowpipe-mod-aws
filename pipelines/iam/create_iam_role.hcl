@@ -25,7 +25,7 @@ pipeline "create_iam_role" {
   }
 
   step "container" "create_iam_role" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
     cmd = [
       "iam", "create-role",
       "--role-name", param.role_name,

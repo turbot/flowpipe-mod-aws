@@ -23,7 +23,7 @@ pipeline "enable_ebs_encryption_by_default" {
   step "container" "enable_ebs_encryption_by_default" {
     description = "Update the state of EBS default encryption."
 
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
     cmd   = [
       "ec2", "enable-ebs-encryption-by-default"
     ]

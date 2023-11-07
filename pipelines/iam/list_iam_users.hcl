@@ -27,7 +27,7 @@ pipeline "list_iam_users" {
   }
 
   step "container" "list_iam_users" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["iam", "list-users"],

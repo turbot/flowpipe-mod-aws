@@ -25,7 +25,7 @@ pipeline "create_iam_policy" {
   }
 
   step "container" "create_iam_policy" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
     cmd = [
       "iam", "create-policy",
       "--policy-name", param.policy_name,

@@ -21,7 +21,7 @@ pipeline "get_ebs_encryption_by_default" {
   }
 
   step "container" "get_ebs_encryption_by_default" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = [
       "ec2", "get-ebs-encryption-by-default"

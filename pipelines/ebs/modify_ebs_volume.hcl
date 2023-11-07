@@ -38,7 +38,7 @@ pipeline "modify_ebs_volume" {
   }
 
   step "container" "convert_volume" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       [

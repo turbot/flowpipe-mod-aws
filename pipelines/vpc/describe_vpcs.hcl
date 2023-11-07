@@ -27,7 +27,7 @@ pipeline "describe_vpcs" {
   }
 
   step "container" "describe_vpcs" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["ec2", "describe-vpcs"],

@@ -26,7 +26,7 @@ pipeline "delete_s3_bucket" {
   }
 
   step "container" "delete_s3_bucket" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = [
       "s3api",

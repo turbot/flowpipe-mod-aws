@@ -26,7 +26,7 @@ pipeline "list_iam_groups_for_user" {
   }
 
   step "container" "list_groups_for_user" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
     cmd = [
       "iam", "list-groups-for-user",
       "--user-name", param.user_name

@@ -31,7 +31,7 @@ pipeline "tag_resources" {
   }
 
   step "container" "tag_resources" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["resourcegroupstaggingapi", "tag-resources", "--resource-arn-list"],

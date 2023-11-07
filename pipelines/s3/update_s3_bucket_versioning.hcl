@@ -31,7 +31,7 @@ pipeline "update_s3_bucket_versioning" {
   }
 
   step "container" "update_s3_bucket_versioning" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["s3api", "put-bucket-versioning", "--bucket", param.bucket, "--versioning-configuration"],

@@ -31,7 +31,7 @@ pipeline "get_s3_object_content" {
   }
 
   step "container" "get_s3_object_content" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
     cmd = ["s3", "cp", "s3://${param.bucket}/${param.path_to_file}", "-"]
 
     env = {

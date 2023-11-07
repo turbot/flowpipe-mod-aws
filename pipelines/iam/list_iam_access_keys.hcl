@@ -27,7 +27,7 @@ pipeline "list_iam_access_keys" {
   }
 
   step "container" "list_iam_access_keys" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["iam", "list-access-keys"],

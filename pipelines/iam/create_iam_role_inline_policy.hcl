@@ -30,7 +30,7 @@ pipeline "create_iam_role_inline_policy" {
   }
 
   step "container" "put_role_policy" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
     cmd = [
       "iam", "put-role-policy",
       "--role-name", param.role_name,

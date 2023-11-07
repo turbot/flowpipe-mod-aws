@@ -50,7 +50,7 @@ pipeline "modify_rds_db_instance" {
   }
 
   step "container" "modify_rds_db_instance" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["rds", "modify-db-instance", "--apply-immediately", "--db-instance-identifier", param.db_instance_identifier],

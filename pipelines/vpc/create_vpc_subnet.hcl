@@ -31,7 +31,7 @@ pipeline "create_vpc_subnet" {
   }
 
   step "container" "create_vpc_subnet" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = [
       "ec2", "create-subnet",

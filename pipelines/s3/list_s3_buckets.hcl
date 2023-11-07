@@ -27,7 +27,7 @@ pipeline "list_s3_buckets" {
   }
 
   step "container" "list_s3_buckets" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["s3api", "list-buckets"],

@@ -25,7 +25,7 @@ pipeline "attach_iam_role_policy" {
   }
 
   step "container" "attach_role_policy" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
     cmd = [
       "iam", "attach-role-policy",
       "--role-name", param.role_name,

@@ -26,7 +26,7 @@ pipeline "start_ec2_instance" {
   }
 
   step "container" "start_ec2_instance" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
     cmd   = ["ec2", "start-instances", "--instance-ids", param.instance_id]
     env = {
       AWS_REGION            = param.region

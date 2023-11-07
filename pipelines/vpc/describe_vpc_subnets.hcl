@@ -33,7 +33,7 @@ pipeline "describe_vpc_subnets" {
   }
 
   step "container" "describe_vpc_subnets" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["ec2", "describe-subnets"],
