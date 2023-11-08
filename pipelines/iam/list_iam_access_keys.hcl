@@ -4,7 +4,7 @@ pipeline "list_iam_access_keys" {
 
   param "region" {
     type        = string
-    description = "The name of the Region."
+    description = local.region_param_description
     default     = var.region
   }
 

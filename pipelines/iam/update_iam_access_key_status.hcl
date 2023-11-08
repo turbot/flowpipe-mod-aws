@@ -4,13 +4,13 @@ pipeline "update_iam_access_key_status" {
 
   param "region" {
     type        = string
-    description = "The name of the AWS Region."
+    description = local.region_param_description
     default     = var.region
   }
 
   param "access_key_id" {
     type        = string
-    description = "The access key ID of the access key you want to update."
+    description = local.access_key_id_param_description
     default     = var.access_key_id
   }
 
