@@ -16,9 +16,3 @@ variable "secret_access_key" {
   description = "The secret key used to sign requests."
   default     = ""
 }
-
-variable "session_token" {
-  type        = string
-  description = "The token that users must pass to the service API to use the temporary credentials."
-  default     = ""
-}

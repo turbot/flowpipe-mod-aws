@@ -20,13 +20,6 @@ pipeline "read_s3_file" {
     default     = var.secret_access_key
   }
 
-  param "session_token" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.session_token
-    optional    = true
-  }
-
   param "bucket" {
     type        = string
     description = "S3 bucket name."
@@ -45,7 +38,6 @@ pipeline "read_s3_file" {
       AWS_REGION            = param.region
       AWS_ACCESS_KEY_ID     = param.access_key_id
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
-      AWS_SESSION_TOKEN     = param.session_token
     }
   }
 
