@@ -1,6 +1,6 @@
-pipeline "create_elb_load_balancer" {
-  title       = "Create ELB Load Balancer"
-  description = "Creates a load balancer (application, network or gateway)."
+pipeline "create_elbv2_load_balancer" {
+  title       = "Create ELB v2 Load Balancer"
+  description = "Creates a v2 load balancer (application, network or gateway)."
 
   param "region" {
     type        = string
@@ -35,7 +35,7 @@ pipeline "create_elb_load_balancer" {
     description = "A list of availability zones to associate with the load balancer."
   }
 
-  step "container" "create_elb_load_balancer" {
+  step "container" "create_elbv2_load_balancer" {
     image = "amazon/aws-cli"
 
     cmd = concat(
@@ -54,11 +54,11 @@ pipeline "create_elb_load_balancer" {
 
   output "stdout" {
     description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.create_elb_load_balancer.stdout)
+    value       = jsondecode(step.container.create_elbv2_load_balancer.stdout)
   }
 
   output "stderr" {
     description = "The standard error stream from the AWS CLI."
-    value       = step.container.create_elb_load_balancer.stderr
+    value       = step.container.create_elbv2_load_balancer.stderr
   }
 }
