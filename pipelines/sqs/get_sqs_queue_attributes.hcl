@@ -1,6 +1,6 @@
-pipeline "list_s3_buckets" {
-  title       = "List S3 Buckets"
-  description = "Returns a list of all buckets owned by the authenticated sender of the request."
+pipeline "get_sqs_queue_attributes" {
+  title       = "Get SQS Queue Attributes"
+  description = "Retrieves attributes of an Amazon SQS queue."
 
   param "region" {
     type        = string
@@ -20,19 +20,17 @@ pipeline "list_s3_buckets" {
     default     = var.secret_access_key
   }
 
-
-  param "query" {
+  param "queue_url" {
     type        = string
-    description = "A JMESPath query to use in filtering the response data."
-    optional    = true
+    description = "The URL of the Amazon SQS queue to retrieve attributes for."
   }
 
-  step "container" "list_s3_buckets" {
+  step "container" "get_sqs_queue_attributes" {
     image = "amazon/aws-cli"
 
     cmd = concat(
-      ["s3api", "list-buckets"],
-      param.query != null ? ["--query", param.query] : [],
+      ["sqs", "get-queue-attributes"],
+      ["--queue-url", param.queue_url],
     )
 
     env = {
@@ -44,11 +42,11 @@ pipeline "list_s3_buckets" {
 
   output "stdout" {
     description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.list_s3_buckets.stdout)
+    value       = jsondecode(step.container.get_sqs_queue_attributes.stdout)
   }
 
   output "stderr" {
     description = "The standard error stream from the AWS CLI."
-    value       = step.container.list_s3_buckets.stderr
+    value       = step.container.get_sqs_queue_attributes.stderr
   }
 }

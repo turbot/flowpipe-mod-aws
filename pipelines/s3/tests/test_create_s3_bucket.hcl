@@ -34,7 +34,7 @@ pipeline "test_create_s3_bucket" {
      #region            = param.region
      access_key_id     = param.access_key_id
      secret_access_key = param.secret_access_key
-     bucket              = param.bucket
+     bucket            = param.bucket
     }
   }
 

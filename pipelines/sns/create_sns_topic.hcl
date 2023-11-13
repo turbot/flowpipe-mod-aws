@@ -1,6 +1,6 @@
-pipeline "list_s3_buckets" {
-  title       = "List S3 Buckets"
-  description = "Returns a list of all buckets owned by the authenticated sender of the request."
+pipeline "create_sns_topic" {
+  title       = "Create SNS Topic"
+  description = "Creates an Amazon SNS topic."
 
   param "region" {
     type        = string
@@ -20,19 +20,17 @@ pipeline "list_s3_buckets" {
     default     = var.secret_access_key
   }
 
-
-  param "query" {
+  param "name" {
     type        = string
-    description = "A JMESPath query to use in filtering the response data."
-    optional    = true
+    description = "The name of the Amazon SNS topic to create."
   }
 
-  step "container" "list_s3_buckets" {
+  step "container" "create_sns_topic" {
     image = "amazon/aws-cli"
 
     cmd = concat(
-      ["s3api", "list-buckets"],
-      param.query != null ? ["--query", param.query] : [],
+      ["sns", "create-topic"],
+      ["--name", param.name],
     )
 
     env = {
@@ -44,11 +42,11 @@ pipeline "list_s3_buckets" {
 
   output "stdout" {
     description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.list_s3_buckets.stdout)
+    value       = jsondecode(step.container.create_sns_topic.stdout)
   }
 
   output "stderr" {
     description = "The standard error stream from the AWS CLI."
-    value       = step.container.list_s3_buckets.stderr
+    value       = step.container.create_sns_topic.stderr
   }
 }

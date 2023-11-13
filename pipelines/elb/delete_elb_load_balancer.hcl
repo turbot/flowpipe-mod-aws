@@ -1,6 +1,6 @@
-pipeline "list_s3_buckets" {
-  title       = "List S3 Buckets"
-  description = "Returns a list of all buckets owned by the authenticated sender of the request."
+pipeline "delete_elb_load_balancer" {
+  title       = "Delete Elastic Load Balancer"
+  description = "Deletes an Amazon ELB (Elastic Load Balancer)."
 
   param "region" {
     type        = string
@@ -20,35 +20,33 @@ pipeline "list_s3_buckets" {
     default     = var.secret_access_key
   }
 
-
-  param "query" {
+  param "load_balancer_name" {
     type        = string
-    description = "A JMESPath query to use in filtering the response data."
-    optional    = true
+    description = "The name of the load balancer to delete."
   }
 
-  step "container" "list_s3_buckets" {
+  step "container" "delete_elb_load_balancer" {
     image = "amazon/aws-cli"
 
-    cmd = concat(
-      ["s3api", "list-buckets"],
-      param.query != null ? ["--query", param.query] : [],
-    )
+    cmd = [
+      "elb", "delete-load-balancer",
+      "--load-balancer-name", param.load_balancer_name,
+    ]
 
     env = {
-      AWS_REGION            = param.region
-      AWS_ACCESS_KEY_ID     = param.access_key_id
+      AWS_REGION            = param.region,
+      AWS_ACCESS_KEY_ID     = param.access_key_id,
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
     }
   }
 
   output "stdout" {
     description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.list_s3_buckets.stdout)
+    value       = step.container.delete_elb_load_balancer.stdout
   }
 
   output "stderr" {
     description = "The standard error stream from the AWS CLI."
-    value       = step.container.list_s3_buckets.stderr
+    value       = step.container.delete_elb_load_balancer.stderr
   }
 }

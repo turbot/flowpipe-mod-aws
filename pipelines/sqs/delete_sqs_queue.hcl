@@ -1,6 +1,6 @@
-pipeline "list_s3_buckets" {
-  title       = "List S3 Buckets"
-  description = "Returns a list of all buckets owned by the authenticated sender of the request."
+pipeline "delete_sqs_queue" {
+  title       = "Delete SQS Queue"
+  description = "Deletes an Amazon SQS queue."
 
   param "region" {
     type        = string
@@ -20,19 +20,17 @@ pipeline "list_s3_buckets" {
     default     = var.secret_access_key
   }
 
-
-  param "query" {
+  param "queue_url" {
     type        = string
-    description = "A JMESPath query to use in filtering the response data."
-    optional    = true
+    description = "The URL of the Amazon SQS queue to delete."
   }
 
-  step "container" "list_s3_buckets" {
+  step "container" "delete_sqs_queue" {
     image = "amazon/aws-cli"
 
     cmd = concat(
-      ["s3api", "list-buckets"],
-      param.query != null ? ["--query", param.query] : [],
+      ["sqs", "delete-queue"],
+      ["--queue-url", param.queue_url],
     )
 
     env = {
@@ -44,11 +42,11 @@ pipeline "list_s3_buckets" {
 
   output "stdout" {
     description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.list_s3_buckets.stdout)
+    value       = step.container.delete_sqs_queue.stdout
   }
 
   output "stderr" {
     description = "The standard error stream from the AWS CLI."
-    value       = step.container.list_s3_buckets.stderr
+    value       = step.container.delete_sqs_queue.stderr
   }
 }

@@ -1,6 +1,6 @@
-pipeline "list_s3_buckets" {
-  title       = "List S3 Buckets"
-  description = "Returns a list of all buckets owned by the authenticated sender of the request."
+pipeline "delete_ec2_snapshot" {
+  title       = "Delete EC2 Snapshot"
+  description = "Deletes an Amazon EC2 snapshot."
 
   param "region" {
     type        = string
@@ -20,35 +20,33 @@ pipeline "list_s3_buckets" {
     default     = var.secret_access_key
   }
 
-
-  param "query" {
+  param "snapshot_id" {
     type        = string
-    description = "A JMESPath query to use in filtering the response data."
-    optional    = true
+    description = "The ID of the EC2 snapshot to delete."
   }
 
-  step "container" "list_s3_buckets" {
+  step "container" "delete_ec2_snapshot" {
     image = "amazon/aws-cli"
 
-    cmd = concat(
-      ["s3api", "list-buckets"],
-      param.query != null ? ["--query", param.query] : [],
-    )
+    cmd = [
+      "ec2", "delete-snapshot",
+      "--snapshot-id", param.snapshot_id,
+    ]
 
     env = {
-      AWS_REGION            = param.region
-      AWS_ACCESS_KEY_ID     = param.access_key_id
+      AWS_REGION            = param.region,
+      AWS_ACCESS_KEY_ID     = param.access_key_id,
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
     }
   }
 
   output "stdout" {
     description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.list_s3_buckets.stdout)
+    value       = jsondecode(step.container.delete_ec2_snapshot.stdout)
   }
 
   output "stderr" {
     description = "The standard error stream from the AWS CLI."
-    value       = step.container.list_s3_buckets.stderr
+    value       = step.container.delete_ec2_snapshot.stderr
   }
 }
