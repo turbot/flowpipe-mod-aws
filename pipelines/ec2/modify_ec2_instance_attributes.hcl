@@ -1,4 +1,4 @@
-pipeline "modify_instance_attribute" {
+pipeline "modify_ec2_instance_attributes" {
   title       = "Modify Instance Attribute"
   description = "Modify attributes of an EC2 instance in AWS."
 
@@ -31,7 +31,7 @@ pipeline "modify_instance_attribute" {
     optional    = true
   }
 
-  step "container" "modify_instance_attribute" {
+  step "container" "modify_ec2_instance_attributes" {
     image = "amazon/aws-cli"
 
     cmd = concat(
@@ -49,11 +49,11 @@ pipeline "modify_instance_attribute" {
 
   output "stdout" {
     description = "The standard output stream from the AWS CLI."
-    value       = step.container.modify_instance_attribute.stdout
+    value       = step.container.modify_ec2_instance_attributes.stdout
   }
 
   output "stderr" {
     description = "The standard error stream from the AWS CLI."
-    value       = step.container.modify_instance_attribute.stderr
+    value       = step.container.modify_ec2_instance_attributes.stderr
   }
 }

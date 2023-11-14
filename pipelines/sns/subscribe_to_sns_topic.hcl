@@ -1,4 +1,4 @@
-pipeline "subscribe_to_sns" {
+pipeline "subscribe_to_sns_topic" {
   title       = "Subscribe to SNS Topic"
   description = "Subscribes to a specified AWS SNS topic."
 
@@ -35,7 +35,7 @@ pipeline "subscribe_to_sns" {
     description = "The endpoint that will receive notifications."
   }
 
-  step "container" "subscribe_to_sns" {
+  step "container" "subscribe_to_sns_topic" {
     image = "amazon/aws-cli"
 
     cmd = ["sns", "subscribe",
@@ -53,11 +53,11 @@ pipeline "subscribe_to_sns" {
 
   output "stdout" {
     description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.subscribe_to_sns.stdout)
+    value       = jsondecode(step.container.subscribe_to_sns_topic.stdout)
   }
 
   output "stderr" {
     description = "The standard error stream from the AWS CLI."
-    value       = step.container.subscribe_to_sns.stderr
+    value       = step.container.subscribe_to_sns_topic.stderr
   }
 }
