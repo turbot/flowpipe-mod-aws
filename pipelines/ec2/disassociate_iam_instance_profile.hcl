@@ -1,4 +1,4 @@
-pipeline "disassociate_iam_ec2_instance_profile" {
+pipeline "disassociate_iam_instance_profile" {
   title       = "Disassociate IAM Instance Profile"
   description = "Disassociate an IAM instance profile from an EC2 instance in AWS."
 
@@ -25,7 +25,7 @@ pipeline "disassociate_iam_ec2_instance_profile" {
     description = "The ID of the IAM instance profile association."
   }
 
-  step "container" "disassociate_iam_ec2_instance_profile" {
+  step "container" "disassociate_iam_instance_profile" {
     image = "amazon/aws-cli"
 
     cmd = concat(
@@ -42,11 +42,11 @@ pipeline "disassociate_iam_ec2_instance_profile" {
 
   output "stdout" {
     description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.disassociate_iam_ec2_instance_profile.stdout)
+    value       = jsondecode(step.container.disassociate_iam_instance_profile.stdout)
   }
 
   output "stderr" {
     description = "The standard error stream from the AWS CLI."
-    value       = step.container.disassociate_iam_ec2_instance_profile.stderr
+    value       = step.container.disassociate_iam_instance_profile.stderr
   }
 }

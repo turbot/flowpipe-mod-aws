@@ -1,4 +1,4 @@
-pipeline "describe_iam_ec2_instance_profile_associations" {
+pipeline "describe_iam_instance_profile_associations" {
   title       = "Describe IAM Instance Profile Associations"
   description = "Describe IAM instance profile associations for EC2 instances in AWS."
 
@@ -20,18 +20,19 @@ pipeline "describe_iam_ec2_instance_profile_associations" {
     default     = var.secret_access_key
   }
 
-  param "filters" {
+  param "instance_id" {
     type        = string
-    description = "One or more filters. The possible values are: instance-id, iam-instance-profile. The filters limit the results to only the instance profile associations that match the filter criteria. If there are no matches, the response returns an empty list."
+    description = "The instance ID."
     optional    = true
+    default = "i-0834b6dc568c4d381"
   }
 
-  step "container" "describe_iam_ec2_instance_profile_associations" {
+  step "container" "describe_iam_instance_profile_associations" {
     image = "amazon/aws-cli"
 
     cmd = concat(
       ["ec2", "describe-iam-instance-profile-associations"],
-      param.filters != null ? ["--filters", param.filters] : [],
+      param.instance_id != null ? ["--filters", "Name=instance-id,Values=${param.instance_id}"] : [],
     )
 
     env = {
@@ -43,11 +44,11 @@ pipeline "describe_iam_ec2_instance_profile_associations" {
 
   output "stdout" {
     description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.describe_iam_ec2_instance_profile_associations.stdout)
+    value       = jsondecode(step.container.describe_iam_instance_profile_associations.stdout)
   }
 
   output "stderr" {
     description = "The standard error stream from the AWS CLI."
-    value       = step.container.describe_iam_ec2_instance_profile_associations.stderr
+    value       = step.container.describe_iam_instance_profile_associations.stderr
   }
 }
