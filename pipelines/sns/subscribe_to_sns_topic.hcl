@@ -45,7 +45,8 @@ pipeline "subscribe_to_sns" {
       "--topic-arn", param.sns_topic_arn,
       "--protocol", param.protocol,
       "--notification-endpoint", param.endpoint // notification-endpoint is mandatory with protocols
-    ],
+    ]
+
     env = {
       AWS_REGION            = param.region,
       AWS_ACCESS_KEY_ID     = param.access_key_id,
