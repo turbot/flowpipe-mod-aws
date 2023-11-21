@@ -42,9 +42,9 @@ pipeline "list_s3_buckets" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.list_s3_buckets.stdout)
+  output "buckets" {
+    description = "The list of buckets owned by the requester."
+    value       = jsondecode(step.container.list_s3_buckets.stdout).Buckets
   }
 
   output "stderr" {

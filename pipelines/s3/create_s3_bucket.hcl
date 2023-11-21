@@ -31,21 +31,15 @@ pipeline "create_s3_bucket" {
     optional = true
   }
 
-  param "create_bucket_configuration" {
-    type        = string
-    description = "A JSON string containing the create bucket configuration settings."
-    optional    = true
-  }
-
   step "container" "create_s3_bucket" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
-    # TODO: Add param to take in location more easily/update it to use region param
     cmd = concat(
       ["s3api", "create-bucket"],
       ["--bucket", param.bucket],
       param.acl != null ? ["--acl", param.acl] : [],
-      param.create_bucket_configuration != null ? ["--create-bucket-configuration", param.create_bucket_configuration] : [],
+      # Regions other than us-east-1 require the LocationConstraint parameter
+      param.region != "us-east-1" ? ["--create-bucket-configuration LocationConstraint=", param.region] : [],
     )
 
     env = {
@@ -53,11 +47,6 @@ pipeline "create_s3_bucket" {
       AWS_ACCESS_KEY_ID     = param.access_key_id,
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
     }
-  }
-
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.create_s3_bucket.stdout)
   }
 
   output "stderr" {

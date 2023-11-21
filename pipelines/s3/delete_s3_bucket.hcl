@@ -41,11 +41,6 @@ pipeline "delete_s3_bucket" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = step.container.delete_s3_bucket.stdout
-  }
-
   output "stderr" {
     description = "The standard error stream from the AWS CLI."
     value       = step.container.delete_s3_bucket.stderr

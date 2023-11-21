@@ -45,11 +45,6 @@ pipeline "update_s3_bucket_versioning" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.update_s3_bucket_versioning.stdout)
-  }
-
   output "stderr" {
     description = "The standard error stream from the AWS CLI."
     value       = step.container.update_s3_bucket_versioning.stderr
