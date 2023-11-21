@@ -25,6 +25,8 @@ pipeline "update_s3_bucket_encryption" {
     description = "The name of the S3 bucket."
   }
 
+  # TODO: AWS defaults to disabling default encryption if this isn't specified,
+  # but we require it to prevent accidentally disabling encryption. Should it be required?
   param "sse_algorithm" {
     type        = string
     description = "Server-side encryption algorithm to use for the default encryption."
@@ -36,6 +38,8 @@ pipeline "update_s3_bucket_encryption" {
     optional    = true
   }
 
+  # TODO: AWS defaults to false for this setting if not specified,
+  # but we require it to prevent accidentally disabling it. Should it be required?
   param "bucket_key_enabled" {
     type        = bool
     description = "Specifies whether Amazon S3 should use an S3 Bucket Key with server-side encryption using KMS (SSE-KMS) for new objects in the bucket."

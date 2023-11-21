@@ -25,10 +25,27 @@ pipeline "update_s3_bucket_public_access_block" {
     description = "The name of the S3 bucket."
   }
 
-  # TODO: Break this out into 4 separate bool params, 1 for each setting
-  param "public_access_block_configuration" {
-    type        = string
-    description = "A JSON string containing the public access block settings for the bucket."
+  # TODO: AWS defaults to false for all settings when not specified,
+  # but we require each one to prevent accidentally turning off restrictions. Should they be required?
+
+  param "block_public_acls" {
+    type        = bool
+    description = "Specifies whether Amazon S3 should block public access control lists (ACLs) for this bucket and objects in this bucket."
+  }
+
+  param "ignore_public_acls" {
+    type        = bool
+    description = "Specifies whether Amazon S3 should ignore public ACLs for this bucket and objects in this bucket."
+  }
+
+  param "block_public_policy" {
+    type        = bool
+    description = "Specifies whether Amazon S3 should block public bucket policies for this bucket."
+  }
+
+  param "restrict_public_buckets" {
+    type        = bool
+    description = "Specifies whether Amazon S3 should restrict public bucket policies for this bucket."
   }
 
   step "container" "update_s3_bucket_public_access_block" {
@@ -37,7 +54,12 @@ pipeline "update_s3_bucket_public_access_block" {
     cmd = concat(
       ["s3api", "put-public-access-block"],
       ["--bucket", param.bucket],
-      ["--public-access-block-configuration", param.public_access_block_configuration]
+      ["--public-access-block-configuration", join(",", concat(
+        param.block_public_acls != null ? ["BlockPublicAcls=${param.block_public_acls}"] : [],
+        param.ignore_public_acls != null ? ["IgnorePublicAcls=${param.ignore_public_acls}"] : [],
+        param.block_public_policy != null ? ["BlockPublicPolicy=${param.block_public_policy}"] : [],
+        param.restrict_public_buckets != null ? ["RestrictPublicBuckets=${param.restrict_public_buckets}"] : []
+      ))]
     )
 
     env = {
@@ -45,11 +67,6 @@ pipeline "update_s3_bucket_public_access_block" {
       AWS_ACCESS_KEY_ID     = param.access_key_id,
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
     }
-  }
-
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.update_s3_bucket_public_access_block.stdout)
   }
 
   output "stderr" {
