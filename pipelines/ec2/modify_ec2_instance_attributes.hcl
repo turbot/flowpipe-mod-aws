@@ -1,6 +1,6 @@
 pipeline "modify_ec2_instance_attributes" {
   title       = "Modify EC2 Instance Attribute"
-  description = "Modify attributes of an EC2 instance in AWS."
+  description = "Modifies the specified attribute of the specified instance."
 
   param "region" {
     type        = string

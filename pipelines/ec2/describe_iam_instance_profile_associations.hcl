@@ -1,6 +1,6 @@
 pipeline "describe_iam_instance_profile_associations" {
   title       = "Describe IAM Instance Profile Associations"
-  description = "Describe IAM instance profile associations for EC2 instances in AWS."
+  description = "Describes your IAM instance profile associations."
 
   param "region" {
     type        = string
@@ -22,7 +22,7 @@ pipeline "describe_iam_instance_profile_associations" {
 
   param "instance_id" {
     type        = string
-    description = "The instance ID."
+    description = "The ID of the instance."
     optional    = true
   }
 
