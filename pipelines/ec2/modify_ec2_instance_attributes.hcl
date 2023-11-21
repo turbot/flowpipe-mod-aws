@@ -1,6 +1,6 @@
 pipeline "modify_ec2_instance_attributes" {
   title       = "Modify EC2 Instance Attribute"
-  description = "Modifies the specified attribute of the specified instance."
+  description = "Modify attributes of an EC2 instance in AWS."
 
   param "region" {
     type        = string
@@ -25,7 +25,7 @@ pipeline "modify_ec2_instance_attributes" {
     description = "ID of the EC2 instance to modify."
   }
 
-  param "groups" {
+  param "security_group_ids" {
     type        = list(string)
     description = "IDs of the new security groups to associate with the instance."
     optional    = true
@@ -37,7 +37,7 @@ pipeline "modify_ec2_instance_attributes" {
     cmd = concat(
       ["ec2", "modify-instance-attribute"],
       ["--instance-id", param.instance_id],
-      param.groups != null ? ["--groups", join(",", param.groups)] : [],
+      param.security_group_ids != null ? ["--groups", join(",", param.security_group_ids)] : [],
     )
 
     env = {
