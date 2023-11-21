@@ -25,9 +25,31 @@ pipeline "update_s3_bucket_encryption" {
     description = "The name of the S3 bucket."
   }
 
-  param "server_side_encryption_configuration" {
+  param "sse_algorithm" {
     type        = string
-    description = "Specifies the default server-side-encryption configuration. A JSON document that has been converted to a string."
+    description = "Server-side encryption algorithm to use for the default encryption."
+  }
+
+  param "kms_master_key_id" {
+    type        = string
+    description = "Amazon Web Services Key Management Service (KMS) customer Amazon Web Services KMS key ID to use for the default encryption."
+    optional    = true
+  }
+
+  param "bucket_key_enabled" {
+    type        = bool
+    description = "Specifies whether Amazon S3 should use an S3 Bucket Key with server-side encryption using KMS (SSE-KMS) for new objects in the bucket."
+  }
+
+  step "function" "build_encryption_config" {
+    src = "./pipelines/s3/functions/update_s3_bucket_encryption"
+    runtime = "python:3.10"
+    handler = "main.build_encryption_config"
+    event = {
+      bucket_key_enabled = param.bucket_key_enabled
+      kms_master_key_id  = param.kms_master_key_id
+      sse_algorithm      = param.sse_algorithm
+    }
   }
 
   step "container" "update_s3_bucket_encryption" {
@@ -36,7 +58,7 @@ pipeline "update_s3_bucket_encryption" {
     cmd = concat(
       ["s3api", "put-bucket-encryption"],
       ["--bucket", param.bucket],
-      ["--server-side-encryption-configuration", param.server_side_encryption_configuration],
+      ["--server-side-encryption-configuration", jsonencode(step.function.build_encryption_config.result)],
     )
 
     env = {
@@ -44,11 +66,6 @@ pipeline "update_s3_bucket_encryption" {
       AWS_ACCESS_KEY_ID     = param.access_key_id,
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
     }
-  }
-
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.update_s3_bucket_encryption.stdout)
   }
 
   output "stderr" {

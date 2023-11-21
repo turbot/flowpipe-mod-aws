@@ -41,8 +41,8 @@ pipeline "get_s3_object_content" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
+  output "content" {
+    description = "Object content."
     value       = step.container.get_s3_object_content.stdout
   }
 

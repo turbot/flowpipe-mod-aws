@@ -49,9 +49,9 @@ pipeline "get_s3_object" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = step.container.get_s3_object.stdout
+  output "object" {
+    description = "Object data."
+    value       = jsondecode(step.container.get_s3_object.stdout)
   }
 
   output "stderr" {
