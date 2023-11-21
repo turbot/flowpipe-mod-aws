@@ -24,7 +24,6 @@ pipeline "describe_iam_instance_profile_associations" {
     type        = string
     description = "The instance ID."
     optional    = true
-    default = "i-0834b6dc568c4d381"
   }
 
   step "container" "describe_iam_instance_profile_associations" {
