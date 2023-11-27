@@ -1,13 +1,13 @@
 mod "aws" {
-  title         = "AWS Library"
+  title         = "AWS"
   description   = "Run pipelines to supercharge your AWS workflows using Flowpipe."
   color         = "#FF9900"
   documentation = file("./docs/index.md")
   icon          = "/images/flowpipe/mods/turbot/aws.svg"
-  categories    = ["aws", "library"]
+  categories    = ["aws"]
 
   opengraph {
-    title       = "AWS Library Mod for Flowpipe"
+    title       = "AWS Mod for Flowpipe"
     description = "Run pipelines to supercharge your AWS workflows using Flowpipe."
     image       = "/images/flowpipe/mods/turbot/aws-social-graphic.png"
   }
