@@ -48,7 +48,9 @@ pipeline "test_create_s3_bucket" {
 
     pipeline = pipeline.list_s3_buckets
     args = {
-     region            = param.region
+      # TODO: Revert after testing failures
+     #region            = param.region
+     region            = "us-yyy-3"
      access_key_id     = param.access_key_id
      secret_access_key = param.secret_access_key
     }

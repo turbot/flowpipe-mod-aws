@@ -128,7 +128,14 @@ pipeline "test_update_s3_bucket_versioning_enable_disable" {
     depends_on = [step.pipeline.enable_s3_bucket_versioning]
 
     pipeline = pipeline.get_s3_bucket_versioning
-    args     = step.transform.base_args.output.base_args
+    # TODO: Revert after testing failures
+    #args     = step.transform.base_args.output.base_args
+    args     = {
+        region            = "us-abc-1"
+        access_key_id     = param.access_key_id
+        secret_access_key = param.secret_access_key
+        bucket            = param.bucket
+      }
 
   }
 
