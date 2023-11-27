@@ -1,4 +1,3 @@
-# TODO: Remove all defaults once variables can be passed to mod dependencies properly
 variable "region" {
   type        = string
   description = "The name of the Region."
