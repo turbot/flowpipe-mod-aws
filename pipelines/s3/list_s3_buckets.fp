@@ -46,9 +46,4 @@ pipeline "list_s3_buckets" {
     description = "The list of buckets owned by the requester."
     value       = jsondecode(step.container.list_s3_buckets.stdout).Buckets
   }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.list_s3_buckets.stderr
-  }
 }

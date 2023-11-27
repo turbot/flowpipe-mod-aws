@@ -41,9 +41,4 @@ pipeline "get_s3_bucket_versioning" {
     description = "The versioning state of the bucket."
     value       = jsondecode(step.container.get_s3_bucket_versioning.stdout).Status
   }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.get_s3_bucket_versioning.stderr
-  }
 }

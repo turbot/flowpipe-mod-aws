@@ -48,9 +48,4 @@ pipeline "create_s3_bucket" {
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
     }
   }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.create_s3_bucket.stderr
-  }
 }
