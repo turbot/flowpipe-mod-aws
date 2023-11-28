@@ -1,6 +1,6 @@
-pipeline "delete_s3_bucket" {
-  title       = "Delete S3 Bucket"
-  description = "Deletes an Amazon S3 bucket."
+pipeline "update_s3_bucket_versioning" {
+  title       = "Update S3 Bucket Versioning"
+  description = "Sets the versioning state of an existing bucket."
 
   param "region" {
     type        = string
@@ -22,17 +22,21 @@ pipeline "delete_s3_bucket" {
 
   param "bucket" {
     type        = string
-    description = "The name of the S3 bucket to delete."
+    description = "The bucket name."
   }
 
-  step "container" "delete_s3_bucket" {
+  param "versioning" {
+    type        = bool
+    description = "The versioning state of the bucket."
+  }
+
+  step "container" "update_s3_bucket_versioning" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
-    cmd = [
-      "s3api",
-      "delete-bucket",
-      "--bucket", param.bucket
-    ]
+    cmd = concat(
+      ["s3api", "put-bucket-versioning", "--bucket", param.bucket, "--versioning-configuration"],
+      param.versioning ? ["Status=Enabled"] : ["Status=Suspended"],
+    )
 
     env = {
       AWS_REGION            = param.region
@@ -41,13 +45,8 @@ pipeline "delete_s3_bucket" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = step.container.delete_s3_bucket.stdout
-  }
-
   output "stderr" {
     description = "The standard error stream from the AWS CLI."
-    value       = step.container.delete_s3_bucket.stderr
+    value       = step.container.update_s3_bucket_versioning.stderr
   }
 }

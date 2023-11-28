@@ -1,6 +1,6 @@
-pipeline "get_s3_object_content" {
-  title       = "Get S3 Object Content"
-  description = "Gets the content of an S3 object."
+pipeline "get_s3_object" {
+  title       = "Get object from S3 bucket"
+  description = "Gets an object from an S3 buckets owned by the authenticated sender of the request."
 
   param "region" {
     type        = string
@@ -22,17 +22,25 @@ pipeline "get_s3_object_content" {
 
   param "bucket" {
     type        = string
-    description = "S3 bucket name."
+    description = "Bucket name."
+    default     = ""
   }
 
-  param "path_to_file" {
+  param "key" {
     type        = string
-    description = "Path to S3 file."
+    description = "Key to object."
+    default     = ""
   }
 
-  step "container" "get_s3_object_content" {
-    image = "public.ecr.aws/aws-cli/aws-cli"
-    cmd = ["s3", "cp", "s3://${param.bucket}/${param.path_to_file}", "-"]
+  param "destination" {
+    type        = string
+    description = "Key to object."
+    default     = ""
+  }
+
+  step "container" "get_s3_object" {
+    image = "amazon/aws-cli"
+    cmd = ["s3api", "get-object", "--bucket", param.bucket, "--key", param.key, param.destination]
 
     env = {
       AWS_REGION            = param.region
@@ -41,13 +49,13 @@ pipeline "get_s3_object_content" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = step.container.get_s3_object_content.stdout
+  output "object" {
+    description = "Object data."
+    value       = jsondecode(step.container.get_s3_object.stdout)
   }
 
   output "stderr" {
     description = "The standard error stream from the AWS CLI."
-    value       = step.container.get_s3_object_content.stderr
+    value       = step.container.get_s3_object.stderr
   }
 }

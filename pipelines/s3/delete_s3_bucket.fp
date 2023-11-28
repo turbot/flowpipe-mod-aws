@@ -1,6 +1,6 @@
-pipeline "list_iam_groups_for_user" {
-  title       = "List IAM Groups for User"
-  description = "Lists the IAM groups that the specified IAM user belongs to."
+pipeline "delete_s3_bucket" {
+  title       = "Delete S3 Bucket"
+  description = "Deletes an Amazon S3 bucket."
 
   param "region" {
     type        = string
@@ -20,16 +20,18 @@ pipeline "list_iam_groups_for_user" {
     default     = var.secret_access_key
   }
 
-  param "user_name" {
+  param "bucket" {
     type        = string
-    description = "The name of the user to list groups for."
+    description = "The name of the S3 bucket to delete."
   }
 
-  step "container" "list_groups_for_user" {
+  step "container" "delete_s3_bucket" {
     image = "public.ecr.aws/aws-cli/aws-cli"
+
     cmd = [
-      "iam", "list-groups-for-user",
-      "--user-name", param.user_name
+      "s3api",
+      "delete-bucket",
+      "--bucket", param.bucket
     ]
 
     env = {
@@ -39,13 +41,8 @@ pipeline "list_iam_groups_for_user" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = step.container.list_groups_for_user.stdout
-  }
-
   output "stderr" {
-    description = "The error output from the AWS CLI."
-    value       = step.container.list_groups_for_user.stderr
+    description = "The standard error stream from the AWS CLI."
+    value       = step.container.delete_s3_bucket.stderr
   }
 }

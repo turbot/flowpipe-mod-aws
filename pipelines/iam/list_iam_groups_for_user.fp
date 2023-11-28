@@ -1,6 +1,6 @@
-pipeline "update_s3_bucket_versioning" {
-  title       = "Update S3 Bucket Versioning"
-  description = "Sets the versioning state of an existing bucket."
+pipeline "list_iam_groups_for_user" {
+  title       = "List IAM Groups for User"
+  description = "Lists the IAM groups that the specified IAM user belongs to."
 
   param "region" {
     type        = string
@@ -20,23 +20,17 @@ pipeline "update_s3_bucket_versioning" {
     default     = var.secret_access_key
   }
 
-  param "bucket" {
+  param "user_name" {
     type        = string
-    description = "The bucket name."
+    description = "The name of the user to list groups for."
   }
 
-  param "versioning" {
-    type        = bool
-    description = "The versioning state of the bucket."
-  }
-
-  step "container" "update_s3_bucket_versioning" {
+  step "container" "list_groups_for_user" {
     image = "public.ecr.aws/aws-cli/aws-cli"
-
-    cmd = concat(
-      ["s3api", "put-bucket-versioning", "--bucket", param.bucket, "--versioning-configuration"],
-      param.versioning ? ["Status=Enabled"] : ["Status=Suspended"],
-    )
+    cmd = [
+      "iam", "list-groups-for-user",
+      "--user-name", param.user_name
+    ]
 
     env = {
       AWS_REGION            = param.region
@@ -47,11 +41,11 @@ pipeline "update_s3_bucket_versioning" {
 
   output "stdout" {
     description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.update_s3_bucket_versioning.stdout)
+    value       = jsondecode(step.container.list_groups_for_user.stdout)
   }
 
   output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.update_s3_bucket_versioning.stderr
+    description = "The error output from the AWS CLI."
+    value       = step.container.list_groups_for_user.stderr
   }
 }
