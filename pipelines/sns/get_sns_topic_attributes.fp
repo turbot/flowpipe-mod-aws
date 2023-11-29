@@ -40,13 +40,8 @@ pipeline "get_sns_topic_attributes" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
+  output "attributes" {
+    description = "A map of the topic’s attributes."
     value       = jsondecode(step.container.get_sns_topic_attributes.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.get_sns_topic_attributes.stderr
   }
 }

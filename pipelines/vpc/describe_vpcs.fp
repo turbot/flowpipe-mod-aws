@@ -41,13 +41,8 @@ pipeline "describe_vpcs" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
+  output "vpcs" {
+    description = "Information about one or more VPCs."
     value       = jsondecode(step.container.describe_vpcs.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.describe_vpcs.stderr
   }
 }

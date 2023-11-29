@@ -36,13 +36,8 @@ pipeline "stop_ec2_instance" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value = jsondecode(step.container.stop_ec2_instance.stdout.json)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value = jsondecode(step.container.stop_ec2_instance.stderr)
+  output "stopping_ec2_instance" {
+    description = "Information about the stopped instance."
+    value = jsondecode(step.container.stop_ec2_instance.stdout.json).Instances[0]
   }
 }

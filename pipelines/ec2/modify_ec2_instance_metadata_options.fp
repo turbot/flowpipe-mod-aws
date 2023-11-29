@@ -54,13 +54,8 @@ pipeline "modify_ec2_instance_metadata_options" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
+  output "instance" {
+    description = "The modified instance."
     value       = jsondecode(step.container.modify_ec2_instance_metadata_options.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.modify_ec2_instance_metadata_options.stderr
   }
 }

@@ -30,6 +30,7 @@ pipeline "get_sqs_queue_attributes" {
 
     cmd = concat(
       ["sqs", "get-queue-attributes"],
+      ["--attribute-names", "All"],
       ["--queue-url", param.queue_url],
     )
 
@@ -40,13 +41,8 @@ pipeline "get_sqs_queue_attributes" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.get_sqs_queue_attributes.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.get_sqs_queue_attributes.stderr
+  output "attributes" {
+    description = "A map of attributes to their respective values."
+    value       = jsondecode(step.container.get_sqs_queue_attributes.stdout).Attributes
   }
 }

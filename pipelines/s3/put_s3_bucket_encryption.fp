@@ -1,5 +1,5 @@
-pipeline "update_s3_bucket_encryption" {
-  title       = "Update S3 Bucket Encryption"
+pipeline "put_s3_bucket_encryption" {
+  title       = "Put S3 Bucket Encryption"
   description = "Configures encryption settings for an Amazon S3 bucket."
 
   param "region" {
@@ -46,7 +46,7 @@ pipeline "update_s3_bucket_encryption" {
   }
 
   step "function" "build_encryption_config" {
-    src = "./pipelines/s3/functions/update_s3_bucket_encryption"
+    src = "./pipelines/s3/functions/put_s3_bucket_encryption"
     runtime = "python:3.10"
     handler = "main.build_encryption_config"
     event = {
@@ -56,7 +56,7 @@ pipeline "update_s3_bucket_encryption" {
     }
   }
 
-  step "container" "update_s3_bucket_encryption" {
+  step "container" "put_s3_bucket_encryption" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(

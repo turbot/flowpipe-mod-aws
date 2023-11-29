@@ -41,7 +41,8 @@ pipeline "subscribe_to_sns_topic" {
     cmd = ["sns", "subscribe",
       "--topic-arn", param.sns_topic_arn,
       "--protocol", param.protocol,
-      "--notification-endpoint", param.endpoint // notification-endpoint is mandatory with protocols
+      # notification-endpoint is mandatory with protocols
+      "--notification-endpoint", param.endpoint,
     ]
 
     env = {
@@ -51,13 +52,8 @@ pipeline "subscribe_to_sns_topic" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.subscribe_to_sns_topic.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.subscribe_to_sns_topic.stderr
+  output "subscription_arn" {
+    description = "The ARN of the subscription if it is confirmed, or the string 'pending confirmation' if the subscription requires confirmation."
+    value       = step.container.subscribe_to_sns_topic.stdout
   }
 }

@@ -41,13 +41,8 @@ pipeline "list_iam_users" {
     }
   }
 
-  output "stdout" {
-    description = "List of available users."
+  output "users" {
+    description = "A list of users."
     value       = jsondecode(step.container.list_iam_users.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value = step.container.list_iam_users.stderr
   }
 }

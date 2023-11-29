@@ -45,13 +45,8 @@ pipeline "describe_ec2_instances" {
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
+  output "instances" {
+    description = "The AWS CLI output."
     value       = jsondecode(step.container.describe_ec2_instances.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.describe_ec2_instances.stderr
   }
 }

@@ -55,13 +55,8 @@ pipeline "describe_ec2_snapshots" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
+  output "snapshots" {
+    description = "Information about the snapshots."
     value       = jsondecode(step.container.describe_ec2_snapshots.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.describe_ec2_snapshots.stderr
   }
 }

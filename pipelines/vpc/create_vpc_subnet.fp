@@ -46,13 +46,8 @@ pipeline "create_vpc_subnet" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.create_vpc_subnet.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.create_vpc_subnet.stderr
+  output "subnet" {
+    description = "Information about the subnet that was created."
+    value       = jsondecode(step.container.create_vpc_subnet.stdout).Subnet
   }
 }

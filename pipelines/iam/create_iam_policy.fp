@@ -38,13 +38,8 @@ pipeline "create_iam_policy" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
+  output "policy" {
+    description = "A structure containing details about the new policy."
     value       = jsondecode(step.container.create_iam_policy.stdout)
-  }
-
-   output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.create_iam_policy.stderr
   }
 }

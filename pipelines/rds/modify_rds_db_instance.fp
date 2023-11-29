@@ -67,13 +67,8 @@ pipeline "modify_rds_db_instance" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
+  output "db_instance" {
+    description = "Contains the details of an Amazon RDS DB instance."
     value       = jsondecode(step.container.modify_rds_db_instance.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.modify_rds_db_instance.stderr
   }
 }

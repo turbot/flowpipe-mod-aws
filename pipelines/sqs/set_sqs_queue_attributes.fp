@@ -25,14 +25,9 @@ pipeline "set_sqs_queue_attributes" {
     description = "The URL of the Amazon SQS queue to set attributes for."
   }
 
-  param "attribute_name" {
+  param "attributes" {
     type        = string
-    description = "The name of the attribute to set."
-  }
-
-  param "attribute_value" {
-    type        = string
-    description = "The value to set for the specified attribute."
+    description = "A map of attributes to set."
   }
 
   step "container" "set_sqs_queue_attributes" {
@@ -41,8 +36,7 @@ pipeline "set_sqs_queue_attributes" {
     cmd = concat(
       ["sqs", "set-queue-attributes"],
       ["--queue-url", param.queue_url],
-      ["--attribute-name", param.attribute_name],
-      ["--attribute-value", param.attribute_value],
+      ["--attributes", param.attributes],
     )
 
     env = {
@@ -50,15 +44,5 @@ pipeline "set_sqs_queue_attributes" {
       AWS_ACCESS_KEY_ID     = param.access_key_id
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
     }
-  }
-
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = step.container.set_sqs_queue_attributes.stdout
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.set_sqs_queue_attributes.stderr
   }
 }

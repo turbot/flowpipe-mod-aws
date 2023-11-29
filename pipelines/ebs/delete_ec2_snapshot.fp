@@ -39,14 +39,4 @@ pipeline "delete_ec2_snapshot" {
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
     }
   }
-
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.delete_ec2_snapshot.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.delete_ec2_snapshot.stderr
-  }
 }

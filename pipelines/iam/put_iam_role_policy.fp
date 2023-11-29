@@ -1,5 +1,5 @@
-pipeline "create_iam_role_inline_policy" {
-  title       = "Create IAM Role Inline Policy"
+pipeline "put_iam_role_policy" {
+  title       = "Put IAM Role Policy"
   description = "Adds or updates an inline policy document that is embedded in the specified IAM role."
 
   param "access_key_id" {
@@ -42,15 +42,5 @@ pipeline "create_iam_role_inline_policy" {
       AWS_ACCESS_KEY_ID     = param.access_key_id
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
     }
-  }
-
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = step.container.put_role_policy.stdout
-  }
-
-   output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.put_role_policy.stderr
   }
 }

@@ -25,12 +25,8 @@ pipeline "list_iam_access_keys" {
     env = credential.aws[param.cred].env
   }
 
-  output "stdout" {
-    description = "List of access keys and their metadata."
-    value       = jsondecode(step.container.list_iam_access_keys.stdout)
-  }
-
-  output "stderr" {
-    value = step.container.list_iam_access_keys.stderr
+  output "access_keys" {
+    description = "A list of objects containing metadata about the access keys."
+    value       = jsondecode(step.container.list_iam_access_keys.stdout).AccessKeyMetadata
   }
 }

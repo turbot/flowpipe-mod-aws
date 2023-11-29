@@ -52,13 +52,8 @@ pipeline "create_elbv2_load_balancer" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
+  output "load_balancers" {
+    description = "Information about the load balancer."
     value       = jsondecode(step.container.create_elbv2_load_balancer.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.create_elbv2_load_balancer.stderr
   }
 }

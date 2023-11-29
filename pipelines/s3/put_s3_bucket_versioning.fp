@@ -1,5 +1,5 @@
-pipeline "update_s3_bucket_versioning" {
-  title       = "Update S3 Bucket Versioning"
+pipeline "put_s3_bucket_versioning" {
+  title       = "Put S3 Bucket Versioning"
   description = "Sets the versioning state of an existing bucket."
 
   param "region" {
@@ -30,7 +30,7 @@ pipeline "update_s3_bucket_versioning" {
     description = "The versioning state of the bucket."
   }
 
-  step "container" "update_s3_bucket_versioning" {
+  step "container" "put_s3_bucket_versioning" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(

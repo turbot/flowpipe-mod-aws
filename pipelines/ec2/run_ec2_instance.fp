@@ -1,4 +1,4 @@
-pipeline "run_ec2_instances" {
+pipeline "run_ec2_instance" {
   title       = "Launch EC2 Instance"
   description = "Launches an Amazon EC2 instance."
 
@@ -30,12 +30,11 @@ pipeline "run_ec2_instances" {
     description = "The ID of the Amazon Machine Image (AMI) to launch."
   }
 
-  step "container" "run_ec2_instances" {
+  step "container" "run_ec2_instance" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = [
       "ec2", "run-instances",
-      // "--region", param.region,
       "--instance-type", param.instance_type,
       "--image-id", param.image_id
     ]
@@ -47,13 +46,8 @@ pipeline "run_ec2_instances" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.run_ec2_instances.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.run_ec2_instances.stderr
+  output "instance" {
+    description = "The launched EC2 instance."
+    value       = jsondecode(step.container.run_ec2_instance.stdout).Instances[0]
   }
 }

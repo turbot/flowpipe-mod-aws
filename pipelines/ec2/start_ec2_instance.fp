@@ -35,13 +35,8 @@ pipeline "start_ec2_instance" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = step.container.start_ec2_instance.stdout
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.start_ec2_instance.stderr
+  output "starting_ec2_instance" {
+    description = "Information about the started instance."
+    value       = jsondecode(step.container.start_ec2_instance.stdout).Instances[0]
   }
 }

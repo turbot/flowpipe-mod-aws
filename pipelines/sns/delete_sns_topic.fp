@@ -39,14 +39,4 @@ pipeline "delete_sns_topic" {
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
     }
   }
-
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = step.container.delete_sns_topic.stdout
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.delete_sns_topic.stderr
-  }
 }

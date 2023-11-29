@@ -39,14 +39,4 @@ pipeline "delete_lambda_function" {
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
     }
   }
-
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = step.container.delete_lambda_function.stdout
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.delete_lambda_function.stderr
-  }
 }
