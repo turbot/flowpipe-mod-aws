@@ -45,9 +45,4 @@ pipeline "get_s3_object_content" {
     description = "Object content."
     value       = step.container.get_s3_object_content.stdout
   }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.get_s3_object_content.stderr
-  }
 }

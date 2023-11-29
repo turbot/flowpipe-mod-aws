@@ -44,9 +44,4 @@ pipeline "update_s3_bucket_versioning" {
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
     }
   }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.update_s3_bucket_versioning.stderr
-  }
 }
