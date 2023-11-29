@@ -35,7 +35,6 @@ pipeline "run_ec2_instances" {
 
     cmd = [
       "ec2", "run-instances",
-      // "--region", param.region,
       "--instance-type", param.instance_type,
       "--image-id", param.image_id
     ]

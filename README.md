@@ -42,7 +42,7 @@ vi flowpipe.pvars
 
 It's recommended to configure credentials through [input variables](https://flowpipe.io/docs/using-flowpipe/mod-variables) by setting them in the `flowpipe.pvars` file.
 
-**Note:** Credentials can also be passed in each pipeline run with `--pipeline-arg region=us-east-1 --pipeline-arg access_key_id=YourAccessKeyID --pipeline-arg secret_access_key=YourSecretAccessKey`.
+**Note:** Credentials can also be passed in each pipeline run with `--arg region=us-east-1 --arg access_key_id=YourAccessKeyID --arg secret_access_key=YourSecretAccessKey`.
 
 
 Additional input variables may be defined in the mod's `variables.hcl` file that can be configured to better match your environment and requirements.
@@ -68,12 +68,12 @@ flowpipe pipeline run describe_ec2_instances
 To pass values into pipeline [parameters](https://flowpipe.io/docs/using-flowpipe/pipeline-parameters), use the following syntax:
 
 ```sh
-flowpipe pipeline run describe_ec2_instances --pipeline-arg instance_id=i-1234567890abcdef0
+flowpipe pipeline run describe_ec2_instances --arg instance_id=i-1234567890abcdef0
 ```
 
-Multiple pipeline args can be passed in with separate `--pipeline-arg` flags.
+Multiple pipeline args can be passed in with separate `--arg` flags.
 
-For more information on passing arguments, please see [Pipeline Args](https://flowpipe.io/docs/using-flowpipe/pipeline-arguments).
+For more information on passing arguments, please see [Pipeline Args](https://flowpipe.io/docs/using-flowpipe/arguments).
 
 ## Contributing
 

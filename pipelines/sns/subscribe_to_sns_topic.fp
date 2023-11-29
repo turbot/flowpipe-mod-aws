@@ -44,7 +44,8 @@ pipeline "subscribe_to_sns" {
     cmd = ["sns", "subscribe",
       "--topic-arn", param.sns_topic_arn,
       "--protocol", param.protocol,
-      "--notification-endpoint", param.endpoint // notification-endpoint is mandatory with protocols
+      # notification-endpoint is mandatory with protocols
+      "--notification-endpoint", param.endpoint,
     ]
 
     env = {

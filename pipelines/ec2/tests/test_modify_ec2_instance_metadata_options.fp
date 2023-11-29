@@ -55,10 +55,6 @@ pipeline "test_modify_ec2_instance_metadata_options" {
       http_endpoint     = "enabled"
     }
 
-    // # Ignore errors so we can delete
-    // error {
-    //   ignore = true
-    // }
   }
 
   step "pipeline" "terminate_ec2_instances" {
