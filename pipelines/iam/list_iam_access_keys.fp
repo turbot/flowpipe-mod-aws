@@ -45,8 +45,4 @@ pipeline "list_iam_access_keys" {
     description = "List of access keys and their metadata."
     value       = jsondecode(step.container.list_iam_access_keys.stdout)
   }
-
-  output "stderr" {
-    value = step.container.list_iam_access_keys.stderr
-  }
 }

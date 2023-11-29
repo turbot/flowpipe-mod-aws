@@ -53,12 +53,7 @@ pipeline "create_elb_classic_load_balancer" {
   }
 
   output "stdout" {
-    description = "The standard output stream from the AWS CLI."
+    description = "The AWS CLI output."
     value       = jsondecode(step.container.create_elb_classic_load_balancer.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.create_elb_classic_load_balancer.stderr
   }
 }

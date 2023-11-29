@@ -41,12 +41,7 @@ pipeline "delete_lambda_function" {
   }
 
   output "stdout" {
-    description = "The standard output stream from the AWS CLI."
+    description = "The AWS CLI output."
     value       = step.container.delete_lambda_function.stdout
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.delete_lambda_function.stderr
   }
 }

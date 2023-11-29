@@ -45,12 +45,7 @@ pipeline "create_iam_role_inline_policy" {
   }
 
   output "stdout" {
-    description = "The standard output stream from the AWS CLI."
+    description = "The AWS CLI output."
     value       = step.container.put_role_policy.stdout
-  }
-
-   output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.put_role_policy.stderr
   }
 }

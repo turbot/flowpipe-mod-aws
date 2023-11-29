@@ -57,12 +57,7 @@ pipeline "modify_ebs_volume" {
   }
 
   output "stdout" {
-    description = "The standard output stream from the AWS CLI."
+    description = "The AWS CLI output."
     value = jsondecode(step.container.convert_volume.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value = step.container.convert_volume.stderr
   }
 }

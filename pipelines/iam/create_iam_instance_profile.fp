@@ -40,12 +40,7 @@ pipeline "create_iam_instance_profile" {
   }
 
   output "stdout" {
-    description = "The standard output stream from the AWS CLI."
+    description = "The AWS CLI output."
     value = jsondecode(step.container.create_iam_instance_profile.stdout)
-  }
-
-   output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value = step.container.create_iam_instance_profile.stderr
   }
 }

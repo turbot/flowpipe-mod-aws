@@ -57,8 +57,4 @@ pipeline "update_iam_access_key_status" {
     description = "Confirmation message of access key status update."
     value       = step.container.update_iam_access_key_status.stdout
   }
-
-  output "stderr" {
-    value = step.container.update_iam_access_key_status.stderr
-  }
 }

@@ -35,13 +35,7 @@ pipeline "enable_ebs_encryption_by_default" {
   }
 
   output "stdout" {
-    description = "The standard output stream from the AWS CLI."
+    description = "The AWS CLI output."
     value = jsondecode(step.container.enable_ebs_encryption_by_default.stdout)
   }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value = step.container.enable_ebs_encryption_by_default.stderr
-  }
-
 }

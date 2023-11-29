@@ -47,12 +47,7 @@ pipeline "run_ec2_instances" {
   }
 
   output "stdout" {
-    description = "The standard output stream from the AWS CLI."
+    description = "The AWS CLI output."
     value       = jsondecode(step.container.run_ec2_instances.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.run_ec2_instances.stderr
   }
 }
