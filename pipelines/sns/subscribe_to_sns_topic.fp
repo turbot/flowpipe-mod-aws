@@ -1,44 +1,41 @@
-pipeline "subscribe_to_sns" {
+pipeline "subscribe_to_sns_topic" {
   title       = "Subscribe to SNS Topic"
   description = "Subscribes to a specified AWS SNS topic."
 
   param "region" {
     type        = string
-    description = "The name of the region."
+    description = local.region_param_description
     default     = var.region
   }
 
   param "access_key_id" {
     type        = string
-    description = "The ID for this access key."
+    description = local.access_key_id_param_description
     default     = var.access_key_id
   }
 
   param "secret_access_key" {
     type        = string
-    description = "The secret key used to sign requests."
+    description = local.secret_access_key_param_description
     default     = var.secret_access_key
   }
 
   param "sns_topic_arn" {
     type        = string
     description = "The Amazon Resource Name (ARN) of the SNS topic to subscribe to."
-    default     = "arn:aws:sns:us-east-1:533793682495:aws-cis-handling"
   }
 
   param "protocol" {
     type        = string
     description = "The protocol to use for the subscription (e.g., email, sms, lambda, etc.)."
-    default     = "email"
   }
 
   param "endpoint" {
     type        = string
     description = "The endpoint that will receive notifications."
-    default     = "priyanka.chatterjee@turbot.com"
   }
 
-  step "container" "subscribe_to_sns" {
+  step "container" "subscribe_to_sns_topic" {
     image = "amazon/aws-cli"
 
     cmd = ["sns", "subscribe",
@@ -56,11 +53,11 @@ pipeline "subscribe_to_sns" {
 
   output "stdout" {
     description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.subscribe_to_sns.stdout)
+    value       = jsondecode(step.container.subscribe_to_sns_topic.stdout)
   }
 
   output "stderr" {
     description = "The standard error stream from the AWS CLI."
-    value       = step.container.subscribe_to_sns.stderr
+    value       = step.container.subscribe_to_sns_topic.stderr
   }
 }
