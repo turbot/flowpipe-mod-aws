@@ -44,13 +44,13 @@ pipeline "test_create_ec2_instance" {
   }
 
   step "pipeline" "describe_ec2_instances" {
-    if = step.pipeline.run_ec2_instances.stderr == ""
+    if = !is_error(step.pipeline.run_ec2_instances)
     pipeline = pipeline.describe_ec2_instances
     args = {
       region            = param.region
       access_key_id     = param.access_key_id
       secret_access_key = param.secret_access_key
-      instance_ids      = [step.pipeline.run_ec2_instances.stdout.Instances[0].InstanceId]
+      instance_ids      = [step.pipeline.run_ec2_instances.output.stdout.Instances[0].InstanceId]
     }
 
     # Ignore errors so we can delete
@@ -60,7 +60,7 @@ pipeline "test_create_ec2_instance" {
   }
 
   step "pipeline" "terminate_ec2_instances" {
-    if = step.pipeline.run_ec2_instances.stderr == ""
+    if = !is_error(step.pipeline.run_ec2_instances)
     # Don't run before we've had a chance to describe the instance
     depends_on = [step.pipeline.describe_ec2_instances]
 
@@ -69,28 +69,22 @@ pipeline "test_create_ec2_instance" {
       region            = param.region
       access_key_id     = param.access_key_id
       secret_access_key = param.secret_access_key
-      instance_ids      = [step.pipeline.run_ec2_instances.stdout.Instances[0].InstanceId]
+      instance_ids      = [step.pipeline.run_ec2_instances.output.stdout.Instances[0].InstanceId]
     }
   }
 
   output "created_instance_id" {
-    description = "Check for pipeline.run_ec2_instances."
-    value       = step.pipeline.run_ec2_instances.stdout.Instances[0].InstanceId
+    description = "Instance used in the test."
+    value       = step.pipeline.run_ec2_instances.output.stdout.Instances[0].InstanceId
   }
 
-  output "run_ec2_instances" {
-    description = "Check for pipeline.run_ec2_instances."
-    value       = step.pipeline.run_ec2_instances.stderr == "" ? "succeeded" : "failed: ${step.pipeline.run_ec2_instances.stderr}"
-  }
-
-  output "describe_ec2_instances" {
-    description = "Check for pipeline.describe_ec2_instances."
-    value       = step.pipeline.describe_ec2_instances.stderr == "" ? "succeeded" : "failed: ${step.pipeline.describe_ec2_instances.stderr}"
-  }
-
-  output "terminate_ec2_instances" {
-    description = "Check for pipeline.terminate_ec2_instances."
-    value       = step.pipeline.terminate_ec2_instances.stderr == "" ? "succeeded" : "failed: ${step.pipeline.run_ec2_instances.stderr}"
+  output "test_results" {
+    description = "Test results for each step."
+    value       = {
+      "run_ec2_instances" = !is_error(step.pipeline.run_ec2_instances) ? "pass" : "fail: ${error_message(step.pipeline.run_ec2_instances)}"
+      "describe_ec2_instances" = !is_error(step.pipeline.describe_ec2_instances) ? "pass" : "fail: ${error_message(step.pipeline.describe_ec2_instances)}"
+      "terminate_ec2_instances" = !is_error(step.pipeline.terminate_ec2_instances) ? "pass" : "fail: ${error_message(step.pipeline.terminate_ec2_instances)}"
+    }
   }
 
 }
