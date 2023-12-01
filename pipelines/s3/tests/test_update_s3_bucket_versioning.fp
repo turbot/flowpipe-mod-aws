@@ -71,7 +71,7 @@ pipeline "test_update_s3_bucket_versioning" {
     description = "Test results for each step."
     value       = {
       "create_s3_bucket"                    = !is_error(step.pipeline.create_s3_bucket) ? "pass" : "fail: ${error_message(step.pipeline.create_s3_bucket)}"
-      "enable_disable_s3_bucket_versioning" = step.pipeline.test_update_s3_bucket_versioning_enable_disable
+      "enable_disable_s3_bucket_versioning" = step.pipeline.test_update_s3_bucket_versioning_enable_disable.output
       "delete_s3_bucket"                    = !is_error(step.pipeline.delete_s3_bucket) ? "pass" : "fail: ${error_message(step.pipeline.create_s3_bucket)}"
     }
   }
