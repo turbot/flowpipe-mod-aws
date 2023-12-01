@@ -52,9 +52,4 @@ pipeline "update_iam_access_key_status" {
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
     }
   }
-
-  output "stdout" {
-    description = "Confirmation message of access key status update."
-    value       = step.container.update_iam_access_key_status.stdout
-  }
 }

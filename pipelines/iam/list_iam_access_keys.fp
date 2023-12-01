@@ -41,8 +41,8 @@ pipeline "list_iam_access_keys" {
     }
   }
 
-  output "stdout" {
-    description = "List of access keys and their metadata."
+  output "access_keys" {
+    description = "A list of objects containing metadata about the access keys."
     value       = jsondecode(step.container.list_iam_access_keys.stdout)
   }
 }

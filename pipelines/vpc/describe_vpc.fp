@@ -37,8 +37,8 @@ pipeline "describe_vpc" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
-    value       = jsondecode(step.container.describe_vpc.stdout)
+  output "vpc" {
+    description = "Information about the VPC."
+    value       = jsondecode(step.container.describe_vpc.stdout)[0]
   }
 }

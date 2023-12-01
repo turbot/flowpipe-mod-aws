@@ -38,8 +38,8 @@ pipeline "create_iam_role" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
+  output "role" {
+    description = "A structure containing details about the new role."
     value       = jsondecode(step.container.create_iam_role.stdout)
   }
 }

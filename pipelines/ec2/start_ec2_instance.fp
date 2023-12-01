@@ -35,8 +35,8 @@ pipeline "start_ec2_instance" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
-    value       = step.container.start_ec2_instance.stdout
+  output "starting_ec2_instance" {
+    description = "Information about the started instance."
+    value       = jsondecode(step.container.start_ec2_instance.stdout).Instances[0]
   }
 }

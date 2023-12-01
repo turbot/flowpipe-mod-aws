@@ -51,9 +51,4 @@ pipeline "set_sqs_queue_attributes" {
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
     }
   }
-
-  output "stdout" {
-    description = "The AWS CLI output."
-    value       = step.container.set_sqs_queue_attributes.stdout
-  }
 }

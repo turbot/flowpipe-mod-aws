@@ -39,8 +39,8 @@ pipeline "list_iam_groups_for_user" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
+  output "groups" {
+    description = "A list of groups."
     value       = jsondecode(step.container.list_groups_for_user.stdout)
   }
 }

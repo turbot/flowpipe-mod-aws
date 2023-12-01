@@ -40,8 +40,8 @@ pipeline "terminate_ec2_instances" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
+  output "terminating_instances" {
+    description = "Information about the terminated instances."
     value       = jsondecode(step.container.terminate_instances.stdout)
   }
 }

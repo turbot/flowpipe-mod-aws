@@ -55,7 +55,7 @@ pipeline "describe_ec2_instances" {
     }
   }
 
-  output "stdout" {
+  output "instances" {
     description = "The AWS CLI output."
     value       = jsondecode(step.container.describe_ec2_instances.stdout)
   }

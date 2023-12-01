@@ -54,8 +54,8 @@ pipeline "modify_ec2_instance_metadata_options" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
+  output "instance" {
+    description = "The modified instance."
     value       = jsondecode(step.container.modify_ec2_instance_metadata_options.stdout)
   }
 }

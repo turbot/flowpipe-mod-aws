@@ -52,8 +52,8 @@ pipeline "create_elb_classic_load_balancer" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
-    value       = jsondecode(step.container.create_elb_classic_load_balancer.stdout)
+  output "elb_dns_name" {
+    description = "The DNS name of the load balancer."
+    value       = step.container.create_elb_classic_load_balancer.stdout
   }
 }

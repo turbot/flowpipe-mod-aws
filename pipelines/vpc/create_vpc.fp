@@ -40,8 +40,8 @@ pipeline "create_vpc" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
+  output "vpc" {
+    description = "Information about the VPC that was created."
     value       = jsondecode(step.container.create_vpc.stdout)
   }
 }

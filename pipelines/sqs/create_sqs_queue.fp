@@ -40,8 +40,8 @@ pipeline "create_sqs_queue" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
-    value       = jsondecode(step.container.create_sqs_queue.stdout)
+  output "queue_url" {
+    description = "The URL of the Amazon SQS queue."
+    value       = step.container.create_sqs_queue.stdout
   }
 }

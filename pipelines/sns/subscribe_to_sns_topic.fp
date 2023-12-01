@@ -55,8 +55,8 @@ pipeline "subscribe_to_sns" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
-    value       = jsondecode(step.container.subscribe_to_sns.stdout)
+  output "subscription_arn" {
+    description = "The ARN of the subscription if it is confirmed, or the string 'pending confirmation' if the subscription requires confirmation."
+    value       = step.container.subscribe_to_sns.stdout
   }
 }

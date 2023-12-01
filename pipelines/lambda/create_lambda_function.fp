@@ -60,8 +60,8 @@ pipeline "create_lambda_function" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
+  output "function" {
+    description = "The Lambda function."
     value       = jsondecode(step.container.create_lambda_function.stdout)
   }
 }

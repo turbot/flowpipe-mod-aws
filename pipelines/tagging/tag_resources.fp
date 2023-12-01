@@ -47,8 +47,8 @@ pipeline "tag_resources" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
-    value       = step.container.tag_resources.stdout
+  output "failed_resources" {
+    description = "A map containing a key-value pair for each failed item that couldn’t be tagged. The key is the ARN of the failed resource."
+    value       = jsondecode(step.container.tag_resources.stdout)
   }
 }

@@ -40,8 +40,8 @@ pipeline "get_sqs_queue_attributes" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
+  output "attributes" {
+    description = "A map of attributes to their respective values."
     value       = jsondecode(step.container.get_sqs_queue_attributes.stdout)
   }
 }

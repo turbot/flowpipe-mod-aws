@@ -53,8 +53,8 @@ pipeline "create_vpc_security_group" {
     }
   }
 
-  output "stdout" {
-    description = "The JSON output from the AWS CLI."
+  output "group_id" {
+    description = "The group ID of the security group."
     value       = jsondecode(step.container.create_vpc_security_group.stdout)
   }
 }

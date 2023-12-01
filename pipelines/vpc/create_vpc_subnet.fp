@@ -46,8 +46,8 @@ pipeline "create_vpc_subnet" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
+  output "subnet" {
+    description = "Information about the subnet that was created."
     value       = jsondecode(step.container.create_vpc_subnet.stdout)
   }
 }

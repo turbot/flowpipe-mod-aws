@@ -45,9 +45,4 @@ pipeline "revoke_security_group_ingress_rule" {
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
     }
   }
-
-  output "stdout" {
-    description = "The AWS CLI output."
-    value = step.container.delete_security_group_rule.stdout
-  }
 }

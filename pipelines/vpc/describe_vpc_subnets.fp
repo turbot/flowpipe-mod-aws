@@ -48,8 +48,8 @@ pipeline "describe_vpc_subnets" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
+  output "subnets" {
+    description = "Information about one or more subnets."
     value       = jsondecode(step.container.describe_vpc_subnets.stdout)
   }
 }

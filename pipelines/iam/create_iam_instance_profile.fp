@@ -39,8 +39,8 @@ pipeline "create_iam_instance_profile" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
+  output "instance_profile" {
+    description = "A structure containing details about the new instance profile."
     value = jsondecode(step.container.create_iam_instance_profile.stdout)
   }
 }

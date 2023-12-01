@@ -44,8 +44,8 @@ pipeline "associate_iam_ec2_instance_profile" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
+  output "iam_instance_profile_association" {
+    description = "The IAM instance profile association."
     value = jsondecode(step.container.associate_iam_ec2_instance_profile.stdout)
   }
 }

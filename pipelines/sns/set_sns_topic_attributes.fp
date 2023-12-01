@@ -51,9 +51,4 @@ pipeline "set_sns_topic_attributes" {
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
     }
   }
-
-  output "stdout" {
-    description = "The AWS CLI output."
-    value       = step.container.set_sns_topic_attributes.stdout
-  }
 }

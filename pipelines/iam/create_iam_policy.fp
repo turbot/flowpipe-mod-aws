@@ -38,8 +38,8 @@ pipeline "create_iam_policy" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
+  output "policy" {
+    description = "A structure containing details about the new policy."
     value       = jsondecode(step.container.create_iam_policy.stdout)
   }
 }

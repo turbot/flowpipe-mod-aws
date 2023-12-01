@@ -43,9 +43,4 @@ pipeline "create_iam_role_inline_policy" {
       AWS_SECRET_ACCESS_KEY = param.secret_access_key
     }
   }
-
-  output "stdout" {
-    description = "The AWS CLI output."
-    value       = step.container.put_role_policy.stdout
-  }
 }

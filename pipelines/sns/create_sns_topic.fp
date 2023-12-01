@@ -40,8 +40,8 @@ pipeline "create_sns_topic" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
-    value       = jsondecode(step.container.create_sns_topic.stdout)
+  output "topic_arn" {
+    description = "The Amazon Resource Name (ARN) assigned to the created topic."
+    value       = step.container.create_sns_topic.stdout
   }
 }
