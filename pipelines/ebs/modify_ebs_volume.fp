@@ -56,8 +56,8 @@ pipeline "modify_ebs_volume" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
+  output "volume_modification" {
+    description = "Information about the volume modification."
     value = jsondecode(step.container.convert_volume.stdout)
   }
 }

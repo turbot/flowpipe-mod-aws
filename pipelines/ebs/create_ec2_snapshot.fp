@@ -39,8 +39,8 @@ pipeline "create_ec2_snapshot" {
     }
   }
 
-  output "stdout" {
-    description = "The AWS CLI output."
+  output "snapshot" {
+    description = "Information about the created snapshot."
     value       = jsondecode(step.container.create_ec2_snapshot.stdout)
   }
 }
