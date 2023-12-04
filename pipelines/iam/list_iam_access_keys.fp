@@ -2,22 +2,10 @@ pipeline "list_iam_access_keys" {
   title       = "List Access Keys"
   description = "Returns information about the access key IDs associated with the specified IAM user. If no user is specified, the user name defaults to the current user."
 
-  param "region" {
+  param "cred" {
     type        = string
-    description = local.region_param_description
-    default     = var.region
-  }
-
-  param "access_key_id" {
-    type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = "Name for credentials to use. If not provided, the default credentials will be used."
+    default     = "default"
   }
 
   param "user_name" {
@@ -34,11 +22,7 @@ pipeline "list_iam_access_keys" {
       param.user_name != null ? ["--user-name", "${param.user_name}"] : []
     )
 
-    env = {
-      AWS_REGION            = param.region
-      AWS_ACCESS_KEY_ID     = param.access_key_id
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
+    env = credential.aws[param.cred].env
   }
 
   output "stdout" {
