@@ -2,22 +2,16 @@ pipeline "describe_ec2_instances" {
   title       = "Describe EC2 Instances"
   description = "Describes the specified instances or all instances."
 
+  param "cred" {
+    type        = string
+    description = "Name for credentials to use. If not provided, the default credentials will be used."
+    default     = "default"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description
     default     = var.region
-  }
-
-  param "access_key_id" {
-    type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
   }
 
   param "instance_ids" {
@@ -38,12 +32,6 @@ pipeline "describe_ec2_instances" {
     optional    = true
   }
 
-  param "query" {
-    type        = string
-    description = "The query that is used to filter the results of DescribeInstances."
-    optional    = true
-  }
-
   step "container" "describe_ec2_instances" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
@@ -52,14 +40,9 @@ pipeline "describe_ec2_instances" {
       try(length(param.instance_ids), 0) > 0 ? concat(["--instance-ids"], param.instance_ids) : [],
       param.instance_type != null ? ["--filters", "Name=instance-type,Values=${param.instance_type}"] : [],
       param.ebs_optimized != null ? ["--filters", "Name=ebs-optimized,Values=${param.ebs_optimized}"] : [],
-      param.query != null ? ["--query", param.query] : [],
     )
 
-    env = {
-      AWS_REGION            = param.region
-      AWS_ACCESS_KEY_ID     = param.access_key_id
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
+    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
   output "stdout" {
