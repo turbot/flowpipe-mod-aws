@@ -70,8 +70,9 @@ pipeline "test_update_s3_bucket_versioning" {
   output "test_results" {
     description = "Test results for each step."
     value       = {
+      "create_s3_bucket_debug"                    = step.pipeline.create_s3_bucket
       "create_s3_bucket"                    = !is_error(step.pipeline.create_s3_bucket) ? "pass" : "fail: ${error_message(step.pipeline.create_s3_bucket)}"
-      "enable_disable_s3_bucket_versioning" = step.pipeline.test_update_s3_bucket_versioning_enable_disable
+      "enable_disable_s3_bucket_versioning" = step.pipeline.test_update_s3_bucket_versioning_enable_disable.output
       "delete_s3_bucket"                    = !is_error(step.pipeline.delete_s3_bucket) ? "pass" : "fail: ${error_message(step.pipeline.create_s3_bucket)}"
     }
   }
@@ -147,14 +148,24 @@ pipeline "test_update_s3_bucket_versioning_enable_disable" {
     args     = step.transform.base_args.output.base_args
   }
 
-  output "test_results" {
-    description = "Test results for each step."
-    value       = {
-      "enable_s3_bucket_versioning" = !is_error(step.pipeline.enable_s3_bucket_versioning) ? "pass" : "fail: ${error_message(step.pipeline.enable_s3_bucket_versioning)}"
-      "check_s3_bucket_versioning_enabled" = !is_error(step.pipeline.check_s3_bucket_versioning_enabled) ? "pass" : "fail: ${error_message(step.pipeline.check_s3_bucket_versioning_enabled)}"
-      "disable_s3_bucket_versioning" = !is_error(step.pipeline.disable_s3_bucket_versioning) ? "pass" : "fail: ${error_message(step.pipeline.disable_s3_bucket_versioning)}"
-      "check_s3_bucket_versioning_disabled" = !is_error(step.pipeline.check_s3_bucket_versioning_disabled) ? "pass" : "fail: ${error_message(step.pipeline.check_s3_bucket_versioning_disabled)}"
-    }
+    output "enable_s3_bucket_versioning" {
+    description = "Check for pipeline.enable_s3_bucket_versioning."
+    value       = !is_error(step.pipeline.enable_s3_bucket_versioning) ? "pass" : "fail: ${error_message(step.pipeline.enable_s3_bucket_versioning)}"
+  }
+
+  output "check_s3_bucket_versioning_enabled" {
+    description = "Check for pipeline.check_s3_bucket_versioning_enabled."
+    value       = !is_error(step.pipeline.check_s3_bucket_versioning_enabled) && step.pipeline.check_s3_bucket_versioning_enabled.output.status == "Enabled" ? "pass" : "fail: ${error_message(step.pipeline.check_s3_bucket_versioning_enabled)}"
+  }
+
+  output "disable_s3_bucket_versioning" {
+    description = "Check for pipeline.disable_s3_bucket_versioning."
+    value       = !is_error(step.pipeline.disable_s3_bucket_versioning) ? "pass" : "fail: ${error_message(step.pipeline.disable_s3_bucket_versioning)}"
+  }
+
+  output "check_s3_bucket_versioning_disabled" {
+    description = "Check for pipeline.check_s3_bucket_versioning_disabled."
+    value       = !is_error(step.pipeline.check_s3_bucket_versioning_disabled) && step.pipeline.check_s3_bucket_versioning_disabled.output.status == "Suspended" ? "pass" : "fail: ${error_message(step.pipeline.check_s3_bucket_versioning_disabled)}"
   }
 
 }
