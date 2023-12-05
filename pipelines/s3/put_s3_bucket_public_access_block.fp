@@ -1,5 +1,5 @@
-pipeline "update_s3_bucket_public_access_block" {
-  title       = "Update S3 Public Access Block"
+pipeline "put_s3_bucket_public_access_block" {
+  title       = "Put S3 Public Access Block"
   description = "Creates or modifies the PublicAccessBlock configuration for an Amazon S3 bucket."
 
   param "region" {
@@ -48,7 +48,7 @@ pipeline "update_s3_bucket_public_access_block" {
     description = "Specifies whether Amazon S3 should restrict public bucket policies for this bucket."
   }
 
-  step "container" "update_s3_bucket_public_access_block" {
+  step "container" "put_s3_bucket_public_access_block" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(

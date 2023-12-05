@@ -1,6 +1,6 @@
-pipeline "test_update_s3_bucket_versioning" {
-  title       = "Test Update S3 Bucket Versioning"
-  description = "Test the update_s3_bucket_versioning pipeline."
+pipeline "test_put_s3_bucket_versioning" {
+  title       = "Test Put S3 Bucket Versioning"
+  description = "Test the put_s3_bucket_versioning pipeline."
 
   param "region" {
     type        = string
@@ -42,10 +42,10 @@ pipeline "test_update_s3_bucket_versioning" {
     args     = step.transform.base_args.output.base_args
   }
 
-  step "pipeline" "test_update_s3_bucket_versioning_enable_disable" {
+  step "pipeline" "test_put_s3_bucket_versioning_enable_disable" {
     depends_on = [step.pipeline.create_s3_bucket]
 
-    pipeline = pipeline.test_update_s3_bucket_versioning_enable_disable
+    pipeline = pipeline.test_put_s3_bucket_versioning_enable_disable
     args     = step.transform.base_args.output.base_args
 
     # Ignore errors so we always delete
@@ -56,7 +56,7 @@ pipeline "test_update_s3_bucket_versioning" {
 
   step "pipeline" "delete_s3_bucket" {
     if         = !is_error(step.pipeline.create_s3_bucket)
-    depends_on = [step.pipeline.test_update_s3_bucket_versioning_enable_disable]
+    depends_on = [step.pipeline.test_put_s3_bucket_versioning_enable_disable]
 
     pipeline = pipeline.delete_s3_bucket
     args     = step.transform.base_args.output.base_args
@@ -71,14 +71,14 @@ pipeline "test_update_s3_bucket_versioning" {
     description = "Test results for each step."
     value       = {
       "create_s3_bucket"                    = !is_error(step.pipeline.create_s3_bucket) ? "pass" : "fail: ${error_message(step.pipeline.create_s3_bucket)}"
-      "enable_disable_s3_bucket_versioning" = step.pipeline.test_update_s3_bucket_versioning_enable_disable.output
+      "enable_disable_s3_bucket_versioning" = step.pipeline.test_put_s3_bucket_versioning_enable_disable.output
       "delete_s3_bucket"                    = !is_error(step.pipeline.delete_s3_bucket) ? "pass" : "fail: ${error_message(step.pipeline.create_s3_bucket)}"
     }
   }
 
 }
 
-pipeline "test_update_s3_bucket_versioning_enable_disable" {
+pipeline "test_put_s3_bucket_versioning_enable_disable" {
   title       = "Test Enable and Disable S3 Bucket Versioning"
   description = "Test enabling and disabling S3 bucket versioning."
 
@@ -119,11 +119,11 @@ pipeline "test_update_s3_bucket_versioning_enable_disable" {
 
   # New buckets have versioning disabled by default
   step "pipeline" "enable_s3_bucket_versioning" {
-    pipeline = pipeline.update_s3_bucket_versioning
+    pipeline = pipeline.put_s3_bucket_versioning
     args     = merge(step.transform.base_args.output.base_args, { versioning = true })
   }
 
-  # The update command doesn't return the new state
+  # The put command doesn't return the new state
   step "pipeline" "check_s3_bucket_versioning_enabled" {
     depends_on = [step.pipeline.enable_s3_bucket_versioning]
 
@@ -135,11 +135,11 @@ pipeline "test_update_s3_bucket_versioning_enable_disable" {
   step "pipeline" "disable_s3_bucket_versioning" {
     depends_on = [step.pipeline.check_s3_bucket_versioning_enabled]
 
-    pipeline = pipeline.update_s3_bucket_versioning
+    pipeline = pipeline.put_s3_bucket_versioning
     args     = merge(step.transform.base_args.output.base_args, { versioning = false })
   }
 
-  # The update command doesn't return the new state
+  # The put command doesn't return the new state
   step "pipeline" "check_s3_bucket_versioning_disabled" {
     depends_on = [step.pipeline.disable_s3_bucket_versioning]
 
