@@ -26,7 +26,7 @@ pipeline "create_sns_topic" {
   }
 
   step "container" "create_sns_topic" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["sns", "create-topic"],

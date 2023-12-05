@@ -26,7 +26,7 @@ pipeline "delete_ec2_snapshot" {
   }
 
   step "container" "delete_ec2_snapshot" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = [
       "ec2", "delete-snapshot",

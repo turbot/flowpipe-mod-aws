@@ -36,7 +36,7 @@ pipeline "subscribe_to_sns_topic" {
   }
 
   step "container" "subscribe_to_sns_topic" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = ["sns", "subscribe",
       "--topic-arn", param.sns_topic_arn,

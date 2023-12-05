@@ -27,7 +27,7 @@ pipeline "describe_iam_instance_profile_associations" {
   }
 
   step "container" "describe_iam_instance_profile_associations" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["ec2", "describe-iam-instance-profile-associations"],

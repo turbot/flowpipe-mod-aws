@@ -26,7 +26,7 @@ pipeline "disassociate_iam_instance_profile" {
   }
 
   step "container" "disassociate_iam_instance_profile" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["ec2", "disassociate-iam-instance-profile"],

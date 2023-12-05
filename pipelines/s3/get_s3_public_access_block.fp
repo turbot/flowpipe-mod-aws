@@ -26,7 +26,7 @@ pipeline "get_s3_public_access_block" {
   }
 
   step "container" "get_s3_public_access_block" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = ["s3api", "get-public-access-block","--bucket", param.bucket_name]
     env = {

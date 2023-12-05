@@ -26,7 +26,7 @@ pipeline "list_guardduty_findings" {
   }
 
   step "container" "list_guardduty_findings" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["guardduty", "list-findings"],

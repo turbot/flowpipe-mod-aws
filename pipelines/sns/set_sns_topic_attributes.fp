@@ -36,7 +36,7 @@ pipeline "set_sns_topic_attributes" {
   }
 
   step "container" "set_sns_topic_attributes" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["sns", "set-topic-attributes"],

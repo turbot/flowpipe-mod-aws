@@ -32,7 +32,7 @@ pipeline "modify_ec2_instance_attributes" {
   }
 
   step "container" "modify_ec2_instance_attributes" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["ec2", "modify-instance-attribute"],

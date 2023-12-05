@@ -26,7 +26,7 @@ pipeline "delete_sns_topic" {
   }
 
   step "container" "delete_sns_topic" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["sns", "delete-topic"],

@@ -26,7 +26,7 @@ pipeline "delete_sqs_queue" {
   }
 
   step "container" "delete_sqs_queue" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["sqs", "delete-queue"],

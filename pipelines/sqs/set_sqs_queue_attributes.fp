@@ -31,7 +31,7 @@ pipeline "set_sqs_queue_attributes" {
   }
 
   step "container" "set_sqs_queue_attributes" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["sqs", "set-queue-attributes"],

@@ -26,7 +26,7 @@ pipeline "delete_elb_load_balancer" {
   }
 
   step "container" "delete_elb_load_balancer" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = [
       "elb", "delete-load-balancer",

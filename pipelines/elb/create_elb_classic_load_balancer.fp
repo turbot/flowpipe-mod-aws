@@ -36,7 +36,7 @@ pipeline "create_elb_classic_load_balancer" {
   }
 
   step "container" "create_elb_classic_load_balancer" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["elb", "create-load-balancer"],

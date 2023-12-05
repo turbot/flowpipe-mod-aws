@@ -43,7 +43,7 @@ pipeline "create_lambda_function" {
   }
 
   step "container" "create_lambda_function" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["lambda", "create-function"],

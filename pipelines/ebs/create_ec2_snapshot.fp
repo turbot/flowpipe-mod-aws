@@ -26,7 +26,7 @@ pipeline "create_ec2_snapshot" {
   }
 
   step "container" "create_ec2_snapshot" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["ec2", "create-snapshot", "--volume-id", param.volume_id]

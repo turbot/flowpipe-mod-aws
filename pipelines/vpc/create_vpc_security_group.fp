@@ -37,7 +37,7 @@ pipeline "create_vpc_security_group" {
   }
 
   step "container" "create_vpc_security_group" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["ec2", "create-security-group"],

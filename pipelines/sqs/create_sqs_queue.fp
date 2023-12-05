@@ -26,7 +26,7 @@ pipeline "create_sqs_queue" {
   }
 
   step "container" "create_sqs_queue" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["sqs", "create-queue"],
