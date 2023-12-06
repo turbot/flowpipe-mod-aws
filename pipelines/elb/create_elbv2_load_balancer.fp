@@ -54,6 +54,6 @@ pipeline "create_elbv2_load_balancer" {
 
   output "load_balancers" {
     description = "Information about the load balancer."
-    value       = jsondecode(step.container.create_elbv2_load_balancer.stdout)
+    value       = jsondecode(step.container.create_elbv2_load_balancer.stdout).LoadBalancers
   }
 }

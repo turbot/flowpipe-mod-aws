@@ -54,6 +54,6 @@ pipeline "create_elb_classic_load_balancer" {
 
   output "elb_dns_name" {
     description = "The DNS name of the load balancer."
-    value       = step.container.create_elb_classic_load_balancer.stdout
+    value       = jsondecode(step.container.create_elb_classic_load_balancer.stdout).DNSName
   }
 }
