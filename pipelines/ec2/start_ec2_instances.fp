@@ -42,6 +42,6 @@ pipeline "start_ec2_instances" {
 
   output "starting_ec2_instances" {
     description = "Information about the started instances."
-    value       = jsondecode(step.container.start_ec2_instances.stdout)
+    value       = jsondecode(step.container.start_ec2_instances.stdout).StartingInstances
   }
 }

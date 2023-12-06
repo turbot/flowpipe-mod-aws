@@ -47,6 +47,6 @@ pipeline "describe_ec2_instances" {
 
   output "instances" {
     description = "The AWS CLI output."
-    value       = jsondecode(step.container.describe_ec2_instances.stdout)
+    value       = jsondecode(step.container.describe_ec2_instances.stdout).Reservations[*].Instances
   }
 }

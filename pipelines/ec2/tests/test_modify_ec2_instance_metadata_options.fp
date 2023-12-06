@@ -50,7 +50,7 @@ pipeline "test_modify_ec2_instance_metadata_options" {
       region            = param.region
       access_key_id     = param.access_key_id
       secret_access_key = param.secret_access_key
-      instance_id      = step.pipeline.run_ec2_instances.output.instance.InstanceId
+      instance_id      = step.pipeline.run_ec2_instances.output.instances[0].InstanceId
       http_tokens       = "required"
       http_endpoint     = "enabled"
     }
@@ -77,13 +77,13 @@ pipeline "test_modify_ec2_instance_metadata_options" {
       region            = param.region
       access_key_id     = param.access_key_id
       secret_access_key = param.secret_access_key
-      instance_ids      = [step.pipeline.run_ec2_instances.output.instance.InstanceId]
+      instance_ids      = [step.pipeline.run_ec2_instances.output.instances[0].InstanceId]
     }
   }
 
   output "created_instance_id" {
     description = "Instance used in the test."
-    value       = step.pipeline.run_ec2_instances.output.instance.InstanceId
+    value       = step.pipeline.run_ec2_instances.output.instances[0].InstanceId
   }
 
   output "test_results" {

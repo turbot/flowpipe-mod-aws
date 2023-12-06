@@ -53,8 +53,8 @@ pipeline "run_ec2_instances" {
     }
   }
 
-  output "instance" {
-    description = "The launched EC2 instance."
-    value       = jsondecode(step.container.run_ec2_instances.stdout).Instances[0]
+  output "instances" {
+    description = "The launched EC2 instances."
+    value       = jsondecode(step.container.run_ec2_instances.stdout).Instances
   }
 }

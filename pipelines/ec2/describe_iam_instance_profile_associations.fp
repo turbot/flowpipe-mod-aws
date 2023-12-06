@@ -41,13 +41,8 @@ pipeline "describe_iam_instance_profile_associations" {
     }
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.describe_iam_instance_profile_associations.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.describe_iam_instance_profile_associations.stderr
+  output "iam_instance_profile_associations" {
+    description = "Information about the IAM instance profile associations."
+    value       = jsondecode(step.container.describe_iam_instance_profile_associations.stdout).IamInstanceProfileAssociations
   }
 }

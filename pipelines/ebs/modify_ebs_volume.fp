@@ -58,6 +58,6 @@ pipeline "modify_ebs_volume" {
 
   output "volume_modification" {
     description = "Information about the volume modification."
-    value = jsondecode(step.container.convert_volume.stdout)
+    value = jsondecode(step.container.convert_volume.stdout).VolumeModification
   }
 }
