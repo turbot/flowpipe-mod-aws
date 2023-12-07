@@ -59,6 +59,6 @@ pipeline "modify_rds_db_instance" {
 
   output "db_instance" {
     description = "Contains the details of an Amazon RDS DB instance."
-    value       = jsondecode(step.container.modify_rds_db_instance.stdout)
+    value       = jsondecode(step.container.modify_rds_db_instance.stdout).DBInstance
   }
 }

@@ -31,6 +31,6 @@ pipeline "create_iam_policy" {
 
   output "policy" {
     description = "A structure containing details about the new policy."
-    value       = jsondecode(step.container.create_iam_policy.stdout)
+    value       = jsondecode(step.container.create_iam_policy.stdout).Policy
   }
 }

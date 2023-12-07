@@ -39,6 +39,6 @@ pipeline "tag_resources" {
 
   output "failed_resources" {
     description = "A map containing a key-value pair for each failed item that couldn’t be tagged. The key is the ARN of the failed resource."
-    value       = jsondecode(step.container.tag_resources.stdout)
+    value       = jsondecode(step.container.tag_resources.stdout).FailedResourcesMap
   }
 }

@@ -33,6 +33,6 @@ pipeline "list_iam_users" {
 
   output "users" {
     description = "A list of users."
-    value       = jsondecode(step.container.list_iam_users.stdout)
+    value       = jsondecode(step.container.list_iam_users.stdout).Users
   }
 }

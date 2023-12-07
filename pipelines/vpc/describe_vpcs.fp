@@ -33,6 +33,6 @@ pipeline "describe_vpcs" {
 
   output "vpcs" {
     description = "Information about one or more VPCs."
-    value       = jsondecode(step.container.describe_vpcs.stdout)
+    value       = jsondecode(step.container.describe_vpcs.stdout).Vpcs
   }
 }

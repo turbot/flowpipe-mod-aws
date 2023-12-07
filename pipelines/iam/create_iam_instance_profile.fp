@@ -31,6 +31,6 @@ pipeline "create_iam_instance_profile" {
 
   output "instance_profile" {
     description = "A structure containing details about the new instance profile."
-    value = jsondecode(step.container.create_iam_instance_profile.stdout)
+    value = jsondecode(step.container.create_iam_instance_profile.stdout).InstanceProfile
   }
 }

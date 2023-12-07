@@ -31,6 +31,6 @@ pipeline "list_iam_groups_for_user" {
 
   output "groups" {
     description = "A list of groups."
-    value       = jsondecode(step.container.list_groups_for_user.stdout)
+    value       = jsondecode(step.container.list_groups_for_user.stdout).Groups
   }
 }

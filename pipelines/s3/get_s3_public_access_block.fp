@@ -26,14 +26,9 @@ pipeline "get_s3_public_access_block" {
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.get_s3_public_access_block.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.get_s3_public_access_block.stderr
+  output "public_access_block_configuration" {
+    description = "The PublicAccessBlock configuration currently in effect for this Amazon S3 bucket."
+    value       = jsondecode(step.container.get_s3_public_access_block.stdout).PublicAccessBlockConfiguration
   }
 
 }

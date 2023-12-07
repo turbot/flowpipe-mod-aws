@@ -40,6 +40,6 @@ pipeline "describe_vpc_subnets" {
 
   output "subnets" {
     description = "Information about one or more subnets."
-    value       = jsondecode(step.container.describe_vpc_subnets.stdout)
+    value       = jsondecode(step.container.describe_vpc_subnets.stdout).Subnets
   }
 }

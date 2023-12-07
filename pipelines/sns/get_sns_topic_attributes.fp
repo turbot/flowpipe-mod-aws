@@ -32,6 +32,6 @@ pipeline "get_sns_topic_attributes" {
 
   output "attributes" {
     description = "A map of the topic’s attributes."
-    value       = jsondecode(step.container.get_sns_topic_attributes.stdout)
+    value       = jsondecode(step.container.get_sns_topic_attributes.stdout).Attributes
   }
 }

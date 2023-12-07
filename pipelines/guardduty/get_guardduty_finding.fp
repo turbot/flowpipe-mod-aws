@@ -36,13 +36,8 @@ pipeline "get_guardduty_finding" {
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.get_guardduty_finding.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.get_guardduty_finding.stderr
+  output "findings" {
+    description = "A list of findings."
+    value       = jsondecode(step.container.get_guardduty_finding.stdout).Findings
   }
 }

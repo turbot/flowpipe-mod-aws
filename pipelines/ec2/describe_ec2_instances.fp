@@ -46,7 +46,7 @@ pipeline "describe_ec2_instances" {
   }
 
   output "instances" {
-    description = "The AWS CLI output."
+    description = "Information about one or more EC2 instances."
     value       = jsondecode(step.container.describe_ec2_instances.stdout).Reservations[*].Instances
   }
 }

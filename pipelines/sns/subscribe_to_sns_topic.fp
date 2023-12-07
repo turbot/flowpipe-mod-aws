@@ -44,6 +44,6 @@ pipeline "subscribe_to_sns_topic" {
 
   output "subscription_arn" {
     description = "The ARN of the subscription if it is confirmed, or the string 'pending confirmation' if the subscription requires confirmation."
-    value       = step.container.subscribe_to_sns_topic.stdout
+    value       = jsondecode(step.container.subscribe_to_sns_topic.stdout).SubscriptionArn
   }
 }
