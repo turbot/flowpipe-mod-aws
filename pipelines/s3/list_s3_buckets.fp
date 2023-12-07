@@ -2,6 +2,10 @@ pipeline "list_s3_buckets" {
   title       = "List S3 Buckets"
   description = "Returns a list of all buckets owned by the authenticated sender of the request."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

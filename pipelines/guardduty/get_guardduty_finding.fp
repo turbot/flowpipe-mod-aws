@@ -2,6 +2,10 @@ pipeline "get_guardduty_finding" {
   title       = "Get GuardDuty Finding"
   description = "Get details about a specific GuardDuty finding."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

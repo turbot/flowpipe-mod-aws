@@ -2,6 +2,10 @@ pipeline "set_sqs_queue_attributes" {
   title       = "Set SQS Queue Attributes"
   description = "Sets attributes of an Amazon SQS queue."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

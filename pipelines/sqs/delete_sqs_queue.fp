@@ -2,6 +2,10 @@ pipeline "delete_sqs_queue" {
   title       = "Delete SQS Queue"
   description = "Deletes an Amazon SQS queue."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

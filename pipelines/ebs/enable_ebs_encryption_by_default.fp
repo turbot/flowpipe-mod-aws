@@ -2,6 +2,10 @@ pipeline "enable_ebs_encryption_by_default" {
   title       = "Enable EBS Encryption by Default"
   description = "Enables EBS encryption by default for your account in the current Region."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

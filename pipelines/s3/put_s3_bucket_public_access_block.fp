@@ -2,6 +2,10 @@ pipeline "put_s3_bucket_public_access_block" {
   title       = "Put S3 Public Access Block"
   description = "Creates or modifies the PublicAccessBlock configuration for an Amazon S3 bucket."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

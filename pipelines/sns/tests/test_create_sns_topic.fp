@@ -2,6 +2,10 @@ pipeline "test_create_sns_topic" {
   title       = "Test Create SNS Topic"
   description = "Test the create_sns_topic pipeline."
 
+  tags = {
+    type = "test"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

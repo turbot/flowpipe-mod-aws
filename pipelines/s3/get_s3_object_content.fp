@@ -2,6 +2,10 @@ pipeline "get_s3_object_content" {
   title       = "Get S3 Object Content"
   description = "Gets the content of an S3 object."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

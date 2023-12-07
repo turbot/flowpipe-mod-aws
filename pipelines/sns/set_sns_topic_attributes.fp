@@ -2,6 +2,10 @@ pipeline "set_sns_topic_attributes" {
   title       = "Set SNS Topic Attributes"
   description = "Sets attributes of an Amazon SNS topic."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

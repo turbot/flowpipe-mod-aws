@@ -2,6 +2,10 @@ pipeline "delete_lambda_function" {
   title       = "Delete Lambda Function"
   description = "Deletes an AWS Lambda function."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

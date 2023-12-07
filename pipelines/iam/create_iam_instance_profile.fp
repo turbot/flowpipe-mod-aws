@@ -2,6 +2,10 @@ pipeline "create_iam_instance_profile" {
   title       = "Create Instance Profile"
   description = "Creates a new instance profile."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

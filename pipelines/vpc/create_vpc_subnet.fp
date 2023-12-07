@@ -2,6 +2,10 @@ pipeline "create_vpc_subnet" {
   title       = "Create VPC Subnet"
   description = "Creates a new subnet in an existing Virtual Private Cloud (VPC) in your AWS account."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

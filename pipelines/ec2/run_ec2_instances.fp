@@ -2,6 +2,10 @@ pipeline "run_ec2_instances" {
   title       = "Launch EC2 Instances"
   description = "Launches an Amazon EC2 instance."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

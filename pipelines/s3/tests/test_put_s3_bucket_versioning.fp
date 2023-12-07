@@ -2,6 +2,10 @@ pipeline "test_put_s3_bucket_versioning" {
   title       = "Test Put S3 Bucket Versioning"
   description = "Test the put_s3_bucket_versioning pipeline."
 
+  tags = {
+    type = "test"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

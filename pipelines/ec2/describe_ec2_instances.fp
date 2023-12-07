@@ -2,6 +2,10 @@ pipeline "describe_ec2_instances" {
   title       = "Describe EC2 Instances"
   description = "Describes the specified instances or all instances."
 
+  tags = {
+    type = "featured"
+  }
+
   param "cred" {
     type        = string
     description = local.cred_param_description

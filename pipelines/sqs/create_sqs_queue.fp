@@ -2,6 +2,10 @@ pipeline "create_sqs_queue" {
   title       = "Create SQS Queue"
   description = "Creates an Amazon SQS queue."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

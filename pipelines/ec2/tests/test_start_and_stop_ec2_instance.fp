@@ -2,6 +2,10 @@ pipeline "test_start_and_stop_ec2_instance" {
   title       = "Test Start and Stop EC2 Instance"
   description = "Tests the start_ec2_instances and the start_ec2_instances pipelines."
 
+  tags = {
+    type = "test"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

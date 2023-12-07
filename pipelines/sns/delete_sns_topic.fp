@@ -2,6 +2,10 @@ pipeline "delete_sns_topic" {
   title       = "Delete SNS Topic"
   description = "Deletes an Amazon SNS topic."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

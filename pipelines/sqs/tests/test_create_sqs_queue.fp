@@ -2,6 +2,10 @@ pipeline "test_create_sqs_queue" {
   title       = "Test Create SQS Queue"
   description = "Test the create_sqs_queue pipeline."
 
+  tags = {
+    type = "test"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

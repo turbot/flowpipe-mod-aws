@@ -2,6 +2,10 @@ pipeline "modify_ebs_volume" {
   title       = "Modify EBS Volume"
   description = "Modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

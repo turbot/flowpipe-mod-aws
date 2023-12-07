@@ -2,6 +2,10 @@ pipeline "get_s3_object" {
   title       = "Get object from S3 bucket"
   description = "Gets an object from an S3 buckets owned by the authenticated sender of the request."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

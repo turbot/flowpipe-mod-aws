@@ -2,6 +2,10 @@ pipeline "delete_ec2_snapshot" {
   title       = "Delete EC2 Snapshot"
   description = "Deletes an Amazon EC2 snapshot."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

@@ -2,6 +2,10 @@ pipeline "modify_ec2_instance_metadata_options" {
   title       = "Modify EC2 Instance Metadata Options"
   description = "Modify the instance metadata parameters on a running or stopped instance."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

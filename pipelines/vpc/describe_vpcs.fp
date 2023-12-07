@@ -2,6 +2,10 @@ pipeline "describe_vpcs" {
   title       = "Describe VPCs"
   description = "Describes the specified VPCs or all VPCs."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

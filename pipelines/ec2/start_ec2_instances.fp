@@ -1,8 +1,10 @@
-# TODO: Should this be capable of starting more than 1?
-# It is more useful but harder to run for just 1 instance
 pipeline "start_ec2_instances" {
   title       = "Start EC2 Instances"
   description = "Starts an Amazon EBS-backed instance."
+
+  tags = {
+    type = "featured"
+  }
 
   param "region" {
     type        = string

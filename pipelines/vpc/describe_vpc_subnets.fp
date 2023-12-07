@@ -2,6 +2,10 @@ pipeline "describe_vpc_subnets" {
   title       = "Describe VPC Subnets"
   description = "Describes the specified VPC subnets or all subnets."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

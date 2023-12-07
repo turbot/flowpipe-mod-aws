@@ -2,6 +2,10 @@ pipeline "create_s3_bucket" {
   title       = "Create S3 Bucket"
   description = "Creates a new Amazon S3 bucket."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

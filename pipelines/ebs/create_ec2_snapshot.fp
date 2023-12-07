@@ -2,6 +2,10 @@ pipeline "create_ec2_snapshot" {
   title       = "Create EC2 Snapshot"
   description = "Creates a snapshot of the specified EBS volume."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

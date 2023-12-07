@@ -2,6 +2,10 @@ pipeline "get_s3_public_access_block" {
   title       = "Get S3 Public Access Block Configuration"
   description = "Retrieve public access block configuration for an S3 bucket in AWS."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

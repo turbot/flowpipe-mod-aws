@@ -2,6 +2,10 @@ pipeline "get_sqs_queue_attributes" {
   title       = "Get SQS Queue Attributes"
   description = "Retrieves attributes of an Amazon SQS queue."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

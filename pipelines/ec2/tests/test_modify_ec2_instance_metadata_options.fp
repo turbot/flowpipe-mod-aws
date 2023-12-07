@@ -2,6 +2,10 @@ pipeline "test_modify_ec2_instance_metadata_options" {
   title       = "Test Run EC2 Instance"
   description = "Test the run_ec2_instances pipeline."
 
+  tags = {
+    type = "test"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

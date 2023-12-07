@@ -2,6 +2,10 @@ pipeline "describe_iam_instance_profile_associations" {
   title       = "Describe IAM Instance Profile Associations"
   description = "Describes your IAM instance profile associations."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

@@ -2,6 +2,10 @@ pipeline "delete_s3_bucket" {
   title       = "Delete S3 Bucket"
   description = "Deletes an Amazon S3 bucket."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

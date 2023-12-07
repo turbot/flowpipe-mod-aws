@@ -2,6 +2,10 @@ pipeline "subscribe_to_sns_topic" {
   title       = "Subscribe to SNS Topic"
   description = "Subscribes to a specified AWS SNS topic."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

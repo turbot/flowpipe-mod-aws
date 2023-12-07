@@ -2,6 +2,10 @@ pipeline "tag_resources" {
   title       = "Tag Resources"
   description = "Applies one or more tags to the specified resources."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

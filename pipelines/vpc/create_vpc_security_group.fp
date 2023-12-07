@@ -2,6 +2,10 @@ pipeline "create_vpc_security_group" {
   title       = "Create EC2 Security Group"
   description = "Creates an Amazon EC2 security group."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

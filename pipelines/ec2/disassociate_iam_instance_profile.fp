@@ -2,6 +2,10 @@ pipeline "disassociate_iam_instance_profile" {
   title       = "Disassociate IAM Instance Profile"
   description = "Disassociate an IAM instance profile from an EC2 instance in AWS."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

@@ -2,6 +2,10 @@ pipeline "put_s3_bucket_versioning" {
   title       = "Put S3 Bucket Versioning"
   description = "Sets the versioning state of an existing bucket."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

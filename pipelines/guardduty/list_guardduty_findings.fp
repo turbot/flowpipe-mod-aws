@@ -2,6 +2,10 @@ pipeline "list_guardduty_findings" {
   title       = "List GuardDuty Findings"
   description = "List Amazon GuardDuty findings for a specified detector."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

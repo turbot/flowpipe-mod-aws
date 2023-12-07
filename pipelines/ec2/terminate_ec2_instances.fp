@@ -2,6 +2,10 @@ pipeline "terminate_ec2_instances" {
   title       = "Terminate EC2 Instances"
   description = "Terminates one or more Amazon EC2 instances."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

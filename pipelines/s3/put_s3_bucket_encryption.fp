@@ -2,6 +2,10 @@ pipeline "put_s3_bucket_encryption" {
   title       = "Put S3 Bucket Encryption"
   description = "Configures encryption settings for an Amazon S3 bucket."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

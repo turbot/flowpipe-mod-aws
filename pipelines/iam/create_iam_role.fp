@@ -2,6 +2,10 @@ pipeline "create_iam_role" {
   title       = "Create IAM Role"
   description = "Creates a new role for your Amazon Web Services account."
 
+  tags = {
+    type = "featured"
+  }
+
   param "cred" {
     type        = string
     description = local.cred_param_description

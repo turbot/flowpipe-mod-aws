@@ -2,6 +2,10 @@ pipeline "test_create_s3_bucket" {
   title       = "Test Create S3 Bucket"
   description = "Test the create_s3_bucket pipeline."
 
+  tags = {
+    type = "test"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

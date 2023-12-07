@@ -2,6 +2,10 @@ pipeline "create_vpc" {
   title       = "Create VPC"
   description = "Creates a new Virtual Private Cloud (VPC) in your AWS account."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description

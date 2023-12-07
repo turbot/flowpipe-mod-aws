@@ -2,6 +2,10 @@ pipeline "stop_ec2_instances" {
   title       = "Stop EC2 Instances"
   description = "Stops an Amazon EBS-backed instance."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description
