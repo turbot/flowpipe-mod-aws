@@ -30,8 +30,7 @@ pipeline "create_lambda_function" {
 
   param "code" {
     type        = string
-    description = "The code for the Lambda function. It can be either a S3 bucket object with a specific key or a local file path."
-    optional    = true
+    description = "The code for the function in shorthand syntax: S3Bucket=string,S3Key=string,S3ObjectVersion=string,ImageUri=string"
   }
 
   param "publish" {
@@ -47,7 +46,7 @@ pipeline "create_lambda_function" {
       ["lambda", "create-function"],
       ["--function-name", param.function_name],
       ["--role", param.role],
-      param.code ? ["--code", param.code] : [],
+      ["--code", param.code],
       param.publish ? ["--publish"] : [],
     )
 

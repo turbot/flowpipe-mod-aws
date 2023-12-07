@@ -6,12 +6,6 @@ pipeline "list_iam_users" {
     type = "featured"
   }
 
-  param "region" {
-    type        = string
-    description = local.region_param_description
-    default     = var.region
-  }
-
   param "cred" {
     type        = string
     description = local.cred_param_description
@@ -32,7 +26,7 @@ pipeline "list_iam_users" {
       param.path_prefix != null ? ["--path-prefix", "${param.path_prefix}"] : []
     )
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = credential.aws[param.cred].env
   }
 
   output "users" {

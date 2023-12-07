@@ -6,12 +6,6 @@ pipeline "create_iam_instance_profile" {
     type = "featured"
   }
 
-  param "region" {
-    type        = string
-    description = local.region_param_description
-    default     = var.region
-  }
-
   param "cred" {
     type        = string
     description = local.cred_param_description
@@ -30,7 +24,7 @@ pipeline "create_iam_instance_profile" {
       "--instance-profile-name", param.instance_profile_name,
     ]
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = credential.aws[param.cred].env
   }
 
   output "instance_profile" {
