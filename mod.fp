@@ -4,7 +4,7 @@ mod "aws" {
   color         = "#FF9900"
   documentation = file("./docs/index.md")
   icon          = "/images/flowpipe/mods/turbot/aws.svg"
-  categories    = ["aws"]
+  categories    = ["aws", "public cloud"]
 
   opengraph {
     title       = "AWS Mod for Flowpipe"
