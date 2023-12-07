@@ -8,16 +8,10 @@ pipeline "enable_ebs_encryption_by_default" {
     default     = var.region
   }
 
-  param "access_key_id" {
+  param "cred" {
     type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   step "container" "enable_ebs_encryption_by_default" {
@@ -27,11 +21,7 @@ pipeline "enable_ebs_encryption_by_default" {
     cmd   = [
       "ec2", "enable-ebs-encryption-by-default"
     ]
-    env = {
-      AWS_REGION            = var.region
-      AWS_ACCESS_KEY_ID     = var.access_key_id
-      AWS_SECRET_ACCESS_KEY = var.secret_access_key
-    }
+    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
   output "ebs_encryption_by_default" {

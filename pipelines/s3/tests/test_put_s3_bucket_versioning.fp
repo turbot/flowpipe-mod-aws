@@ -8,18 +8,6 @@ pipeline "test_put_s3_bucket_versioning" {
     default     = var.region
   }
 
-  param "access_key_id" {
-    type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
-  }
-
   param "bucket" {
     type        = string
     description = "The name of the bucket."
@@ -29,10 +17,8 @@ pipeline "test_put_s3_bucket_versioning" {
   step "transform" "base_args" {
     output "base_args" {
       value = {
-        region            = param.region
-        access_key_id     = param.access_key_id
-        secret_access_key = param.secret_access_key
-        bucket            = param.bucket
+        region = param.region
+        bucket = param.bucket
       }
     }
   }
@@ -88,16 +74,10 @@ pipeline "test_put_s3_bucket_versioning_enable_disable" {
     default     = var.region
   }
 
-  param "access_key_id" {
+  param "cred" {
     type        = string
-    description = "The ID for this access key."
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = "The secret key used to sign requests."
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "bucket" {
@@ -109,10 +89,8 @@ pipeline "test_put_s3_bucket_versioning_enable_disable" {
   step "transform" "base_args" {
     output "base_args" {
       value = {
-        region            = param.region
-        access_key_id     = param.access_key_id
-        secret_access_key = param.secret_access_key
-        bucket            = param.bucket
+        region = param.region
+        bucket = param.bucket
       }
     }
   }

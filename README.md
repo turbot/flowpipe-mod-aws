@@ -42,7 +42,7 @@ vi flowpipe.pvars
 
 It's recommended to configure credentials through [input variables](https://flowpipe.io/docs/using-flowpipe/mod-variables) by setting them in the `flowpipe.pvars` file.
 
-**Note:** Credentials can also be passed in each pipeline run with `--arg region=us-east-1 --arg access_key_id=YourAccessKeyID --arg secret_access_key=YourSecretAccessKey`.
+**Note:** Credentials can also be passed in each pipeline run with `--arg creds=MyAWSProfileName`.
 
 
 Additional input variables may be defined in the mod's `variables.hcl` file that can be configured to better match your environment and requirements.

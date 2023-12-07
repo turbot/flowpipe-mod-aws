@@ -8,18 +8,6 @@ pipeline "test_create_sns_topic" {
     default     = var.region
   }
 
-  param "access_key_id" {
-    type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
-  }
-
   param "topic_name" {
     type        = string
     description = "The name of the Amazon SNS topic to create."
@@ -41,10 +29,8 @@ pipeline "test_create_sns_topic" {
   step "pipeline" "create_sns_topic" {
     pipeline = pipeline.create_sns_topic
     args = {
-      region            = param.region
-      access_key_id     = param.access_key_id
-      secret_access_key = param.secret_access_key
-      name              = param.topic_name
+      region = param.region
+      name   = param.topic_name
     }
   }
 
@@ -53,12 +39,10 @@ pipeline "test_create_sns_topic" {
     depends_on = [step.pipeline.create_sns_topic]
     pipeline = pipeline.set_sns_topic_attributes
     args = {
-      region            = param.region
-      access_key_id     = param.access_key_id
-      secret_access_key = param.secret_access_key
-      topic_arn         = step.pipeline.create_sns_topic.output.topic_arn
-      attribute_name    = param.attribute_name
-      attribute_value   = param.attribute_value
+      region          = param.region
+      topic_arn       = step.pipeline.create_sns_topic.output.topic_arn
+      attribute_name  = param.attribute_name
+      attribute_value = param.attribute_value
     }
   }
 
@@ -67,10 +51,8 @@ pipeline "test_create_sns_topic" {
     depends_on = [step.pipeline.set_sns_topic_attributes]
     pipeline = pipeline.get_sns_topic_attributes
     args = {
-      region            = param.region
-      access_key_id     = param.access_key_id
-      secret_access_key = param.secret_access_key
-      topic_arn         = step.pipeline.create_sns_topic.output.topic_arn
+      region    = param.region
+      topic_arn = step.pipeline.create_sns_topic.output.topic_arn
     }
   }
 
@@ -80,10 +62,8 @@ pipeline "test_create_sns_topic" {
 
     pipeline = pipeline.delete_sns_topic
     args = {
-      region            = param.region
-      access_key_id     = param.access_key_id
-      secret_access_key = param.secret_access_key
-      topic_arn         = step.pipeline.create_sns_topic.output.topic_arn
+      region    = param.region
+      topic_arn = step.pipeline.create_sns_topic.output.topic_arn
     }
   }
 

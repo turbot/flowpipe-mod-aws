@@ -8,18 +8,6 @@ pipeline "test_start_and_stop_ec2_instance" {
     default     = var.region
   }
 
-  param "access_key_id" {
-    type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
-  }
-
   param "instance_type" {
     type        = string
     description = "The EC2 instance type (e.g., t2.micro)."
@@ -35,11 +23,9 @@ pipeline "test_start_and_stop_ec2_instance" {
   step "pipeline" "run_ec2_instances" {
     pipeline = pipeline.run_ec2_instances
     args = {
-      region            = param.region
-      access_key_id     = param.access_key_id
-      secret_access_key = param.secret_access_key
-      instance_type     = param.instance_type
-      image_id          = param.image_id
+      region        = param.region
+      instance_type = param.instance_type
+      image_id      = param.image_id
     }
   }
 
@@ -47,10 +33,8 @@ pipeline "test_start_and_stop_ec2_instance" {
     if = !is_error(step.pipeline.run_ec2_instances)
     pipeline = pipeline.stop_ec2_instances
     args = {
-      region            = param.region
-      access_key_id     = param.access_key_id
-      secret_access_key = param.secret_access_key
-      instance_ids      = [step.pipeline.run_ec2_instances.output.instances[0].InstanceId]
+      region       = param.region
+      instance_ids = [step.pipeline.run_ec2_instances.output.instances[0].InstanceId]
     }
 
     # Wait for the instance to be in running state
@@ -65,10 +49,8 @@ pipeline "test_start_and_stop_ec2_instance" {
     depends_on = [step.pipeline.stop_ec2_instances]
     pipeline = pipeline.start_ec2_instances
     args = {
-      region            = param.region
-      access_key_id     = param.access_key_id
-      secret_access_key = param.secret_access_key
-      instance_ids      = [step.pipeline.run_ec2_instances.output.instances[0].InstanceId]
+      region       = param.region
+      instance_ids = [step.pipeline.run_ec2_instances.output.instances[0].InstanceId]
     }
 
     # Wait for the instance to be in stopped state
@@ -85,10 +67,8 @@ pipeline "test_start_and_stop_ec2_instance" {
 
     pipeline = pipeline.terminate_ec2_instances
     args = {
-      region            = param.region
-      access_key_id     = param.access_key_id
-      secret_access_key = param.secret_access_key
-      instance_ids      = [step.pipeline.run_ec2_instances.output.instances[0].InstanceId]
+      region       = param.region
+      instance_ids = [step.pipeline.run_ec2_instances.output.instances[0].InstanceId]
     }
   }
 

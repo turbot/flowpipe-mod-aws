@@ -8,18 +8,6 @@ pipeline "test_create_sqs_queue" {
     default     = var.region
   }
 
-  param "access_key_id" {
-    type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
-  }
-
   param "queue_name" {
     type        = string
     description = "The name of the Amazon SQS queue to create."
@@ -37,10 +25,8 @@ pipeline "test_create_sqs_queue" {
   step "pipeline" "create_sqs_queue" {
     pipeline = pipeline.create_sqs_queue
     args = {
-      region            = param.region
-      access_key_id     = param.access_key_id
-      secret_access_key = param.secret_access_key
-      queue_name        = param.queue_name
+      region     = param.region
+      queue_name = param.queue_name
     }
   }
 
@@ -49,11 +35,9 @@ pipeline "test_create_sqs_queue" {
     depends_on = [step.pipeline.create_sqs_queue]
     pipeline = pipeline.set_sqs_queue_attributes
     args = {
-      region            = param.region
-      access_key_id     = param.access_key_id
-      secret_access_key = param.secret_access_key
-      queue_url         = step.pipeline.create_sqs_queue.output.queue_url
-      attributes        = param.attributes
+      region     = param.region
+      queue_url  = step.pipeline.create_sqs_queue.output.queue_url
+      attributes = param.attributes
     }
   }
 
@@ -62,10 +46,8 @@ pipeline "test_create_sqs_queue" {
     depends_on = [step.pipeline.set_sqs_queue_attributes]
     pipeline = pipeline.get_sqs_queue_attributes
     args = {
-      region            = param.region
-      access_key_id     = param.access_key_id
-      secret_access_key = param.secret_access_key
-      queue_url         = step.pipeline.create_sqs_queue.output.queue_url
+      region    = param.region
+      queue_url = step.pipeline.create_sqs_queue.output.queue_url
     }
   }
 
@@ -75,10 +57,8 @@ pipeline "test_create_sqs_queue" {
 
     pipeline = pipeline.delete_sqs_queue
     args = {
-      region            = param.region
-      access_key_id     = param.access_key_id
-      secret_access_key = param.secret_access_key
-      queue_url         = step.pipeline.create_sqs_queue.output.queue_url
+      region    = param.region
+      queue_url = step.pipeline.create_sqs_queue.output.queue_url
     }
   }
 

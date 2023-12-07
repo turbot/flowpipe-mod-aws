@@ -2,16 +2,10 @@ pipeline "put_iam_role_policy" {
   title       = "Put IAM Role Policy"
   description = "Adds or updates an inline policy document that is embedded in the specified IAM role."
 
-  param "access_key_id" {
+  param "cred" {
     type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "role_name" {
@@ -38,9 +32,6 @@ pipeline "put_iam_role_policy" {
       "--policy-document", param.policy_document,
     ]
 
-    env = {
-      AWS_ACCESS_KEY_ID     = param.access_key_id
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
+    env = credential.aws[param.cred].env
   }
 }

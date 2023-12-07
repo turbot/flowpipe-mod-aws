@@ -4,7 +4,7 @@ pipeline "list_iam_access_keys" {
 
   param "cred" {
     type        = string
-    description = "Name for credentials to use. If not provided, the default credentials will be used."
+    description = local.cred_param_description
     default     = "default"
   }
 
