@@ -6,6 +6,12 @@ pipeline "test_put_s3_bucket_versioning" {
     type = "test"
   }
 
+  param "cred" {
+    type        = string
+    description = local.cred_param_description
+    default     = "default"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description
@@ -21,6 +27,7 @@ pipeline "test_put_s3_bucket_versioning" {
   step "transform" "base_args" {
     output "base_args" {
       value = {
+        cred   = param.cred
         region = param.region
         bucket = param.bucket
       }
@@ -93,6 +100,7 @@ pipeline "test_put_s3_bucket_versioning_enable_disable" {
   step "transform" "base_args" {
     output "base_args" {
       value = {
+        cred   = param.cred
         region = param.region
         bucket = param.bucket
       }
@@ -111,7 +119,6 @@ pipeline "test_put_s3_bucket_versioning_enable_disable" {
 
     pipeline = pipeline.get_s3_bucket_versioning
     args     = step.transform.base_args.output.base_args
-
   }
 
   step "pipeline" "disable_s3_bucket_versioning" {

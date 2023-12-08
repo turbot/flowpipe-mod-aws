@@ -6,6 +6,12 @@ pipeline "test_create_s3_bucket" {
     type = "test"
   }
 
+  param "cred" {
+    type        = string
+    description = local.cred_param_description
+    default     = "default"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description
@@ -22,6 +28,7 @@ pipeline "test_create_s3_bucket" {
     output "base_args" {
       value = {
         bucket = param.bucket
+        cred   = param.cred
         region = param.region
       }
     }
@@ -38,6 +45,7 @@ pipeline "test_create_s3_bucket" {
 
     pipeline = pipeline.list_s3_buckets
     args = {
+      cred  = param.cred
      region = param.region
     }
 
