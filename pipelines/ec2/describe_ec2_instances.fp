@@ -49,8 +49,9 @@ pipeline "describe_ec2_instances" {
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
+  # Transform the reservation list of instance lists into a single list of instances for output.
   output "instances" {
     description = "Information about one or more EC2 instances."
-    value       = jsondecode(step.container.describe_ec2_instances.stdout).Reservations[*].Instances
+    value       = flatten(jsondecode(step.container.describe_ec2_instances.stdout).Reservations.*.Instances)
   }
 }
