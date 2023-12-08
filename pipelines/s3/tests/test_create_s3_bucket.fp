@@ -46,7 +46,7 @@ pipeline "test_create_s3_bucket" {
     pipeline = pipeline.list_s3_buckets
     args = {
       cred  = param.cred
-     region = param.region
+      region = param.region
     }
 
     # Ignore errors so we can always delete
