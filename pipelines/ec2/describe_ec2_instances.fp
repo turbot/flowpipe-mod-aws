@@ -2,9 +2,13 @@ pipeline "describe_ec2_instances" {
   title       = "Describe EC2 Instances"
   description = "Describes the specified instances or all instances."
 
+  tags = {
+    type = "featured"
+  }
+
   param "cred" {
     type        = string
-    description = "Name for credentials to use. If not provided, the default credentials will be used."
+    description = local.cred_param_description
     default     = "default"
   }
 
@@ -45,13 +49,9 @@ pipeline "describe_ec2_instances" {
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.describe_ec2_instances.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.describe_ec2_instances.stderr
+  # Transform the reservation list of instance lists into a single list of instances for output.
+  output "instances" {
+    description = "Information about one or more EC2 instances."
+    value       = flatten(jsondecode(step.container.describe_ec2_instances.stdout).Reservations.*.Instances)
   }
 }

@@ -8,16 +8,14 @@ pipeline "create_lambda_function" {
     default     = var.region
   }
 
-  param "access_key_id" {
-    type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
+  tags = {
+    type = "featured"
   }
 
-  param "secret_access_key" {
+  param "cred" {
     type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "function_name" {
@@ -32,8 +30,7 @@ pipeline "create_lambda_function" {
 
   param "code" {
     type        = string
-    description = "The code for the Lambda function. It can be either a S3 bucket object with a specific key or a local file path."
-    optional    = true
+    description = "The code for the function in shorthand syntax: S3Bucket=string,S3Key=string,S3ObjectVersion=string,ImageUri=string"
   }
 
   param "publish" {
@@ -43,30 +40,21 @@ pipeline "create_lambda_function" {
   }
 
   step "container" "create_lambda_function" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["lambda", "create-function"],
       ["--function-name", param.function_name],
       ["--role", param.role],
-      param.code ? ["--code", param.code] : [],
+      ["--code", param.code],
       param.publish ? ["--publish"] : [],
     )
 
-    env = {
-      AWS_REGION            = param.region
-      AWS_ACCESS_KEY_ID     = param.access_key_id
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
+    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
+  output "function" {
+    description = "The Lambda function."
     value       = jsondecode(step.container.create_lambda_function.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.create_lambda_function.stderr
   }
 }

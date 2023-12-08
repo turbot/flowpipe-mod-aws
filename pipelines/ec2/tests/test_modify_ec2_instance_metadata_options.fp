@@ -1,23 +1,15 @@
 pipeline "test_modify_ec2_instance_metadata_options" {
   title       = "Test Run EC2 Instance"
-  description = "Test the run_ec2_instance pipeline."
+  description = "Test the run_ec2_instances pipeline."
+
+  tags = {
+    type = "test"
+  }
 
   param "region" {
     type        = string
     description = local.region_param_description
     default     = var.region
-  }
-
-  param "access_key_id" {
-    type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
   }
 
   param "instance_type" {
@@ -35,64 +27,59 @@ pipeline "test_modify_ec2_instance_metadata_options" {
   step "pipeline" "run_ec2_instances" {
     pipeline = pipeline.run_ec2_instances
     args = {
-      region            = param.region
-      access_key_id     = param.access_key_id
-      secret_access_key = param.secret_access_key
-      instance_type     = param.instance_type
-      image_id          = param.image_id
+      region        = param.region
+      instance_type = param.instance_type
+      image_id      = param.image_id
     }
   }
 
   step "pipeline" "modify_ec2_instance_metadata_options" {
-    if = step.pipeline.run_ec2_instances.stderr == ""
+    if = !is_error(step.pipeline.run_ec2_instances)
+    depends_on = [step.pipeline.run_ec2_instances]
     pipeline = pipeline.modify_ec2_instance_metadata_options
     args = {
-      region            = param.region
-      access_key_id     = param.access_key_id
-      secret_access_key = param.secret_access_key
-      instance_id      = step.pipeline.run_ec2_instances.stdout.Instances[0].InstanceId
-      http_tokens       = "required"
-      http_endpoint     = "enabled"
+      region        = param.region
+      instance_id   = step.pipeline.run_ec2_instances.output.instances[0].InstanceId
+      http_tokens   = "required"
+      http_endpoint = "enabled"
     }
 
-    // # Ignore errors so we can delete
-    // error {
-    //   ignore = true
-    // }
+    # Wait for the instance to be in running state
+    retry {
+      max_attempts = 5
+      min_interval = "5000"
+    }
+
+    error {
+      ignore  = true
+    }
+
   }
 
   step "pipeline" "terminate_ec2_instances" {
-    if = step.pipeline.run_ec2_instances.stderr == ""
+    if = !is_error(step.pipeline.run_ec2_instances)
     # Don't run before we've had a chance to describe the instance
     depends_on = [step.pipeline.modify_ec2_instance_metadata_options]
 
     pipeline = pipeline.terminate_ec2_instances
     args = {
-      region            = param.region
-      access_key_id     = param.access_key_id
-      secret_access_key = param.secret_access_key
-      instance_ids      = [step.pipeline.run_ec2_instances.stdout.Instances[0].InstanceId]
+      region       = param.region
+      instance_ids = [step.pipeline.run_ec2_instances.output.instances[0].InstanceId]
     }
   }
 
   output "created_instance_id" {
-    description = "Check for pipeline.run_ec2_instances."
-    value       = step.pipeline.run_ec2_instances.stdout.Instances[0].InstanceId
+    description = "Instance used in the test."
+    value       = step.pipeline.run_ec2_instances.output.instances[0].InstanceId
   }
 
-  output "run_ec2_instances" {
-    description = "Check for pipeline.run_ec2_instances."
-    value       = step.pipeline.run_ec2_instances.stderr == "" ? "succeeded" : "failed: ${step.pipeline.run_ec2_instances.stderr}"
-  }
-
-  output "modify_ec2_instance_metadata_options" {
-    description = "Check for pipeline.modify_ec2_instance_metadata_options."
-    value       = step.pipeline.modify_ec2_instance_metadata_options.stderr == "" ? "succeeded" : "failed: ${step.pipeline.modify_ec2_instance_metadata_options.stderr}"
-  }
-
-  output "terminate_ec2_instances" {
-    description = "Check for pipeline.terminate_ec2_instances."
-    value       = step.pipeline.terminate_ec2_instances.stderr == "" ? "succeeded" : "failed: ${step.pipeline.terminate_ec2_instances.stderr}"
+  output "test_results" {
+    description = "Test results for each step."
+    value       = {
+      "run_ec2_instances" = !is_error(step.pipeline.run_ec2_instances) ? "pass" : "fail: ${error_message(step.pipeline.run_ec2_instances)}"
+      "modify_ec2_instance_metadata_options" = !is_error(step.pipeline.modify_ec2_instance_metadata_options) ? "pass" : "fail: ${error_message(step.pipeline.modify_ec2_instance_metadata_options)}"
+      "terminate_ec2_instances" = !is_error(step.pipeline.terminate_ec2_instances) ? "pass" : "fail: ${error_message(step.pipeline.terminate_ec2_instances)}"
+    }
   }
 
 }

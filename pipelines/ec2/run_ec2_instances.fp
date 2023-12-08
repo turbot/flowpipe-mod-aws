@@ -1,6 +1,10 @@
 pipeline "run_ec2_instances" {
-  title       = "Launch EC2 Instance"
+  title       = "Launch EC2 Instances"
   description = "Launches an Amazon EC2 instance."
+
+  tags = {
+    type = "featured"
+  }
 
   param "region" {
     type        = string
@@ -8,16 +12,10 @@ pipeline "run_ec2_instances" {
     default     = var.region
   }
 
-  param "access_key_id" {
+  param "cred" {
     type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "instance_type" {
@@ -30,30 +28,27 @@ pipeline "run_ec2_instances" {
     description = "The ID of the Amazon Machine Image (AMI) to launch."
   }
 
+  param "count" {
+    type        = string
+    description = "The number of instances to launch."
+    default     = "1"
+  }
+
   step "container" "run_ec2_instances" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = [
       "ec2", "run-instances",
-      // "--region", param.region,
       "--instance-type", param.instance_type,
-      "--image-id", param.image_id
+      "--image-id", param.image_id,
+      "--count", param.count,
     ]
 
-    env = {
-      AWS_REGION            = param.region,
-      AWS_ACCESS_KEY_ID     = param.access_key_id,
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
+    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.run_ec2_instances.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.run_ec2_instances.stderr
+  output "instances" {
+    description = "The launched EC2 instances."
+    value       = jsondecode(step.container.run_ec2_instances.stdout).Instances
   }
 }

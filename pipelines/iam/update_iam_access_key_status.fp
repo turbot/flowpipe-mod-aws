@@ -2,22 +2,14 @@ pipeline "update_iam_access_key_status" {
   title       = "Update Access Key"
   description = "Changes the status of the specified access key from Active to Inactive, or vice versa. This is useful when you want to rotate access keys or to disable an access key temporarily."
 
-  param "region" {
-    type        = string
-    description = local.region_param_description
-    default     = var.region
+  tags = {
+    type = "featured"
   }
 
-  param "access_key_id" {
+  param "cred" {
     type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "user_access_key_id" {
@@ -46,19 +38,6 @@ pipeline "update_iam_access_key_status" {
       param.user_name != null ? ["--user-name", param.user_name] : []
     )
 
-    env = {
-      AWS_REGION            = param.region
-      AWS_ACCESS_KEY_ID     = param.access_key_id
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
-  }
-
-  output "stdout" {
-    description = "Confirmation message of access key status update."
-    value       = step.container.update_iam_access_key_status.stdout
-  }
-
-  output "stderr" {
-    value = step.container.update_iam_access_key_status.stderr
+    env = credential.aws[param.cred].env
   }
 }

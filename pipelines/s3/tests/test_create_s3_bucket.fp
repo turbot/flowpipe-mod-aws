@@ -2,16 +2,8 @@ pipeline "test_create_s3_bucket" {
   title       = "Test Create S3 Bucket"
   description = "Test the create_s3_bucket pipeline."
 
-  param "access_key_id" {
-    type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+  tags = {
+    type = "test"
   }
 
   param "region" {
@@ -29,10 +21,8 @@ pipeline "test_create_s3_bucket" {
   step "transform" "base_args" {
     output "base_args" {
       value = {
-        access_key_id     = param.access_key_id
-        bucket            = param.bucket
-        region            = param.region
-        secret_access_key = param.secret_access_key
+        bucket = param.bucket
+        region = param.region
       }
     }
   }
@@ -48,9 +38,7 @@ pipeline "test_create_s3_bucket" {
 
     pipeline = pipeline.list_s3_buckets
     args = {
-     region            = param.region
-     access_key_id     = param.access_key_id
-     secret_access_key = param.secret_access_key
+     region = param.region
     }
 
     # Ignore errors so we can always delete

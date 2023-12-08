@@ -2,22 +2,20 @@ pipeline "create_sns_topic" {
   title       = "Create SNS Topic"
   description = "Creates an Amazon SNS topic."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description
     default     = var.region
   }
 
-  param "access_key_id" {
+  param "cred" {
     type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "name" {
@@ -26,27 +24,18 @@ pipeline "create_sns_topic" {
   }
 
   step "container" "create_sns_topic" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["sns", "create-topic"],
       ["--name", param.name],
     )
 
-    env = {
-      AWS_REGION            = param.region
-      AWS_ACCESS_KEY_ID     = param.access_key_id
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
+    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.create_sns_topic.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.create_sns_topic.stderr
+  output "topic_arn" {
+    description = "The Amazon Resource Name (ARN) assigned to the created topic."
+    value       = jsondecode(step.container.create_sns_topic.stdout).TopicArn
   }
 }

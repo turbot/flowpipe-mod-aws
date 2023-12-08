@@ -2,22 +2,20 @@ pipeline "create_vpc_subnet" {
   title       = "Create VPC Subnet"
   description = "Creates a new subnet in an existing Virtual Private Cloud (VPC) in your AWS account."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description
     default     = var.region
   }
 
-  param "access_key_id" {
+  param "cred" {
     type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "vpc_id" {
@@ -39,20 +37,11 @@ pipeline "create_vpc_subnet" {
       "--cidr-block", param.cidr_block
     ]
 
-    env = {
-      AWS_REGION            = param.region,
-      AWS_ACCESS_KEY_ID     = param.access_key_id,
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
+    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.create_vpc_subnet.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.create_vpc_subnet.stderr
+  output "subnet" {
+    description = "Information about the subnet that was created."
+    value       = jsondecode(step.container.create_vpc_subnet.stdout).Subnet
   }
 }

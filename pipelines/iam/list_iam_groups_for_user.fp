@@ -2,22 +2,14 @@ pipeline "list_iam_groups_for_user" {
   title       = "List IAM Groups for User"
   description = "Lists the IAM groups that the specified IAM user belongs to."
 
-  param "region" {
-    type        = string
-    description = local.region_param_description
-    default     = var.region
+  tags = {
+    type = "featured"
   }
 
-  param "access_key_id" {
+  param "cred" {
     type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "user_name" {
@@ -32,20 +24,11 @@ pipeline "list_iam_groups_for_user" {
       "--user-name", param.user_name
     ]
 
-    env = {
-      AWS_REGION            = param.region
-      AWS_ACCESS_KEY_ID     = param.access_key_id
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
+    env = credential.aws[param.cred].env
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.list_groups_for_user.stdout)
-  }
-
-  output "stderr" {
-    description = "The error output from the AWS CLI."
-    value       = step.container.list_groups_for_user.stderr
+  output "groups" {
+    description = "A list of groups."
+    value       = jsondecode(step.container.list_groups_for_user.stdout).Groups
   }
 }

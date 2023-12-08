@@ -2,22 +2,14 @@ pipeline "list_iam_users" {
   title       = "List IAM Users"
   description = "Lists the IAM users that have the specified path prefix. If no path prefix is specified, the operation returns all users in the Amazon Web Services account."
 
-  param "region" {
-    type        = string
-    description = local.region_param_description
-    default     = var.region
+  tags = {
+    type = "featured"
   }
 
-  param "access_key_id" {
+  param "cred" {
     type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "path_prefix" {
@@ -34,20 +26,11 @@ pipeline "list_iam_users" {
       param.path_prefix != null ? ["--path-prefix", "${param.path_prefix}"] : []
     )
 
-    env = {
-      AWS_REGION            = param.region
-      AWS_ACCESS_KEY_ID     = param.access_key_id
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
+    env = credential.aws[param.cred].env
   }
 
-  output "stdout" {
-    description = "List of available users."
-    value       = jsondecode(step.container.list_iam_users.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value = step.container.list_iam_users.stderr
+  output "users" {
+    description = "A list of users."
+    value       = jsondecode(step.container.list_iam_users.stdout).Users
   }
 }

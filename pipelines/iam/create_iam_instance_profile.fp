@@ -2,22 +2,14 @@ pipeline "create_iam_instance_profile" {
   title       = "Create Instance Profile"
   description = "Creates a new instance profile."
 
-  param "region" {
-    type        = string
-    description = local.region_param_description
-    default     = var.region
+  tags = {
+    type = "featured"
   }
 
-  param "access_key_id" {
+  param "cred" {
     type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "instance_profile_name" {
@@ -32,20 +24,11 @@ pipeline "create_iam_instance_profile" {
       "--instance-profile-name", param.instance_profile_name,
     ]
 
-    env = {
-      AWS_REGION            = param.region
-      AWS_ACCESS_KEY_ID     = param.access_key_id
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
+    env = credential.aws[param.cred].env
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value = jsondecode(step.container.create_iam_instance_profile.stdout)
-  }
-
-   output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value = step.container.create_iam_instance_profile.stderr
+  output "instance_profile" {
+    description = "A structure containing details about the new instance profile."
+    value = jsondecode(step.container.create_iam_instance_profile.stdout).InstanceProfile
   }
 }

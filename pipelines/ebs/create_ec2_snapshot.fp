@@ -2,22 +2,20 @@ pipeline "create_ec2_snapshot" {
   title       = "Create EC2 Snapshot"
   description = "Creates a snapshot of the specified EBS volume."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description
     default     = var.region
   }
 
-  param "access_key_id" {
+  param "cred" {
     type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "volume_id" {
@@ -26,26 +24,17 @@ pipeline "create_ec2_snapshot" {
   }
 
   step "container" "create_ec2_snapshot" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["ec2", "create-snapshot", "--volume-id", param.volume_id]
     )
 
-    env = {
-      AWS_REGION            = param.region
-      AWS_ACCESS_KEY_ID     = param.access_key_id
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
+    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
+  output "snapshot" {
+    description = "Information about the created snapshot."
     value       = jsondecode(step.container.create_ec2_snapshot.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.create_ec2_snapshot.stderr
   }
 }

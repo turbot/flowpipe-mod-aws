@@ -2,22 +2,20 @@ pipeline "modify_ebs_volume" {
   title       = "Modify EBS Volume"
   description = "Modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description
     default     = var.region
   }
 
-  param "access_key_id" {
+  param "cred" {
     type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "volume_id" {
@@ -49,20 +47,11 @@ pipeline "modify_ebs_volume" {
       param.iops != null ? ["--iops", param.iops] : [],
     )
 
-    env = {
-      AWS_REGION            = param.region
-      AWS_ACCESS_KEY_ID     = param.access_key_id
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
+    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value = jsondecode(step.container.convert_volume.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value = step.container.convert_volume.stderr
+  output "volume_modification" {
+    description = "Information about the volume modification."
+    value = jsondecode(step.container.convert_volume.stdout).VolumeModification
   }
 }

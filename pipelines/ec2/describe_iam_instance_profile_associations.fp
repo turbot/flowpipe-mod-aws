@@ -2,22 +2,20 @@ pipeline "describe_iam_instance_profile_associations" {
   title       = "Describe IAM Instance Profile Associations"
   description = "Describes your IAM instance profile associations."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description
     default     = var.region
   }
 
-  param "access_key_id" {
+  param "cred" {
     type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "instance_id" {
@@ -27,27 +25,18 @@ pipeline "describe_iam_instance_profile_associations" {
   }
 
   step "container" "describe_iam_instance_profile_associations" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["ec2", "describe-iam-instance-profile-associations"],
       param.instance_id != null ? ["--filters", "Name=instance-id,Values=${param.instance_id}"] : [],
     )
 
-    env = {
-      AWS_REGION            = param.region,
-      AWS_ACCESS_KEY_ID     = param.access_key_id,
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
+    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.describe_iam_instance_profile_associations.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.describe_iam_instance_profile_associations.stderr
+  output "iam_instance_profile_associations" {
+    description = "Information about the IAM instance profile associations."
+    value       = jsondecode(step.container.describe_iam_instance_profile_associations.stdout).IamInstanceProfileAssociations
   }
 }

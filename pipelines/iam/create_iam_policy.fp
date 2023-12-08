@@ -2,16 +2,14 @@ pipeline "create_iam_policy" {
   title       = "Create IAM Policy"
   description = "Creates a new policy for your Amazon Web Services account."
 
-  param "access_key_id" {
-    type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
+  tags = {
+    type = "featured"
   }
 
-  param "secret_access_key" {
+  param "cred" {
     type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "policy_name" {
@@ -32,19 +30,11 @@ pipeline "create_iam_policy" {
       "--policy-document", param.policy_document,
     ]
 
-    env = {
-      AWS_ACCESS_KEY_ID     = param.access_key_id
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
+    env = credential.aws[param.cred].env
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.create_iam_policy.stdout)
-  }
-
-   output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.create_iam_policy.stderr
+  output "policy" {
+    description = "A structure containing details about the new policy."
+    value       = jsondecode(step.container.create_iam_policy.stdout).Policy
   }
 }

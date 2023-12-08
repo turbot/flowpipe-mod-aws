@@ -2,22 +2,20 @@ pipeline "set_sns_topic_attributes" {
   title       = "Set SNS Topic Attributes"
   description = "Sets attributes of an Amazon SNS topic."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description
     default     = var.region
   }
 
-  param "access_key_id" {
+  param "cred" {
     type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "topic_arn" {
@@ -36,7 +34,7 @@ pipeline "set_sns_topic_attributes" {
   }
 
   step "container" "set_sns_topic_attributes" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["sns", "set-topic-attributes"],
@@ -45,20 +43,6 @@ pipeline "set_sns_topic_attributes" {
       ["--attribute-value", param.attribute_value],
     )
 
-    env = {
-      AWS_REGION            = param.region
-      AWS_ACCESS_KEY_ID     = param.access_key_id
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
-  }
-
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = step.container.set_sns_topic_attributes.stdout
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.set_sns_topic_attributes.stderr
+    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 }

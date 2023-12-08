@@ -2,9 +2,13 @@ pipeline "list_iam_access_keys" {
   title       = "List Access Keys"
   description = "Returns information about the access key IDs associated with the specified IAM user. If no user is specified, the user name defaults to the current user."
 
+  tags = {
+    type = "featured"
+  }
+
   param "cred" {
     type        = string
-    description = "Name for credentials to use. If not provided, the default credentials will be used."
+    description = local.cred_param_description
     default     = "default"
   }
 
@@ -25,12 +29,8 @@ pipeline "list_iam_access_keys" {
     env = credential.aws[param.cred].env
   }
 
-  output "stdout" {
-    description = "List of access keys and their metadata."
-    value       = jsondecode(step.container.list_iam_access_keys.stdout)
-  }
-
-  output "stderr" {
-    value = step.container.list_iam_access_keys.stderr
+  output "access_keys" {
+    description = "A list of objects containing metadata about the access keys."
+    value       = jsondecode(step.container.list_iam_access_keys.stdout).AccessKeyMetadata
   }
 }

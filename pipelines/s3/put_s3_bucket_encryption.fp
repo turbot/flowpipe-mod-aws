@@ -1,6 +1,10 @@
-pipeline "update_s3_bucket_encryption" {
-  title       = "Update S3 Bucket Encryption"
+pipeline "put_s3_bucket_encryption" {
+  title       = "Put S3 Bucket Encryption"
   description = "Configures encryption settings for an Amazon S3 bucket."
+
+  tags = {
+    type = "featured"
+  }
 
   param "region" {
     type        = string
@@ -8,16 +12,10 @@ pipeline "update_s3_bucket_encryption" {
     default     = var.region
   }
 
-  param "access_key_id" {
+  param "cred" {
     type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "bucket" {
@@ -46,7 +44,7 @@ pipeline "update_s3_bucket_encryption" {
   }
 
   step "function" "build_encryption_config" {
-    src = "./pipelines/s3/functions/update_s3_bucket_encryption"
+    src = "./pipelines/s3/functions/put_s3_bucket_encryption"
     runtime = "python:3.10"
     handler = "main.build_encryption_config"
     event = {
@@ -56,7 +54,7 @@ pipeline "update_s3_bucket_encryption" {
     }
   }
 
-  step "container" "update_s3_bucket_encryption" {
+  step "container" "put_s3_bucket_encryption" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
@@ -65,10 +63,6 @@ pipeline "update_s3_bucket_encryption" {
       ["--server-side-encryption-configuration", jsonencode(step.function.build_encryption_config.result)],
     )
 
-    env = {
-      AWS_REGION            = param.region,
-      AWS_ACCESS_KEY_ID     = param.access_key_id,
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
+    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 }

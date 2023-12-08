@@ -2,22 +2,20 @@ pipeline "delete_ec2_snapshot" {
   title       = "Delete EC2 Snapshot"
   description = "Deletes an Amazon EC2 snapshot."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description
     default     = var.region
   }
 
-  param "access_key_id" {
+  param "cred" {
     type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "snapshot_id" {
@@ -26,27 +24,13 @@ pipeline "delete_ec2_snapshot" {
   }
 
   step "container" "delete_ec2_snapshot" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = [
       "ec2", "delete-snapshot",
       "--snapshot-id", param.snapshot_id,
     ]
 
-    env = {
-      AWS_REGION            = param.region,
-      AWS_ACCESS_KEY_ID     = param.access_key_id,
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
-  }
-
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.delete_ec2_snapshot.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.delete_ec2_snapshot.stderr
+    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 }

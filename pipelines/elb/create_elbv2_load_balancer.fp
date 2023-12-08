@@ -2,22 +2,20 @@ pipeline "create_elbv2_load_balancer" {
   title       = "Create ELB v2 Load Balancer"
   description = "Creates a v2 load balancer (application, network or gateway)."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description
     default     = var.region
   }
 
-  param "access_key_id" {
+  param "cred" {
     type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "name" {
@@ -36,7 +34,7 @@ pipeline "create_elbv2_load_balancer" {
   }
 
   step "container" "create_elbv2_load_balancer" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["elbv2", "create-load-balancer"],
@@ -45,20 +43,11 @@ pipeline "create_elbv2_load_balancer" {
       flatten([for az in param.availability_zones : ["--availability-zones", az]])
     )
 
-    env = {
-      AWS_REGION            = param.region
-      AWS_ACCESS_KEY_ID     = param.access_key_id
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
+    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.create_elbv2_load_balancer.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.create_elbv2_load_balancer.stderr
+  output "load_balancers" {
+    description = "Information about the load balancer."
+    value       = jsondecode(step.container.create_elbv2_load_balancer.stdout).LoadBalancers
   }
 }

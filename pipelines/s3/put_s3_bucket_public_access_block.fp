@@ -1,6 +1,10 @@
-pipeline "update_s3_bucket_public_access_block" {
-  title       = "Update S3 Public Access Block"
+pipeline "put_s3_bucket_public_access_block" {
+  title       = "Put S3 Public Access Block"
   description = "Creates or modifies the PublicAccessBlock configuration for an Amazon S3 bucket."
+
+  tags = {
+    type = "featured"
+  }
 
   param "region" {
     type        = string
@@ -8,16 +12,10 @@ pipeline "update_s3_bucket_public_access_block" {
     default     = var.region
   }
 
-  param "access_key_id" {
+  param "cred" {
     type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "bucket" {
@@ -48,7 +46,7 @@ pipeline "update_s3_bucket_public_access_block" {
     description = "Specifies whether Amazon S3 should restrict public bucket policies for this bucket."
   }
 
-  step "container" "update_s3_bucket_public_access_block" {
+  step "container" "put_s3_bucket_public_access_block" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
@@ -62,10 +60,6 @@ pipeline "update_s3_bucket_public_access_block" {
       ))]
     )
 
-    env = {
-      AWS_REGION            = param.region,
-      AWS_ACCESS_KEY_ID     = param.access_key_id,
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
+    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 }

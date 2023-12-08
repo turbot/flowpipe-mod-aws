@@ -2,22 +2,20 @@ pipeline "describe_ec2_snapshots" {
   title       = "Describe EC2 Snapshots"
   description = "Describes the specified EBS snapshots or all available snapshots."
 
+  tags = {
+    type = "featured"
+  }
+
+  param "cred" {
+    type        = string
+    description = local.cred_param_description
+    default     = "default"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description
     default     = var.region
-  }
-
-  param "access_key_id" {
-    type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
   }
 
   param "snapshot_ids" {
@@ -39,7 +37,7 @@ pipeline "describe_ec2_snapshots" {
   }
 
   step "container" "describe_ec2_snapshots" {
-    image = "amazon/aws-cli"
+    image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["ec2", "describe-snapshots"],
@@ -48,20 +46,11 @@ pipeline "describe_ec2_snapshots" {
       try(length(param.volume_ids), 0) > 0 ? concat(["--filter", "Name=volume-id,Values=${param.volume_ids}"]) : []
     )
 
-    env = {
-      AWS_REGION            = param.region
-      AWS_ACCESS_KEY_ID     = param.access_key_id
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
+    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
+  output "snapshots" {
+    description = "Information about the snapshots."
     value       = jsondecode(step.container.describe_ec2_snapshots.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.describe_ec2_snapshots.stderr
   }
 }

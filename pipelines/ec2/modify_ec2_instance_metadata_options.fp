@@ -2,22 +2,20 @@ pipeline "modify_ec2_instance_metadata_options" {
   title       = "Modify EC2 Instance Metadata Options"
   description = "Modify the instance metadata parameters on a running or stopped instance."
 
+  tags = {
+    type = "featured"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description
     default     = var.region
   }
 
-  param "access_key_id" {
+  param "cred" {
     type        = string
-    description = local.access_key_id_param_description
-    default     = var.access_key_id
-  }
-
-  param "secret_access_key" {
-    type        = string
-    description = local.secret_access_key_param_description
-    default     = var.secret_access_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "instance_id" {
@@ -47,20 +45,11 @@ pipeline "modify_ec2_instance_metadata_options" {
       param.http_endpoint != null ? ["--http-endpoint", param.http_endpoint] : [],
     )
 
-    env = {
-      AWS_REGION            = param.region
-      AWS_ACCESS_KEY_ID     = param.access_key_id
-      AWS_SECRET_ACCESS_KEY = param.secret_access_key
-    }
+    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
-  output "stdout" {
-    description = "The standard output stream from the AWS CLI."
-    value       = jsondecode(step.container.modify_ec2_instance_metadata_options.stdout)
-  }
-
-  output "stderr" {
-    description = "The standard error stream from the AWS CLI."
-    value       = step.container.modify_ec2_instance_metadata_options.stderr
+  output "instance_metadata_options" {
+    description = "The metadata options for the instance."
+    value       = jsondecode(step.container.modify_ec2_instance_metadata_options.stdout).InstanceMetadataOptions
   }
 }
