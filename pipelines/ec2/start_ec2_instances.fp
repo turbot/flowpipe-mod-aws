@@ -2,10 +2,6 @@ pipeline "start_ec2_instances" {
   title       = "Start EC2 Instances"
   description = "Starts an Amazon EBS-backed instance."
 
-  tags = {
-    type = "featured"
-  }
-
   param "region" {
     type        = string
     description = local.region_param_description

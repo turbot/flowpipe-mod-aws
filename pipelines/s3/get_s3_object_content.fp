@@ -2,10 +2,6 @@ pipeline "get_s3_object_content" {
   title       = "Get S3 Object Content"
   description = "Gets the content of an S3 object."
 
-  tags = {
-    type = "featured"
-  }
-
   param "region" {
     type        = string
     description = local.region_param_description
@@ -30,7 +26,7 @@ pipeline "get_s3_object_content" {
 
   step "container" "get_s3_object_content" {
     image = "public.ecr.aws/aws-cli/aws-cli"
-    cmd = ["s3", "cp", "s3://${param.bucket}/${param.path_to_file}", "-"]
+    cmd   = ["s3", "cp", "s3://${param.bucket}/${param.path_to_file}", "-"]
 
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }

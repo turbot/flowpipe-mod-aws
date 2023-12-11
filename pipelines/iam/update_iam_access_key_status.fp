@@ -2,10 +2,6 @@ pipeline "update_iam_access_key_status" {
   title       = "Update Access Key"
   description = "Changes the status of the specified access key from Active to Inactive, or vice versa. This is useful when you want to rotate access keys or to disable an access key temporarily."
 
-  tags = {
-    type = "featured"
-  }
-
   param "cred" {
     type        = string
     description = local.cred_param_description

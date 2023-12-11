@@ -2,10 +2,6 @@ pipeline "get_lambda_function" {
   title       = "Get Lambda Function"
   description = "Retrieves details about an AWS Lambda function."
 
-  tags = {
-    type = "featured"
-  }
-
   param "region" {
     type        = string
     description = local.region_param_description

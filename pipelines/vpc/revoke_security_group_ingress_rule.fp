@@ -2,10 +2,6 @@ pipeline "revoke_security_group_ingress_rule" {
   title       = "Delete security group ingress rule."
   description = "Delete a security group ingress rule from an existing security group."
 
-  tags = {
-    type = "featured"
-  }
-
   param "region" {
     type        = string
     description = local.region_param_description

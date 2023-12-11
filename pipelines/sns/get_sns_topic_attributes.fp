@@ -2,10 +2,6 @@ pipeline "get_sns_topic_attributes" {
   title       = "Get SNS Topic Attributes"
   description = "Retrieves attributes of an Amazon SNS topic."
 
-  tags = {
-    type = "featured"
-  }
-
   param "region" {
     type        = string
     description = local.region_param_description

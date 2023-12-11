@@ -2,10 +2,6 @@ pipeline "describe_ec2_snapshots" {
   title       = "Describe EC2 Snapshots"
   description = "Describes the specified EBS snapshots or all available snapshots."
 
-  tags = {
-    type = "featured"
-  }
-
   param "cred" {
     type        = string
     description = local.cred_param_description

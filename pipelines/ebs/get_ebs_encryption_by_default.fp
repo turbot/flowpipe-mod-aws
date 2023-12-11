@@ -2,10 +2,6 @@ pipeline "get_ebs_encryption_by_default" {
   title       = "Get EBS Encryption by Default"
   description = "Describes whether EBS encryption by default is enabled for your account in the current Region."
 
-  tags = {
-    type = "featured"
-  }
-
   param "region" {
     type        = string
     description = local.region_param_description
@@ -29,6 +25,6 @@ pipeline "get_ebs_encryption_by_default" {
 
   output "ebs_encryption_by_default" {
     description = "Indicates whether encryption by default is enabled."
-    value = step.container.get_ebs_encryption_by_default.stdout
+    value       = step.container.get_ebs_encryption_by_default.stdout
   }
 }

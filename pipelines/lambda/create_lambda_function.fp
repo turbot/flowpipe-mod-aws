@@ -8,10 +8,6 @@ pipeline "create_lambda_function" {
     default     = var.region
   }
 
-  tags = {
-    type = "featured"
-  }
-
   param "cred" {
     type        = string
     description = local.cred_param_description

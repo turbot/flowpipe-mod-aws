@@ -45,7 +45,7 @@ pipeline "test_create_s3_bucket" {
 
     pipeline = pipeline.list_s3_buckets
     args = {
-      cred  = param.cred
+      cred   = param.cred
       region = param.region
     }
 
@@ -65,14 +65,14 @@ pipeline "test_create_s3_bucket" {
 
   output "bucket" {
     description = "Bucket name used in the test."
-    value = param.bucket
+    value       = param.bucket
   }
 
   output "test_results" {
     description = "Test results for each step."
-    value       = {
+    value = {
       "create_s3_bucket" = !is_error(step.pipeline.create_s3_bucket) ? "pass" : "fail: ${error_message(step.pipeline.create_s3_bucket)}"
-      "list_s3_buckets"  = !is_error(step.pipeline.list_s3_buckets) && length([for bucket in try(step.pipeline.list_s3_buckets.output.buckets, []) : bucket if bucket.Name == param.bucket]) > 0  ? "pass" : "fail: ${error_message(step.pipeline.list_s3_buckets)}"
+      "list_s3_buckets"  = !is_error(step.pipeline.list_s3_buckets) && length([for bucket in try(step.pipeline.list_s3_buckets.output.buckets, []) : bucket if bucket.Name == param.bucket]) > 0 ? "pass" : "fail: ${error_message(step.pipeline.list_s3_buckets)}"
       "delete_s3_bucket" = !is_error(step.pipeline.delete_s3_bucket) ? "pass" : "fail: ${error_message(step.pipeline.create_s3_bucket)}"
     }
   }

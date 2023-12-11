@@ -2,10 +2,6 @@ pipeline "delete_elb_load_balancer" {
   title       = "Delete Elastic Load Balancer"
   description = "Deletes an Amazon ELB (Elastic Load Balancer)."
 
-  tags = {
-    type = "featured"
-  }
-
   param "region" {
     type        = string
     description = local.region_param_description

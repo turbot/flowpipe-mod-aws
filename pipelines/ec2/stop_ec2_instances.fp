@@ -34,6 +34,6 @@ pipeline "stop_ec2_instances" {
 
   output "stopping_ec2_instances" {
     description = "Information about the stopped instances."
-    value = jsondecode(step.container.stop_ec2_instances.stdout).StoppingInstances
+    value       = jsondecode(step.container.stop_ec2_instances.stdout).StoppingInstances
   }
 }

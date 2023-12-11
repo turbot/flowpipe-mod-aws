@@ -2,10 +2,6 @@ pipeline "list_iam_users" {
   title       = "List IAM Users"
   description = "Lists the IAM users that have the specified path prefix. If no path prefix is specified, the operation returns all users in the Amazon Web Services account."
 
-  tags = {
-    type = "featured"
-  }
-
   param "cred" {
     type        = string
     description = local.cred_param_description
