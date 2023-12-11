@@ -6,12 +6,11 @@ A collection of [Flowpipe](https://flowpipe.io) pipelines that can be used to:
 - Create VPCs and Subnets
 - And more!
 
-![image](https://github.com/turbot/flowpipe-mod-aws/blob/main/docs/images/flowpipe_test_run.png?raw=true)
+![image](https://github.com/turbot/flowpipe-mod-aws/blob/main/docs/images/aws_ec2_start_instances.png?raw=true)
 
 ## Documentation
 
 - **[Pipelines →](https://hub.flowpipe.io/mods/turbot/aws/pipelines)**
-- **[Triggers →](https://hub.flowpipe.io/mods/turbot/aws/triggers)**
 
 ## Getting started
 
@@ -31,36 +30,76 @@ git clone https://github.com/turbot/flowpipe-mod-aws.git
 cd flowpipe-mod-aws
 ```
 
-### Configuration
+### Credentials
 
 Configure your credentials:
 
 ```sh
-cp flowpipe.pvars.example flowpipe.pvars
-vi flowpipe.pvars
+vi ~/.flowpipe/config/aws
 ```
 
-It's recommended to configure credentials through [input variables](https://flowpipe.io/docs/using-flowpipe/mod-variables) by setting them in the `flowpipe.pvars` file.
+Using a profile:
 
-**Note:** Credentials can also be passed in each pipeline run with `--arg creds=MyAWSProfileName`.
+```hcl
+credential "aws" "aws_profile" {
+  profile = "my-profile"
+}
+```
 
+Or an access key pair:
 
-Additional input variables may be defined in the mod's `variables.hcl` file that can be configured to better match your environment and requirements.
+```hcl
+credential "aws" "aws_profile" {
+  access_key = "AKIA..."
+  secret_key = "dP+C+J..."
+}
+```
 
-Variables with defaults set do not need to be explicitly set, but it may be helpful to override them.
+Or an access key pair with a session token:
 
-### Usage
+```hcl
+credential "aws" "aws_profile" {
+  access_key = "AKIA..."
+  secret_key = "dP+C+J..."
+  session_token = "AQoDX..."
+}
+```
 
-Start the Flowpipe server to get started:
+You can also set your credentials using environment variables:
+
+- `AWS_PROFILE`
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+- `AWS_PROFILE`
+
+### Configuration
+
+Configure your default region:
 
 ```sh
-flowpipe service start
+cp flowpipe.fpvars.example flowpipe.fpvars
+vi flowpipe.fpvars
 ```
+
+```
+region = "us-east-1"
+```
+
+When running a pipeline, you can override this region with `--arg region=ap-south-1`.
+
+### Usage
 
 Run a pipeline:
 
 ```sh
 flowpipe pipeline run describe_ec2_instances
+```
+
+Or you can start the Flowpipe server and run the pipeline using the server:
+
+```sh
+flowpipe server
+flowpipe pipeline run describe_ec2_instances --host local
 ```
 
 ## Passing pipeline arguments
