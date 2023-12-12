@@ -64,21 +64,6 @@ credential "aws" "aws_session_token" {
 
 For more information on credentials in Flowpipe, please see [Managing Credentials](https://flowpipe.io/docs/run/credentials).
 
-### Configuration
-
-To avoid entering the region each pipeline run, you can configure your default region by setting the `region` variable:
-
-```sh
-cp flowpipe.fpvars.example flowpipe.fpvars
-vi flowpipe.fpvars
-```
-
-```hcl
-region = "us-east-1"
-```
-
-When running a pipeline, you can override this default region with the `region` pipeline argument, e.g., `--arg region=ap-south-1`.
-
 ### Usage
 
 List pipelines:
@@ -96,7 +81,7 @@ flowpipe pipeline run describe_ec2_instances
 You can pass in pipeline arguments as well:
 
 ```sh
-flowpipe pipeline run describe_ec2_instances --arg 'instance_ids=["i-1234567890abcdef0", "i-abcdef12345"]' --arg instance_type=t2.micro
+flowpipe pipeline run describe_ec2_instances --arg 'instance_ids=["i-1234567890abcdef0", "i-abcdef12345"]' --arg instance_type=t2.micro --arg region=ap-south-1
 ```
 
 To use a specific `credential`, specify the `cred` pipeline argument:
@@ -106,6 +91,21 @@ flowpipe pipeline run describe_ec2_instances --arg cred=aws_profile --arg instan
 ```
 
 For more examples on how you can run pipelines, please see [Run Pipelines](https://flowpipe.io/docs/run/pipelines).
+
+### Configuration
+
+To avoid entering the region each pipeline run, you can configure your default region by setting the `region` variable:
+
+```sh
+cp flowpipe.fpvars.example flowpipe.fpvars
+vi flowpipe.fpvars
+```
+
+```hcl
+region = "us-east-1"
+```
+
+When running a pipeline, you can override this default region with the `region` pipeline argument, e.g., `--arg region=ap-south-1`.
 
 ## Open Source & Contributing
 
