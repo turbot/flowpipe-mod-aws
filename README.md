@@ -113,7 +113,7 @@ This repository is published under the [Apache 2.0 license](LICENSE). Please see
 
 ## Get Involved
 
-- **[Join #flowpipe in our Slack community ](https://flowpipe.io/community/join)**
+**[Join #flowpipe on Slack](https://flowpipe.io/community/join)**
 
 Want to help but not sure where to start? Pick up one of the `help wanted` issues:
 
