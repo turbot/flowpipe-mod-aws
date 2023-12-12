@@ -15,7 +15,6 @@ pipeline "test_put_s3_bucket_versioning" {
   param "region" {
     type        = string
     description = local.region_param_description
-    default     = var.region
   }
 
   param "bucket" {
@@ -82,7 +81,6 @@ pipeline "test_put_s3_bucket_versioning_enable_disable" {
   param "region" {
     type        = string
     description = "The name of the Region."
-    default     = var.region
   }
 
   param "cred" {

@@ -5,7 +5,6 @@ pipeline "delete_sqs_queue" {
   param "region" {
     type        = string
     description = local.region_param_description
-    default     = var.region
   }
 
   param "cred" {

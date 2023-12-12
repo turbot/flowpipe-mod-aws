@@ -5,7 +5,6 @@ pipeline "associate_iam_ec2_instance_profile" {
   param "region" {
     type        = string
     description = local.region_param_description
-    default     = var.region
   }
 
   param "cred" {

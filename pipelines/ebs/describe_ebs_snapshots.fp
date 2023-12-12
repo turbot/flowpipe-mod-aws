@@ -11,7 +11,6 @@ pipeline "describe_ebs_snapshots" {
   param "region" {
     type        = string
     description = local.region_param_description
-    default     = var.region
   }
 
   param "snapshot_ids" {

@@ -5,7 +5,6 @@ pipeline "put_s3_bucket_public_access_block" {
   param "region" {
     type        = string
     description = local.region_param_description
-    default     = var.region
   }
 
   param "cred" {

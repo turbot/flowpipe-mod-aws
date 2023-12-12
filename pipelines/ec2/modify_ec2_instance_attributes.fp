@@ -5,7 +5,6 @@ pipeline "modify_ec2_instance_attributes" {
   param "region" {
     type        = string
     description = local.region_param_description
-    default     = var.region
   }
 
   param "cred" {

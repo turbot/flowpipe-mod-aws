@@ -5,7 +5,6 @@ pipeline "enable_ebs_encryption_by_default" {
   param "region" {
     type        = string
     description = local.region_param_description
-    default     = var.region
   }
 
   param "cred" {

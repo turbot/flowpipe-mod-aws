@@ -9,7 +9,6 @@ pipeline "create_vpc_security_group" {
   param "region" {
     type        = string
     description = local.region_param_description
-    default     = var.region
   }
 
   param "cred" {

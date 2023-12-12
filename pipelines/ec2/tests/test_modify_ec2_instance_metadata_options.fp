@@ -15,7 +15,6 @@ pipeline "test_modify_ec2_instance_metadata_options" {
   param "region" {
     type        = string
     description = local.region_param_description
-    default     = var.region
   }
 
   param "instance_type" {

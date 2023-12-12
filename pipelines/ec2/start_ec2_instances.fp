@@ -5,7 +5,6 @@ pipeline "start_ec2_instances" {
   param "region" {
     type        = string
     description = local.region_param_description
-    default     = var.region
   }
 
   param "cred" {

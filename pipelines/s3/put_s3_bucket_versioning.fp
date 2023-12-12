@@ -9,7 +9,6 @@ pipeline "put_s3_bucket_versioning" {
   param "region" {
     type        = string
     description = local.region_param_description
-    default     = var.region
   }
 
   param "cred" {

@@ -5,7 +5,6 @@ pipeline "create_elb_classic_load_balancer" {
   param "region" {
     type        = string
     description = local.region_param_description
-    default     = var.region
   }
 
   param "cred" {

@@ -5,7 +5,6 @@ pipeline "get_guardduty_finding" {
   param "region" {
     type        = string
     description = local.region_param_description
-    default     = var.region
   }
 
   param "cred" {

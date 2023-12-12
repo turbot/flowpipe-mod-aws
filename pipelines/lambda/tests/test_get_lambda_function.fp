@@ -8,6 +8,11 @@ pipeline "test_get_lambda_function" {
     default     = "default"
   }
 
+  param "region" {
+    type        = string
+    description = local.region_param_description
+  }
+
   param "function_name" {
     default = "flowpipe-test-${uuid()}"
   }
@@ -50,6 +55,7 @@ EOT
     pipeline = pipeline.create_lambda_function
     args = {
       cred          = param.cred
+      region        = param.region
       function_name = param.function_name
       role          = step.pipeline.create_iam_role.output.role.Arn
     }
@@ -61,6 +67,7 @@ EOT
     pipeline = pipeline.get_lambda_function
     args = {
       cred          = param.cred
+      region        = param.region
       function_name = param.function_name
     }
   }
@@ -71,6 +78,7 @@ EOT
     pipeline = pipeline.delete_lambda_function
     args = {
       cred          = param.cred
+      region        = param.region
       function_name = param.function_name
     }
   }
@@ -81,6 +89,7 @@ EOT
     pipeline   = pipeline.delete_iam_role
     args = {
       cred      = param.cred
+      region    = param.region
       role_name = param.role_name
     }
   }

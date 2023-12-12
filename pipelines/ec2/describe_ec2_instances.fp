@@ -11,7 +11,6 @@ pipeline "describe_ec2_instances" {
   param "region" {
     type        = string
     description = local.region_param_description
-    default     = var.region
   }
 
   param "instance_ids" {

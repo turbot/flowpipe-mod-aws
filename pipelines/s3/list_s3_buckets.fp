@@ -5,7 +5,6 @@ pipeline "list_s3_buckets" {
   param "region" {
     type        = string
     description = local.region_param_description
-    default     = var.region
   }
 
   param "cred" {
