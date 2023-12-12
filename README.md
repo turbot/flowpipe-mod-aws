@@ -32,7 +32,7 @@ cd flowpipe-mod-aws
 
 ### Credentials
 
-By default, the following environment variables will be used to authenticate:
+By default, the following environment variables will be used for authentication:
 
 - `AWS_PROFILE`
 - `AWS_ACCESS_KEY_ID`
