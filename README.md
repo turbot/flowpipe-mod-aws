@@ -21,13 +21,6 @@ brew tap turbot/tap
 brew install flowpipe
 ```
 
-Clone:
-
-```sh
-git clone https://github.com/turbot/flowpipe-mod-aws.git
-cd flowpipe-mod-aws
-```
-
 ### Credentials
 
 By default, the following environment variables will be used for authentication:
@@ -53,8 +46,8 @@ credential "aws" "aws_access_key_pair" {
 }
 
 credential "aws" "aws_session_token" {
-  access_key = "AKIA..."
-  secret_key = "dP+C+J..."
+  access_key    = "AKIA..."
+  secret_key    = "dP+C+J..."
   session_token = "AQoDX..."
 }
 ```
@@ -62,6 +55,54 @@ credential "aws" "aws_session_token" {
 For more information on credentials in Flowpipe, please see [Managing Credentials](https://flowpipe.io/docs/run/credentials).
 
 ### Usage
+
+[Initialize a mod](https://www.flowpipe.io/docs/mods/index#initializing-a-mod):
+
+```sh
+mkdir my_mod
+cd my_mod
+flowpipe mod init
+```
+
+[Install the AWS mod](https://www.flowpipe.io/docs/mods/mod-dependencies#mod-dependencies) as a dependency:
+
+```sh
+flowpipe mod install github.com/turbot/flowpipe-mod-aws
+```
+
+[Use the dependency](https://www.flowpipe.io/docs/mods/write-pipelines/index) in a pipeline step:
+
+```sh
+vi my_pipeline.fp
+```
+
+```hcl
+pipeline "my_pipeline" {
+
+  step "pipeline" "describe_ec2_instances" {
+    pipeline = aws.pipeline.describe_ec2_instances
+    args = {
+      instance_type = "t2.micro"
+      region        = "us-east-1"
+    }
+  }
+}
+```
+
+[Run the pipeline](https://www.flowpipe.io/docs/run/pipelines):
+
+```sh
+flowpipe pipeline run my_pipeline
+```
+
+### Developing
+
+Clone:
+
+```sh
+git clone https://github.com/turbot/flowpipe-mod-aws.git
+cd flowpipe-mod-aws
+```
 
 List pipelines:
 
@@ -72,37 +113,14 @@ flowpipe pipeline list
 Run a pipeline:
 
 ```sh
-flowpipe pipeline run describe_ec2_instances
-```
-
-You can pass in pipeline arguments as well:
-
-```sh
 flowpipe pipeline run describe_ec2_instances --arg 'instance_ids=["i-1234567890abcdef0", "i-abcdef12345"]' --arg instance_type=t2.micro --arg region=ap-south-1
 ```
 
 To use a specific `credential`, specify the `cred` pipeline argument:
 
 ```sh
-flowpipe pipeline run describe_ec2_instances --arg cred=aws_profile --arg instance_type=t2.micro
+flowpipe pipeline run describe_ec2_instances --arg cred=aws_profile --arg instance_type=t2.micro --arg region=us-east-1
 ```
-
-For more examples on how you can run pipelines, please see [Run Pipelines](https://flowpipe.io/docs/run/pipelines).
-
-### Configuration
-
-To avoid entering the region for each pipeline run, you can configure your default region by setting the `region` variable:
-
-```sh
-cp flowpipe.fpvars.example flowpipe.fpvars
-vi flowpipe.fpvars
-```
-
-```hcl
-region = "us-east-1"
-```
-
-When running a pipeline, you can override this default region with the `region` pipeline argument, e.g., `--arg region=ap-south-1`.
 
 ## Open Source & Contributing
 
