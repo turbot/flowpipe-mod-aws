@@ -35,7 +35,6 @@ By default, the following environment variables will be used for authentication:
 - `AWS_PROFILE`
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
-- `AWS_PROFILE`
 
 You can also create `credential` resources in configuration files:
 
@@ -92,7 +91,7 @@ For more examples on how you can run pipelines, please see [Run Pipelines](https
 
 ### Configuration
 
-To avoid entering the region each pipeline run, you can configure your default region by setting the `region` variable:
+To avoid entering the region for each pipeline run, you can configure your default region by setting the `region` variable:
 
 ```sh
 cp flowpipe.fpvars.example flowpipe.fpvars
