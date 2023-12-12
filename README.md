@@ -2,7 +2,7 @@
 
 AWS pipeline library for [Flowpipe](https://flowpipe.io), enabling seamless integration of AWS services into your workflows.
 
-<img src="https://github.com/turbot/flowpipe-mod-aws/blob/main/docs/images/aws_ec2_start_instances.png?raw=true" width="50%" />
+<img src="https://github.com/turbot/flowpipe-mod-aws/blob/main/docs/images/aws_ec2_start_instances.png?raw=true" width="50%" type="thumbnail"/>
 
 ## Documentation
 
@@ -12,7 +12,7 @@ AWS pipeline library for [Flowpipe](https://flowpipe.io), enabling seamless inte
 
 ### Requirements
 
-Docker daemon must be installed and running. Please see [Install Docker engine](https://docs.docker.com/engine/install/) for more information.
+Docker daemon must be installed and running. Please see [Install Docker Engine](https://docs.docker.com/engine/install/) for more information.
 
 ### Installation
 
@@ -62,9 +62,11 @@ credential "aws" "aws_session_token" {
 }
 ```
 
+For more information on credentials in Flowpipe, please see [Managing Credentials](https://flowpipe.io/docs/run/credentials).
+
 ### Configuration
 
-If you want to configure your default region and not need to enter it each pipeline run, you can set the `region` variable:
+To avoid entering the region each pipeline run, you can configure your default region by setting the `region` variable:
 
 ```sh
 cp flowpipe.fpvars.example flowpipe.fpvars
