@@ -2,7 +2,7 @@
 
 AWS pipeline library for [Flowpipe](https://flowpipe.io), enabling seamless integration of AWS services into your workflows.
 
-<img src="https://github.com/turbot/flowpipe-mod-aws/blob/main/docs/images/aws_ec2_start_instances.png?raw=true" width="50%">
+<img src="https://github.com/turbot/flowpipe-mod-aws/blob/main/docs/images/aws_ec2_start_instances.png?raw=true" width="50%" />
 
 ## Documentation
 
