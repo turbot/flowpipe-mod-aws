@@ -1,5 +1,5 @@
 pipeline "list_iam_access_keys" {
-  title       = "List Access Keys"
+  title       = "List IAM Access Keys"
   description = "Returns information about the access key IDs associated with the specified IAM user. If no user is specified, the user name defaults to the current user."
 
   param "cred" {

@@ -1,6 +1,6 @@
 pipeline "create_vpc_security_group" {
-  title       = "Create EC2 Security Group"
-  description = "Creates an Amazon EC2 security group."
+  title       = "Create VPC Security Group"
+  description = "Creates a security group."
 
   tags = {
     type = "featured"
