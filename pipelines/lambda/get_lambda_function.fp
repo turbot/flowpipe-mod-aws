@@ -30,7 +30,7 @@ pipeline "get_lambda_function" {
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
-  output "function_configuration" {
+  output "function" {
     description = "The configuration of the Lambda function."
     value       = jsondecode(step.container.get_lambda_function.stdout)
   }
