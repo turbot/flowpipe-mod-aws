@@ -32,7 +32,7 @@ pipeline "start_ec2_instances" {
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
-  output "starting_ec2_instances" {
+  output "instance" {
     description = "Information about the started instances."
     value       = jsondecode(step.container.start_ec2_instances.stdout).StartingInstances
   }

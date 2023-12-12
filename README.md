@@ -4,8 +4,6 @@ AWS pipeline library for [Flowpipe](https://flowpipe.io), enabling seamless inte
 
 <img src="https://github.com/turbot/flowpipe-mod-aws/blob/main/docs/images/aws_ec2_start_instances.png?raw=true" width="50%">
 
-![image](https://github.com/turbot/flowpipe-mod-aws/blob/main/docs/images/aws_ec2_start_instances.png?raw=true)
-
 ## Documentation
 
 - **[Pipelines →](https://hub.flowpipe.io/mods/turbot/aws/pipelines)**
