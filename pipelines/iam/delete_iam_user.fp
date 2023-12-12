@@ -1,19 +1,15 @@
 pipeline "delete_iam_user" {
-  title = "Delete IAM User"
+  title       = "Delete IAM User"
   description = "Deletes an IAM user."
 
-  tags = {
-    type = "featured"
-  }
-
   param "cred" {
-    type = string
+    type        = string
     description = local.cred_param_description
-    default = "default"
+    default     = "default"
   }
 
   param "user_name" {
-    type = string
+    type        = string
     description = "The name of the user to delete."
   }
 

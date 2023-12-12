@@ -2,10 +2,6 @@ pipeline "get_lambda_function" {
   title       = "Get Lambda Function"
   description = "Retrieves details about an AWS Lambda function."
 
-  tags = {
-    type = "featured"
-  }
-
   param "region" {
     type        = string
     description = local.region_param_description
@@ -34,7 +30,7 @@ pipeline "get_lambda_function" {
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
-  output "function_configuration" {
+  output "function" {
     description = "The configuration of the Lambda function."
     value       = jsondecode(step.container.get_lambda_function.stdout)
   }

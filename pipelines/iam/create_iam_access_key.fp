@@ -1,18 +1,14 @@
 pipeline "create_iam_access_key" {
-  title = "Create IAM Access Key"
+  title       = "Create IAM Access Key"
   description = "Creates a new AWS access key and secret for an IAM user."
 
-  tags = {
-    type = "featured",
-  }
-
   param "cred" {
-    type = string
+    type    = string
     default = "default"
   }
 
   param "user_name" {
-    type = string
+    type        = string
     description = "The name of the IAM user to create the access key for."
   }
 
@@ -27,7 +23,8 @@ pipeline "create_iam_access_key" {
   }
 
   output "access_key" {
-    value = jsondecode(step.container.create_access_key.stdout).AccessKey
+    description = "A structure with details about the new Access Keys."
+    value       = jsondecode(step.container.create_access_key.stdout).AccessKey
   }
 
 }

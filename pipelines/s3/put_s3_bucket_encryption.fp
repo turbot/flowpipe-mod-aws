@@ -2,10 +2,6 @@ pipeline "put_s3_bucket_encryption" {
   title       = "Put S3 Bucket Encryption"
   description = "Configures encryption settings for an Amazon S3 bucket."
 
-  tags = {
-    type = "featured"
-  }
-
   param "region" {
     type        = string
     description = local.region_param_description
@@ -44,7 +40,7 @@ pipeline "put_s3_bucket_encryption" {
   }
 
   step "function" "build_encryption_config" {
-    src = "./pipelines/s3/functions/put_s3_bucket_encryption"
+    src     = "./pipelines/s3/functions/put_s3_bucket_encryption"
     runtime = "python:3.10"
     handler = "main.build_encryption_config"
     event = {

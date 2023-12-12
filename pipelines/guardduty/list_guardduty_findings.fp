@@ -2,10 +2,6 @@ pipeline "list_guardduty_findings" {
   title       = "List GuardDuty Findings"
   description = "List Amazon GuardDuty findings for a specified detector."
 
-  tags = {
-    type = "featured"
-  }
-
   param "region" {
     type        = string
     description = local.region_param_description
@@ -35,7 +31,7 @@ pipeline "list_guardduty_findings" {
   }
 
   output "finding_ids" {
-    description = "The IDs of the findings that you’re listing."
+    description = "The IDs of the findings that you're listing."
     value       = jsondecode(step.container.list_guardduty_findings.stdout).FindingIds
   }
 }

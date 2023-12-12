@@ -1,10 +1,6 @@
-pipeline "create_ec2_snapshot" {
-  title       = "Create EC2 Snapshot"
+pipeline "create_ebs_snapshot" {
+  title       = "Create EBS Snapshot"
   description = "Creates a snapshot of the specified EBS volume."
-
-  tags = {
-    type = "featured"
-  }
 
   param "region" {
     type        = string
@@ -23,7 +19,7 @@ pipeline "create_ec2_snapshot" {
     description = "The ID of the EBS volume to create a snapshot of."
   }
 
-  step "container" "create_ec2_snapshot" {
+  step "container" "create_ebs_snapshot" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
@@ -35,6 +31,6 @@ pipeline "create_ec2_snapshot" {
 
   output "snapshot" {
     description = "Information about the created snapshot."
-    value       = jsondecode(step.container.create_ec2_snapshot.stdout)
+    value       = jsondecode(step.container.create_ebs_snapshot.stdout)
   }
 }

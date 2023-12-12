@@ -6,6 +6,12 @@ pipeline "test_create_sqs_queue" {
     type = "test"
   }
 
+  param "cred" {
+    type        = string
+    description = local.cred_param_description
+    default     = "default"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description
@@ -21,7 +27,7 @@ pipeline "test_create_sqs_queue" {
   param "attributes" {
     type        = string
     description = "A map of attributes to set."
-    default     = jsonencode({
+    default = jsonencode({
       "DelaySeconds" = "10"
     })
   }
@@ -29,16 +35,18 @@ pipeline "test_create_sqs_queue" {
   step "pipeline" "create_sqs_queue" {
     pipeline = pipeline.create_sqs_queue
     args = {
+      cred       = param.cred
       region     = param.region
       queue_name = param.queue_name
     }
   }
 
   step "pipeline" "set_sqs_queue_attributes" {
-    if = !is_error(step.pipeline.create_sqs_queue)
+    if         = !is_error(step.pipeline.create_sqs_queue)
     depends_on = [step.pipeline.create_sqs_queue]
-    pipeline = pipeline.set_sqs_queue_attributes
+    pipeline   = pipeline.set_sqs_queue_attributes
     args = {
+      cred       = param.cred
       region     = param.region
       queue_url  = step.pipeline.create_sqs_queue.output.queue_url
       attributes = param.attributes
@@ -46,17 +54,18 @@ pipeline "test_create_sqs_queue" {
   }
 
   step "pipeline" "get_sqs_queue_attributes" {
-    if = !is_error(step.pipeline.create_sqs_queue)
+    if         = !is_error(step.pipeline.create_sqs_queue)
     depends_on = [step.pipeline.set_sqs_queue_attributes]
-    pipeline = pipeline.get_sqs_queue_attributes
+    pipeline   = pipeline.get_sqs_queue_attributes
     args = {
+      cred      = param.cred
       region    = param.region
       queue_url = step.pipeline.create_sqs_queue.output.queue_url
     }
   }
 
   step "pipeline" "delete_sqs_queue" {
-    if = !is_error(step.pipeline.create_sqs_queue)
+    if         = !is_error(step.pipeline.create_sqs_queue)
     depends_on = [step.pipeline.get_sqs_queue_attributes]
 
     pipeline = pipeline.delete_sqs_queue
@@ -78,11 +87,11 @@ pipeline "test_create_sqs_queue" {
 
   output "test_results" {
     description = "Test results for each step."
-    value       = {
-      "create_sqs_queue" = !is_error(step.pipeline.create_sqs_queue) ? "pass" : "fail: ${error_message(step.pipeline.create_sqs_queue)}"
+    value = {
+      "create_sqs_queue"         = !is_error(step.pipeline.create_sqs_queue) ? "pass" : "fail: ${error_message(step.pipeline.create_sqs_queue)}"
       "set_sqs_queue_attributes" = !is_error(step.pipeline.set_sqs_queue_attributes) ? "pass" : "fail: ${error_message(step.pipeline.set_sqs_queue_attributes)}"
       "get_sqs_queue_attributes" = !is_error(step.pipeline.get_sqs_queue_attributes) ? "pass" : "fail: ${error_message(step.pipeline.get_sqs_queue_attributes)}"
-      "delete_sqs_queue" = !is_error(step.pipeline.delete_sqs_queue) ? "pass" : "fail: ${error_message(step.pipeline.delete_sqs_queue)}"
+      "delete_sqs_queue"         = !is_error(step.pipeline.delete_sqs_queue) ? "pass" : "fail: ${error_message(step.pipeline.delete_sqs_queue)}"
     }
   }
 

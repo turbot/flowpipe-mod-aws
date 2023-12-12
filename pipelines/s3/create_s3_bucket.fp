@@ -2,10 +2,6 @@ pipeline "create_s3_bucket" {
   title       = "Create S3 Bucket"
   description = "Creates a new Amazon S3 bucket."
 
-  tags = {
-    type = "featured"
-  }
-
   param "cred" {
     type        = string
     description = local.cred_param_description
@@ -26,7 +22,7 @@ pipeline "create_s3_bucket" {
   param "acl" {
     type        = string
     description = "The access control list (ACL) for the new bucket (e.g., private, public-read)."
-    optional = true
+    optional    = true
   }
 
   step "container" "create_s3_bucket" {

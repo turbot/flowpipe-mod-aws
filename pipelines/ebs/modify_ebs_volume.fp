@@ -2,10 +2,6 @@ pipeline "modify_ebs_volume" {
   title       = "Modify EBS Volume"
   description = "Modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity."
 
-  tags = {
-    type = "featured"
-  }
-
   param "region" {
     type        = string
     description = local.region_param_description
@@ -52,6 +48,6 @@ pipeline "modify_ebs_volume" {
 
   output "volume_modification" {
     description = "Information about the volume modification."
-    value = jsondecode(step.container.convert_volume.stdout).VolumeModification
+    value       = jsondecode(step.container.convert_volume.stdout).VolumeModification
   }
 }

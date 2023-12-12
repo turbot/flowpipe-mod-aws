@@ -2,10 +2,6 @@ pipeline "create_iam_policy" {
   title       = "Create IAM Policy"
   description = "Creates a new policy for your Amazon Web Services account."
 
-  tags = {
-    type = "featured"
-  }
-
   param "cred" {
     type        = string
     description = local.cred_param_description

@@ -1,10 +1,6 @@
-pipeline "describe_ec2_snapshots" {
-  title       = "Describe EC2 Snapshots"
+pipeline "describe_ebs_snapshots" {
+  title       = "Describe EBS Snapshots"
   description = "Describes the specified EBS snapshots or all available snapshots."
-
-  tags = {
-    type = "featured"
-  }
 
   param "cred" {
     type        = string
@@ -36,7 +32,7 @@ pipeline "describe_ec2_snapshots" {
     optional    = true
   }
 
-  step "container" "describe_ec2_snapshots" {
+  step "container" "describe_ebs_snapshots" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
@@ -51,6 +47,6 @@ pipeline "describe_ec2_snapshots" {
 
   output "snapshots" {
     description = "Information about the snapshots."
-    value       = jsondecode(step.container.describe_ec2_snapshots.stdout)
+    value       = jsondecode(step.container.describe_ebs_snapshots.stdout)
   }
 }

@@ -2,10 +2,6 @@ pipeline "list_iam_groups_for_user" {
   title       = "List IAM Groups for User"
   description = "Lists the IAM groups that the specified IAM user belongs to."
 
-  tags = {
-    type = "featured"
-  }
-
   param "cred" {
     type        = string
     description = local.cred_param_description

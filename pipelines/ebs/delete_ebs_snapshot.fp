@@ -1,10 +1,6 @@
-pipeline "delete_ec2_snapshot" {
-  title       = "Delete EC2 Snapshot"
+pipeline "delete_ebs_snapshot" {
+  title       = "Delete EBS Snapshot"
   description = "Deletes an Amazon EC2 snapshot."
-
-  tags = {
-    type = "featured"
-  }
 
   param "region" {
     type        = string
@@ -23,7 +19,7 @@ pipeline "delete_ec2_snapshot" {
     description = "The ID of the EC2 snapshot to delete."
   }
 
-  step "container" "delete_ec2_snapshot" {
+  step "container" "delete_ebs_snapshot" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = [

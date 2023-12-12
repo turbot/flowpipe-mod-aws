@@ -61,12 +61,12 @@ pipeline "test_put_s3_bucket_versioning" {
 
   output "bucket" {
     description = "Bucket name used in the test."
-    value = param.bucket
+    value       = param.bucket
   }
 
   output "test_results" {
     description = "Test results for each step."
-    value       = {
+    value = {
       "create_s3_bucket"                    = !is_error(step.pipeline.create_s3_bucket) ? "pass" : "fail: ${error_message(step.pipeline.create_s3_bucket)}"
       "enable_disable_s3_bucket_versioning" = step.pipeline.test_put_s3_bucket_versioning_enable_disable.output
       "delete_s3_bucket"                    = !is_error(step.pipeline.delete_s3_bucket) ? "pass" : "fail: ${error_message(step.pipeline.create_s3_bucket)}"
@@ -138,10 +138,10 @@ pipeline "test_put_s3_bucket_versioning_enable_disable" {
 
   output "test_results" {
     description = "Test results for each step."
-    value       = {
-      "enable_s3_bucket_versioning" = !is_error(step.pipeline.enable_s3_bucket_versioning) ? "pass" : "fail: ${error_message(step.pipeline.enable_s3_bucket_versioning)}"
-      "check_s3_bucket_versioning_enabled" = !is_error(step.pipeline.check_s3_bucket_versioning_enabled) ? "pass" : "fail: ${error_message(step.pipeline.check_s3_bucket_versioning_enabled)}"
-      "disable_s3_bucket_versioning" = !is_error(step.pipeline.disable_s3_bucket_versioning) ? "pass" : "fail: ${error_message(step.pipeline.disable_s3_bucket_versioning)}"
+    value = {
+      "enable_s3_bucket_versioning"         = !is_error(step.pipeline.enable_s3_bucket_versioning) ? "pass" : "fail: ${error_message(step.pipeline.enable_s3_bucket_versioning)}"
+      "check_s3_bucket_versioning_enabled"  = !is_error(step.pipeline.check_s3_bucket_versioning_enabled) ? "pass" : "fail: ${error_message(step.pipeline.check_s3_bucket_versioning_enabled)}"
+      "disable_s3_bucket_versioning"        = !is_error(step.pipeline.disable_s3_bucket_versioning) ? "pass" : "fail: ${error_message(step.pipeline.disable_s3_bucket_versioning)}"
       "check_s3_bucket_versioning_disabled" = !is_error(step.pipeline.check_s3_bucket_versioning_disabled) ? "pass" : "fail: ${error_message(step.pipeline.check_s3_bucket_versioning_disabled)}"
     }
   }

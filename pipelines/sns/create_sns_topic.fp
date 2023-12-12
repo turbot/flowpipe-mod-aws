@@ -2,10 +2,6 @@ pipeline "create_sns_topic" {
   title       = "Create SNS Topic"
   description = "Creates an Amazon SNS topic."
 
-  tags = {
-    type = "featured"
-  }
-
   param "region" {
     type        = string
     description = local.region_param_description
