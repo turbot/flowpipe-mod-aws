@@ -1,18 +1,16 @@
 # AWS Mod for Flowpipe
 
-A collection of [Flowpipe](https://flowpipe.io) pipelines that can be used to:
-- Create EC2 Instances
-- List S3 Buckets
-- Create VPCs and Subnets
-- And more!
-
-![image](https://github.com/turbot/flowpipe-mod-aws/blob/main/docs/images/aws_ec2_start_instances.png?raw=true)
+AWS pipeline library for [Flowpipe](https://flowpipe.io), enabling seamless integration of AWS services into your workflows.
 
 ## Documentation
 
 - **[Pipelines →](https://hub.flowpipe.io/mods/turbot/aws/pipelines)**
 
-## Getting started
+## Getting Started
+
+### Requirements
+
+Docker daemon must be installed and running. Please see [Install Docker Engine](https://docs.docker.com/engine/install/) for more information.
 
 ### Installation
 
@@ -32,62 +30,45 @@ cd flowpipe-mod-aws
 
 ### Credentials
 
-Configure your credentials:
-
-```sh
-vi ~/.flowpipe/config/aws
-```
-
-Using a profile:
-
-```hcl
-credential "aws" "aws_profile" {
-  profile = "my-profile"
-}
-```
-
-Or an access key pair:
-
-```hcl
-credential "aws" "aws_profile" {
-  access_key = "AKIA..."
-  secret_key = "dP+C+J..."
-}
-```
-
-Or an access key pair with a session token:
-
-```hcl
-credential "aws" "aws_profile" {
-  access_key = "AKIA..."
-  secret_key = "dP+C+J..."
-  session_token = "AQoDX..."
-}
-```
-
-You can also set your credentials using environment variables:
+By default, the following environment variables will be used for authentication:
 
 - `AWS_PROFILE`
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
 - `AWS_PROFILE`
 
-### Configuration
-
-Configure your default region:
+You can also create `credential` resources in configuration files:
 
 ```sh
-cp flowpipe.fpvars.example flowpipe.fpvars
-vi flowpipe.fpvars
+vi ~/.flowpipe/config/aws.fpc
 ```
 
-```
-region = "us-east-1"
+```hcl
+credential "aws" "aws_profile" {
+  profile = "my-profile"
+}
+
+credential "aws" "aws_access_key_pair" {
+  access_key = "AKIA..."
+  secret_key = "dP+C+J..."
+}
+
+credential "aws" "aws_session_token" {
+  access_key = "AKIA..."
+  secret_key = "dP+C+J..."
+  session_token = "AQoDX..."
+}
 ```
 
-When running a pipeline, you can override this region with `--arg region=ap-south-1`.
+For more information on credentials in Flowpipe, please see [Managing Credentials](https://flowpipe.io/docs/run/credentials).
 
 ### Usage
+
+List pipelines:
+
+```sh
+flowpipe pipeline list
+```
 
 Run a pipeline:
 
@@ -95,40 +76,46 @@ Run a pipeline:
 flowpipe pipeline run describe_ec2_instances
 ```
 
-Or you can start the Flowpipe server and run the pipeline using the server:
+You can pass in pipeline arguments as well:
 
 ```sh
-flowpipe server
-flowpipe pipeline run describe_ec2_instances --host local
+flowpipe pipeline run describe_ec2_instances --arg 'instance_ids=["i-1234567890abcdef0", "i-abcdef12345"]' --arg instance_type=t2.micro --arg region=ap-south-1
 ```
 
-## Passing pipeline arguments
-
-To pass values into pipeline [parameters](https://flowpipe.io/docs/using-flowpipe/pipeline-parameters), use the following syntax:
+To use a specific `credential`, specify the `cred` pipeline argument:
 
 ```sh
-flowpipe pipeline run describe_ec2_instances --arg instance_id=i-1234567890abcdef0
+flowpipe pipeline run describe_ec2_instances --arg cred=aws_profile --arg instance_type=t2.micro
 ```
 
-Multiple pipeline args can be passed in with separate `--arg` flags.
+For more examples on how you can run pipelines, please see [Run Pipelines](https://flowpipe.io/docs/run/pipelines).
 
-For more information on passing arguments, please see [Pipeline Args](https://flowpipe.io/docs/using-flowpipe/arguments).
+### Configuration
 
-## Contributing
+To avoid entering the region each pipeline run, you can configure your default region by setting the `region` variable:
 
-If you have an idea for additional controls or just want to help maintain and extend this mod ([or others](https://github.com/topics/flowpipe-mod)) we would love you to join the community and start contributing.
+```sh
+cp flowpipe.fpvars.example flowpipe.fpvars
+vi flowpipe.fpvars
+```
 
-- **[Join #flowpipe in our Slack community ](https://flowpipe.io/community/join)**
+```hcl
+region = "us-east-1"
+```
 
-Please see the [contribution guidelines](https://github.com/turbot/flowpipe/blob/main/CONTRIBUTING.md) and our [code of conduct](https://github.com/turbot/flowpipe/blob/main/CODE_OF_CONDUCT.md).
+When running a pipeline, you can override this default region with the `region` pipeline argument, e.g., `--arg region=ap-south-1`.
+
+## Open Source & Contributing
+
+This repository is published under the [Apache 2.0 license](https://www.apache.org/licenses/LICENSE-2.0). Please see our [code of conduct](https://github.com/turbot/.github/blob/main/CODE_OF_CONDUCT.md). We look forward to collaborating with you!
+
+[Flowpipe](https://flowpipe.io) is a product produced from this open source software, exclusively by [Turbot HQ, Inc](https://turbot.com). It is distributed under our commercial terms. Others are allowed to make their own distribution of the software, but cannot use any of the Turbot trademarks, cloud services, etc. You can learn more in our [Open Source FAQ](https://turbot.com/open-source).
+
+## Get Involved
+
+**[Join #flowpipe on Slack →](https://flowpipe.io/community/join)**
 
 Want to help but not sure where to start? Pick up one of the `help wanted` issues:
 
 - [Flowpipe](https://github.com/turbot/flowpipe/labels/help%20wanted)
 - [AWS Mod](https://github.com/turbot/flowpipe-mod-aws/labels/help%20wanted)
-
-## License
-
-This mod is licensed under the [Apache License 2.0](https://github.com/turbot/flowpipe-mod-aws/blob/main/LICENSE).
-
-Flowpipe is licensed under the [AGPLv3](https://github.com/turbot/flowpipe/blob/main/LICENSE).
