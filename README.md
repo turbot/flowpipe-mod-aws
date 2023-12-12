@@ -64,13 +64,13 @@ cd my_mod
 flowpipe mod init
 ```
 
-[Install the AWS mod](https://www.flowpipe.io/docs/mods/mod-dependencies#mod-dependencies):
+[Install the AWS mod](https://www.flowpipe.io/docs/mods/mod-dependencies#mod-dependencies) as a dependency:
 
 ```sh
 flowpipe mod install github.com/turbot/flowpipe-mod-aws
 ```
 
-[Create a new pipeline](https://www.flowpipe.io/docs/mods/write-pipelines/index):
+[Use the dependency](https://www.flowpipe.io/docs/mods/write-pipelines/index) in a pipeline step:
 
 ```sh
 vi my_pipeline.fp
