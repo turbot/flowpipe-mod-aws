@@ -1,10 +1,6 @@
-pipeline "update_iam_access_key_status" {
-  title       = "Update Access Key"
-  description = "Changes the status of the specified access key from Active to Inactive, or vice versa. This is useful when you want to rotate access keys or to disable an access key temporarily."
-
-  tags = {
-    type = "featured"
-  }
+pipeline "update_iam_access_key" {
+  title       = "Update IAM Access Key"
+  description = "Changes the status of the specified access key from Active to Inactive, or vice versa. This operation can be used to disable a user's key as part of a key rotation workflow."
 
   param "cred" {
     type        = string
@@ -12,7 +8,7 @@ pipeline "update_iam_access_key_status" {
     default     = "default"
   }
 
-  param "user_access_key_id" {
+  param "access_key_id" {
     type        = string
     description = "The access key ID for the access key ID and secret access key you want to update."
   }
@@ -28,12 +24,12 @@ pipeline "update_iam_access_key_status" {
     optional    = true
   }
 
-  step "container" "update_iam_access_key_status" {
+  step "container" "update_iam_access_key" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
       ["iam", "update-access-key"],
-      ["--access-key-id", param.user_access_key_id],
+      ["--access-key-id", param.access_key_id],
       ["--status", param.status],
       param.user_name != null ? ["--user-name", param.user_name] : []
     )

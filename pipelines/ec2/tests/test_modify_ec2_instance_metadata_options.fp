@@ -6,6 +6,12 @@ pipeline "test_modify_ec2_instance_metadata_options" {
     type = "test"
   }
 
+  param "cred" {
+    type        = string
+    description = local.cred_param_description
+    default     = "default"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description
@@ -27,6 +33,7 @@ pipeline "test_modify_ec2_instance_metadata_options" {
   step "pipeline" "run_ec2_instances" {
     pipeline = pipeline.run_ec2_instances
     args = {
+      cred          = param.cred
       region        = param.region
       instance_type = param.instance_type
       image_id      = param.image_id
@@ -34,10 +41,11 @@ pipeline "test_modify_ec2_instance_metadata_options" {
   }
 
   step "pipeline" "modify_ec2_instance_metadata_options" {
-    if = !is_error(step.pipeline.run_ec2_instances)
+    if         = !is_error(step.pipeline.run_ec2_instances)
     depends_on = [step.pipeline.run_ec2_instances]
-    pipeline = pipeline.modify_ec2_instance_metadata_options
+    pipeline   = pipeline.modify_ec2_instance_metadata_options
     args = {
+      cred          = param.cred
       region        = param.region
       instance_id   = step.pipeline.run_ec2_instances.output.instances[0].InstanceId
       http_tokens   = "required"
@@ -51,7 +59,7 @@ pipeline "test_modify_ec2_instance_metadata_options" {
     }
 
     error {
-      ignore  = true
+      ignore = true
     }
 
   }
@@ -63,6 +71,7 @@ pipeline "test_modify_ec2_instance_metadata_options" {
 
     pipeline = pipeline.terminate_ec2_instances
     args = {
+      cred         = param.cred
       region       = param.region
       instance_ids = [step.pipeline.run_ec2_instances.output.instances[0].InstanceId]
     }
@@ -75,10 +84,10 @@ pipeline "test_modify_ec2_instance_metadata_options" {
 
   output "test_results" {
     description = "Test results for each step."
-    value       = {
-      "run_ec2_instances" = !is_error(step.pipeline.run_ec2_instances) ? "pass" : "fail: ${error_message(step.pipeline.run_ec2_instances)}"
+    value = {
+      "run_ec2_instances"                    = !is_error(step.pipeline.run_ec2_instances) ? "pass" : "fail: ${error_message(step.pipeline.run_ec2_instances)}"
       "modify_ec2_instance_metadata_options" = !is_error(step.pipeline.modify_ec2_instance_metadata_options) ? "pass" : "fail: ${error_message(step.pipeline.modify_ec2_instance_metadata_options)}"
-      "terminate_ec2_instances" = !is_error(step.pipeline.terminate_ec2_instances) ? "pass" : "fail: ${error_message(step.pipeline.terminate_ec2_instances)}"
+      "terminate_ec2_instances"              = !is_error(step.pipeline.terminate_ec2_instances) ? "pass" : "fail: ${error_message(step.pipeline.terminate_ec2_instances)}"
     }
   }
 

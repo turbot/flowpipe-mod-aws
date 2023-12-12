@@ -2,10 +2,6 @@ pipeline "create_elb_classic_load_balancer" {
   title       = "Create ELB Classic Load Balancer"
   description = "Creates an classic load balancer."
 
-  tags = {
-    type = "featured"
-  }
-
   param "region" {
     type        = string
     description = local.region_param_description

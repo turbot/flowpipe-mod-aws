@@ -1,15 +1,11 @@
 pipeline "delete_iam_policy" {
-  title = "Delete IAM Policy"
+  title       = "Delete IAM Policy"
   description = "Deletes an IAM policy."
 
-  tags = {
-    type = "featured"
-  }
-
   param "cred" {
-    type = string
+    type        = string
     description = local.cred_param_description
-    default = "default"
+    default     = "default"
   }
 
   param "policy_arn" {

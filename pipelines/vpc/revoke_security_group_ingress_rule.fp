@@ -1,10 +1,6 @@
-pipeline "revoke_security_group_ingress_rule" {
-  title       = "Delete security group ingress rule."
-  description = "Delete a security group ingress rule from an existing security group."
-
-  tags = {
-    type = "featured"
-  }
+pipeline "revoke_vpc_security_group_ingress" {
+  title       = "Revoke VPC Security Group Ingress"
+  description = "Removes the specified inbound (ingress) rules from a security group."
 
   param "region" {
     type        = string

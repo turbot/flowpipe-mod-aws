@@ -1,10 +1,6 @@
 pipeline "create_elbv2_load_balancer" {
-  title       = "Create ELB v2 Load Balancer"
+  title       = "Create ELBv2 Load Balancer"
   description = "Creates a v2 load balancer (application, network or gateway)."
-
-  tags = {
-    type = "featured"
-  }
 
   param "region" {
     type        = string

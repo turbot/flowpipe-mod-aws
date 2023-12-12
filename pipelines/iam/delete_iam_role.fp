@@ -1,15 +1,11 @@
 pipeline "delete_iam_role" {
-  title = "Delete IAM Role"
+  title       = "Delete IAM Role"
   description = "Deletes an IAM role."
 
-  tags = {
-    type = "featured"
-  }
-
   param "cred" {
-    type = string
+    type        = string
     description = local.cred_param_description
-    default = "default"
+    default     = "default"
   }
 
   param "role_name" {

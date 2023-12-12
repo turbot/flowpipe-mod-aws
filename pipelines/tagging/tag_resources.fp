@@ -35,7 +35,7 @@ pipeline "tag_resources" {
       ["resourcegroupstaggingapi", "tag-resources", "--resource-arn-list"],
       param.resource_arns,
       ["--tags"],
-      [join(",", [for key, value in param.tags: "${key}=${value}"])]
+      [join(",", [for key, value in param.tags : "${key}=${value}"])]
     )
 
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })

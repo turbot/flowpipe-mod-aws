@@ -6,6 +6,12 @@ pipeline "test_create_sns_topic" {
     type = "test"
   }
 
+  param "cred" {
+    type        = string
+    description = local.cred_param_description
+    default     = "default"
+  }
+
   param "region" {
     type        = string
     description = local.region_param_description
@@ -33,16 +39,18 @@ pipeline "test_create_sns_topic" {
   step "pipeline" "create_sns_topic" {
     pipeline = pipeline.create_sns_topic
     args = {
+      cred   = param.cred
       region = param.region
       name   = param.topic_name
     }
   }
 
   step "pipeline" "set_sns_topic_attributes" {
-    if = !is_error(step.pipeline.create_sns_topic)
+    if         = !is_error(step.pipeline.create_sns_topic)
     depends_on = [step.pipeline.create_sns_topic]
-    pipeline = pipeline.set_sns_topic_attributes
+    pipeline   = pipeline.set_sns_topic_attributes
     args = {
+      cred            = param.cred
       region          = param.region
       topic_arn       = step.pipeline.create_sns_topic.output.topic_arn
       attribute_name  = param.attribute_name
@@ -51,21 +59,23 @@ pipeline "test_create_sns_topic" {
   }
 
   step "pipeline" "get_sns_topic_attributes" {
-    if = !is_error(step.pipeline.create_sns_topic)
+    if         = !is_error(step.pipeline.create_sns_topic)
     depends_on = [step.pipeline.set_sns_topic_attributes]
-    pipeline = pipeline.get_sns_topic_attributes
+    pipeline   = pipeline.get_sns_topic_attributes
     args = {
+      cred      = param.cred
       region    = param.region
       topic_arn = step.pipeline.create_sns_topic.output.topic_arn
     }
   }
 
   step "pipeline" "delete_sns_topic" {
-    if = !is_error(step.pipeline.create_sns_topic)
+    if         = !is_error(step.pipeline.create_sns_topic)
     depends_on = [step.pipeline.get_sns_topic_attributes]
 
     pipeline = pipeline.delete_sns_topic
     args = {
+      cred      = param.cred
       region    = param.region
       topic_arn = step.pipeline.create_sns_topic.output.topic_arn
     }
@@ -83,11 +93,11 @@ pipeline "test_create_sns_topic" {
 
   output "test_results" {
     description = "Test results for each step."
-    value       = {
-      "create_sns_topic" = !is_error(step.pipeline.create_sns_topic) ? "pass" : "fail: ${error_message(step.pipeline.create_sns_topic)}"
+    value = {
+      "create_sns_topic"         = !is_error(step.pipeline.create_sns_topic) ? "pass" : "fail: ${error_message(step.pipeline.create_sns_topic)}"
       "set_sns_topic_attributes" = !is_error(step.pipeline.set_sns_topic_attributes) ? "pass" : "fail: ${error_message(step.pipeline.set_sns_topic_attributes)}"
       "get_sns_topic_attributes" = !is_error(step.pipeline.get_sns_topic_attributes) ? "pass" : "fail: ${error_message(step.pipeline.get_sns_topic_attributes)}"
-      "delete_sns_topic" = !is_error(step.pipeline.delete_sns_topic) ? "pass" : "fail: ${error_message(step.pipeline.delete_sns_topic)}"
+      "delete_sns_topic"         = !is_error(step.pipeline.delete_sns_topic) ? "pass" : "fail: ${error_message(step.pipeline.delete_sns_topic)}"
     }
   }
 

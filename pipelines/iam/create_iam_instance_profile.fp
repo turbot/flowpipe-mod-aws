@@ -2,10 +2,6 @@ pipeline "create_iam_instance_profile" {
   title       = "Create Instance Profile"
   description = "Creates a new instance profile."
 
-  tags = {
-    type = "featured"
-  }
-
   param "cred" {
     type        = string
     description = local.cred_param_description
@@ -29,6 +25,6 @@ pipeline "create_iam_instance_profile" {
 
   output "instance_profile" {
     description = "A structure containing details about the new instance profile."
-    value = jsondecode(step.container.create_iam_instance_profile.stdout).InstanceProfile
+    value       = jsondecode(step.container.create_iam_instance_profile.stdout).InstanceProfile
   }
 }

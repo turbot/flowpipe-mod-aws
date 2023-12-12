@@ -2,10 +2,6 @@ pipeline "describe_ec2_instances" {
   title       = "Describe EC2 Instances"
   description = "Describes the specified instances or all instances."
 
-  tags = {
-    type = "featured"
-  }
-
   param "cred" {
     type        = string
     description = local.cred_param_description
@@ -36,6 +32,12 @@ pipeline "describe_ec2_instances" {
     optional    = true
   }
 
+  param "tags" {
+    type        = map(string)
+    description = "One or more tags. If specified, only those instances that match the tags are returned."
+    optional    = true
+  }
+
   step "container" "describe_ec2_instances" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
@@ -44,6 +46,10 @@ pipeline "describe_ec2_instances" {
       try(length(param.instance_ids), 0) > 0 ? concat(["--instance-ids"], param.instance_ids) : [],
       param.instance_type != null ? ["--filters", "Name=instance-type,Values=${param.instance_type}"] : [],
       param.ebs_optimized != null ? ["--filters", "Name=ebs-optimized,Values=${param.ebs_optimized}"] : [],
+      param.tags != null ? flatten([
+        ["--filters"],
+        [for k, v in param.tags : concat(["Name=tag:${k},Values=${v}"])]
+      ]) : []
     )
 
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })

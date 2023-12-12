@@ -2,10 +2,6 @@ pipeline "terminate_ec2_instances" {
   title       = "Terminate EC2 Instances"
   description = "Terminates one or more Amazon EC2 instances."
 
-  tags = {
-    type = "featured"
-  }
-
   param "region" {
     type        = string
     description = local.region_param_description
@@ -34,7 +30,7 @@ pipeline "terminate_ec2_instances" {
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
-  output "terminating_instances" {
+  output "instances" {
     description = "Information about the terminated instances."
     value       = jsondecode(step.container.terminate_instances.stdout).TerminatingInstances
   }

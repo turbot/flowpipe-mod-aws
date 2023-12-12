@@ -2,10 +2,6 @@ pipeline "get_s3_public_access_block" {
   title       = "Get S3 Public Access Block Configuration"
   description = "Retrieve public access block configuration for an S3 bucket in AWS."
 
-  tags = {
-    type = "featured"
-  }
-
   param "region" {
     type        = string
     description = local.region_param_description
@@ -26,7 +22,7 @@ pipeline "get_s3_public_access_block" {
   step "container" "get_s3_public_access_block" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
-    cmd = ["s3api", "get-public-access-block","--bucket", param.bucket_name]
+    cmd = ["s3api", "get-public-access-block", "--bucket", param.bucket_name]
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 

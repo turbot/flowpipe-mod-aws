@@ -2,10 +2,6 @@ pipeline "get_s3_bucket_versioning" {
   title       = "Get S3 Bucket Versioning"
   description = "Get the versioning state of an S3 bucket."
 
-  tags = {
-    type = "featured"
-  }
-
   param "region" {
     type        = string
     description = local.region_param_description

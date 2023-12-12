@@ -1,20 +1,16 @@
 pipeline "create_iam_user" {
-  title = "Create IAM User"
+  title       = "Create IAM User"
   description = "Creates an IAM user with the given name."
 
-  tags = {
-    type = "featured"
-  }
-
   param "cred" {
-    type = string
+    type        = string
     description = local.cred_param_description
-    default = "default"
+    default     = "default"
   }
 
   param "user_name" {
     description = "The name of the user to create."
-    type = string
+    type        = string
   }
 
   step "container" "create_user" {
@@ -29,6 +25,6 @@ pipeline "create_iam_user" {
 
   output "user" {
     description = "A structure with details about the new IAM user."
-    value = jsondecode(step.container.create_user.stdout).User
+    value       = jsondecode(step.container.create_user.stdout).User
   }
 }

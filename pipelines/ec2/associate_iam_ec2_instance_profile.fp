@@ -2,10 +2,6 @@ pipeline "associate_iam_ec2_instance_profile" {
   title       = "Associate IAM to EC2 Instance Profile"
   description = "Associates an IAM instance profile with a running or stopped instance. You cannot associate more than one IAM instance profile with an instance."
 
-  tags = {
-    type = "featured"
-  }
-
   param "region" {
     type        = string
     description = local.region_param_description
@@ -40,6 +36,6 @@ pipeline "associate_iam_ec2_instance_profile" {
 
   output "iam_instance_profile_association" {
     description = "The IAM instance profile association."
-    value = jsondecode(step.container.associate_iam_ec2_instance_profile.stdout).IamInstanceProfileAssociation
+    value       = jsondecode(step.container.associate_iam_ec2_instance_profile.stdout).IamInstanceProfileAssociation
   }
 }

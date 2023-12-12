@@ -2,10 +2,6 @@ pipeline "put_iam_role_policy" {
   title       = "Put IAM Role Policy"
   description = "Adds or updates an inline policy document that is embedded in the specified IAM role."
 
-  tags = {
-    type = "featured"
-  }
-
   param "cred" {
     type        = string
     description = local.cred_param_description
