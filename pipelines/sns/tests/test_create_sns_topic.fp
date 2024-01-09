@@ -41,6 +41,10 @@ pipeline "test_create_sns_topic" {
       cred   = param.cred
       region = param.region
       name   = param.topic_name
+      tags   = {
+        Name = param.topic_name
+        Disposable = "true"
+      }
     }
   }
 
