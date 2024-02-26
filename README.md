@@ -60,7 +60,7 @@ For more information on credentials, please see:
 
 ### Usage
 
-[Initialize a mod](https://flowpipe.io/docs/build#initializing-a-mod):
+Initialize a mod:
 
 ```sh
 mkdir my_mod
@@ -68,13 +68,13 @@ cd my_mod
 flowpipe mod init
 ```
 
-[Install the AWS mod](https://flowpipe.io/docs/build/mod-dependencies#mod-dependencies) as a dependency:
+Install the AWS mod as a dependency:
 
 ```sh
 flowpipe mod install github.com/turbot/flowpipe-mod-aws
 ```
 
-[Use the dependency](https://flowpipe.io/docs/build/write-pipelines) in a pipeline step:
+Use a pipeline from the mod:
 
 ```sh
 vi my_pipeline.fp
@@ -100,7 +100,7 @@ pipeline "my_pipeline" {
 }
 ```
 
-[Run the pipeline](https://flowpipe.io/docs/run/pipelines):
+Run the pipeline:
 
 ```sh
 flowpipe pipeline run my_pipeline
