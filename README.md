@@ -25,9 +25,10 @@ brew install flowpipe
 
 By default, the following environment variables will be used for authentication:
 
-- `AWS_PROFILE`
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
+- `AWS_SESSION_TOKEN`
+- `AWS_PROFILE`
 
 You can also create `credential` resources in configuration files:
 
@@ -36,27 +37,30 @@ vi ~/.flowpipe/config/aws.fpc
 ```
 
 ```hcl
-credential "aws" "aws_profile" {
+credential "aws" "default" {
   profile = "my-profile"
 }
 
-credential "aws" "aws_access_key_pair" {
+credential "aws" "access_key_pair" {
   access_key = "AKIA..."
   secret_key = "dP+C+J..."
 }
 
-credential "aws" "aws_session_token" {
+credential "aws" "session_token" {
   access_key    = "AKIA..."
   secret_key    = "dP+C+J..."
   session_token = "AQoDX..."
 }
 ```
 
-For more information on credentials in Flowpipe, please see [Managing Credentials](https://flowpipe.io/docs/run/credentials).
+For more information on credentials, please see:
+
+- [Managing Credentials](https://flowpipe.io/docs/run/credentials)
+- [AWS Credentials](https://flowpipe.io/docs/reference/config-files/credential/aws)
 
 ### Usage
 
-[Initialize a mod](https://flowpipe.io/docs/build/index#initializing-a-mod):
+[Initialize a mod](https://flowpipe.io/docs/build#initializing-a-mod):
 
 ```sh
 mkdir my_mod
@@ -70,7 +74,7 @@ flowpipe mod init
 flowpipe mod install github.com/turbot/flowpipe-mod-aws
 ```
 
-[Use the dependency](https://flowpipe.io/docs/build/write-pipelines/index) in a pipeline step:
+[Use the dependency](https://flowpipe.io/docs/build/write-pipelines) in a pipeline step:
 
 ```sh
 vi my_pipeline.fp
@@ -79,9 +83,16 @@ vi my_pipeline.fp
 ```hcl
 pipeline "my_pipeline" {
 
+  param "cred" {
+    type        = string
+    description = "Name for AWS credentials to use. If not provided, the default credentials will be used."
+    default     = "default"
+  }
+
   step "pipeline" "describe_ec2_instances" {
     pipeline = aws.pipeline.describe_ec2_instances
     args = {
+      cred          = param.cred
       instance_type = "t2.micro"
       region        = "us-east-1"
     }
@@ -93,6 +104,12 @@ pipeline "my_pipeline" {
 
 ```sh
 flowpipe pipeline run my_pipeline
+```
+
+To use a specific `credential`, specify the `cred` pipeline argument:
+
+```sh
+flowpipe pipeline run my_pipeline --arg cred=access_key_pair
 ```
 
 ### Developing
@@ -119,7 +136,7 @@ flowpipe pipeline run describe_ec2_instances --arg 'instance_ids=["i-1234567890a
 To use a specific `credential`, specify the `cred` pipeline argument:
 
 ```sh
-flowpipe pipeline run describe_ec2_instances --arg cred=aws_profile --arg instance_type=t2.micro --arg region=us-east-1
+flowpipe pipeline run describe_ec2_instances --arg cred=access_key_pair --arg instance_type=t2.micro --arg region=us-east-1
 ```
 
 ## Open Source & Contributing
