@@ -30,7 +30,7 @@ By default, the following environment variables will be used for authentication:
 - `AWS_SESSION_TOKEN`
 - `AWS_PROFILE`
 
-You can also create `credential` resources in configuration files:
+You can also set the `default` credential resource in a configuration file:
 
 ```sh
 vi ~/.flowpipe/config/aws.fpc
@@ -40,13 +40,17 @@ vi ~/.flowpipe/config/aws.fpc
 credential "aws" "default" {
   profile = "my-profile"
 }
+```
 
-credential "aws" "access_key_pair" {
+If you have multiple accounts, you can create multiple named credentials:
+
+```hcl
+credential "aws" "dev" {
   access_key = "AKIA..."
   secret_key = "dP+C+J..."
 }
 
-credential "aws" "session_token" {
+credential "aws" "staging" {
   access_key    = "AKIA..."
   secret_key    = "dP+C+J..."
   session_token = "AQoDX..."
@@ -109,7 +113,7 @@ flowpipe pipeline run my_pipeline
 To use a specific `credential`, specify the `cred` pipeline argument:
 
 ```sh
-flowpipe pipeline run my_pipeline --arg cred=access_key_pair
+flowpipe pipeline run my_pipeline --arg cred=dev
 ```
 
 ### Developing
@@ -136,7 +140,7 @@ flowpipe pipeline run describe_ec2_instances --arg 'instance_ids=["i-1234567890a
 To use a specific `credential`, specify the `cred` pipeline argument:
 
 ```sh
-flowpipe pipeline run describe_ec2_instances --arg cred=access_key_pair --arg instance_type=t2.micro --arg region=us-east-1
+flowpipe pipeline run describe_ec2_instances --arg cred=dev --arg instance_type=t2.micro --arg region=us-east-1
 ```
 
 ## Open Source & Contributing
