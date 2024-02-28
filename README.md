@@ -25,10 +25,10 @@ brew install flowpipe
 
 By default, the following environment variables will be used for authentication:
 
+- `AWS_PROFILE`
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
 - `AWS_SESSION_TOKEN`
-- `AWS_PROFILE`
 
 You can also set the `default` credential resource in a configuration file:
 
