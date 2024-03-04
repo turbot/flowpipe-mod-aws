@@ -54,7 +54,7 @@ pipeline "test_modify_ec2_instance_metadata_options" {
     # Wait for the instance to be in running state
     retry {
       max_attempts = 5
-      min_interval = "5000"
+      min_interval = 5000
     }
 
     error {
