@@ -51,7 +51,7 @@ pipeline "test_start_and_stop_ec2_instance" {
     # Wait for the instance to be in running state
     retry {
       max_attempts = 5
-      min_interval = "5000"
+      min_interval = 5000
     }
   }
 
@@ -68,7 +68,7 @@ pipeline "test_start_and_stop_ec2_instance" {
     # Wait for the instance to be in stopped state
     retry {
       max_attempts = 5
-      min_interval = "5000"
+      min_interval = 5000
     }
   }
 
