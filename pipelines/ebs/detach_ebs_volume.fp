@@ -18,7 +18,7 @@ pipeline "detach_ebs_volume" {
     description = "The ID of the volume."
   }
 
-  step "container" "delete_volume" {
+  step "container" "detach_volume" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
@@ -29,5 +29,10 @@ pipeline "detach_ebs_volume" {
     )
 
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+  }
+
+  output "volume_modification" {
+    description = "Information about the volume modification."
+    value       = jsondecode(step.container.detach_volume.stdout).volume_modification
   }
 }
