@@ -15,7 +15,7 @@ pipeline "release_eip" {
 
   param "allocation_id" {
     type        = string
-    description = "The ID representing the association of the address with an instance in a VPC."
+    description = "The ID representing the allocation of the address for use with EC2-VPC."
   }
 
   step "container" "release_eip" {
