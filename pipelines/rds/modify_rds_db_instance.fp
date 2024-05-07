@@ -42,6 +42,12 @@ pipeline "modify_rds_db_instance" {
     optional    = true
   }
 
+  param "engine_version" {
+    type        = string
+    description = "Indicates the database engine version."
+    optional    = true
+  }
+
   step "container" "modify_rds_db_instance" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
@@ -51,6 +57,7 @@ pipeline "modify_rds_db_instance" {
       param.publicly_accessible != null ? param.publicly_accessible ? ["--publicly-accessible"] : ["--no-publicly-accessible"] : [],
       param.db_instance_class != null ? ["--db-instance-class", param.db_instance_class] : [],
       param.backup_retention_period != null ? ["--backup-retention-period", param.backup_retention_period] : [],
+      param.engine_version != null ? ["--engine-version", param.engine_version] : [],
     )
 
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
