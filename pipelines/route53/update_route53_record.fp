@@ -62,4 +62,9 @@ pipeline "update_route53_record" {
 
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
+
+  output "change_info" {
+    description = "Contains the details of an Amazon Route53 record update request."
+    value       = jsondecode(step.container.update_route53_record.stdout).ChangeInfo
+  }
 }
