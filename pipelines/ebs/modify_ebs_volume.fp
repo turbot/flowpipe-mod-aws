@@ -30,6 +30,12 @@ pipeline "modify_ebs_volume" {
     optional    = true
   }
 
+  param "size" {
+    type        = number
+    description = "The size of the volume."
+    optional    = true
+  }
+
   step "container" "convert_volume" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
@@ -40,6 +46,7 @@ pipeline "modify_ebs_volume" {
       ],
       param.volume_type != null ? ["--volume-type", param.volume_type] : [],
       param.iops != null ? ["--iops", param.iops] : [],
+      param.size != null ? ["--size", param.size] : [],
     )
 
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
