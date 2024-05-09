@@ -22,7 +22,7 @@ pipeline "delete_rds_db_instance" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = [
-      "rds", "delete-db-instance", "--skip-final-snapshot"
+      "rds", "delete-db-instance", "--skip-final-snapshot",
       "--db-instance-identifier", param.db_instance_identifier,
     ]
 
