@@ -15,7 +15,7 @@ pipeline "delete_secretsmanager_secret" {
 
   param "secret_id" {
     type        = string
-    description = "The ID of the Secrets Manager secret to delete."
+    description = "The ARN or name of the secret to delete."
   }
 
   step "container" "delete_secretsmanager_secret" {
