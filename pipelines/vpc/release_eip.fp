@@ -1,6 +1,6 @@
 pipeline "release_eip" {
   title       = "Release VPC EIP"
-  description = "Release an VPC Elastic IP address."
+  description = "Release a VPC Elastic IP address."
 
   param "region" {
     type        = string
