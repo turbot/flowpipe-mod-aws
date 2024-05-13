@@ -5,6 +5,7 @@ pipeline "put_s3_bucket_lifecycle_policy" {
   param "region" {
     type        = string
     description = "The AWS region where the S3 bucket is located."
+    default     = "ap-south-1"
   }
 
   param "cred" {
@@ -16,23 +17,55 @@ pipeline "put_s3_bucket_lifecycle_policy" {
   param "bucket_name" {
     type        = string
     description = "The name of the S3 bucket."
+    default     = "ved-bucket-test"
   }
 
   param "lifecycle_policies" {
     type = list(object({
-      ID     = string
-      Prefix = string
+      ID     = optional(string)
+      Prefix = optional(string)
       Status = string
-      Transitions = list(object({
-        Days         = number
+      Transitions = optional(list(object({
+        Date         = optional(string)
+        Days         = optional(number)
         StorageClass = string
+      })))
+      Expiration = optional(object({
+        Date                      = optional(string)
+        Days                      = optional(number)
+        ExpiredObjectDeleteMarker = optional(bool)
       }))
-      Expiration = object({
-        Days = number
-      })
+      AbortIncompleteMultipartUpload = optional(object({
+        DaysAfterInitiation = optional(number)
+      }))
     }))
     description = "A list of lifecycle policies for the S3 bucket."
-    default     = local.default_lifecycle_policies
+    default = [
+      {
+        ID     = " TransitionToIA ",
+        Status = " Enabled ",
+        Transitions = [
+          {
+            Days         = 30,
+            StorageClass = " STANDARD_IA "
+          }
+        ],
+        Expiration = {
+          Days = 365
+        }
+      },
+      {
+        ID     = " ExpireOldVersions ",
+        Prefix = " ",
+        Status = " Enabled ",
+        Expiration = {
+          Days = 180
+        },
+        AbortIncompleteMultipartUpload = {
+          DaysAfterInitiation = 7
+        }
+      }
+    ]
   }
 
   step "container" "put_s3_bucket_lifecycle_policy" {
