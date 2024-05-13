@@ -1,3 +1,22 @@
+## v0.2.0 [2024-05-13]
+
+_What's new?_
+
+- Added the following new pipelines:
+  - `delete_ebs_volume`
+  - `delete_eks_node_group`
+  - `delete_elasticache_cluster`
+  - `delete_elbv2_load_balancer`
+  - `delete_nat_gateway`
+  - `delete_rds_db_instance`
+  - `delete_route53_health_check`
+  - `delete_secretsmanager_secret`
+  - `detach_ebs_volume`
+  - `put_s3_bucket_lifecycle_policy`
+  - `release_eip`
+  - `terminate_emr_clusters`
+  - `update_route53_record`
+
 ## v0.1.1 [2024-03-04]
 
 _Bug fixes_

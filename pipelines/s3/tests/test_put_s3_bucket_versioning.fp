@@ -78,6 +78,10 @@ pipeline "test_put_s3_bucket_versioning_enable_disable" {
   title       = "Test Enable and Disable S3 Bucket Versioning"
   description = "Test enabling and disabling S3 bucket versioning."
 
+  tags = {
+    type = "test"
+  }
+
   param "region" {
     type        = string
     description = "The name of the Region."

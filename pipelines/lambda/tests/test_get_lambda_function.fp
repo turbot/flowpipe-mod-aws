@@ -2,6 +2,10 @@ pipeline "test_get_lambda_function" {
   title       = "Test Get Lambda Function"
   description = "Tests the creation, retrieval, and deletion of a Lambda function"
 
+  tags = {
+    type = "test"
+  }
+
   param "cred" {
     type        = string
     description = local.cred_param_description
