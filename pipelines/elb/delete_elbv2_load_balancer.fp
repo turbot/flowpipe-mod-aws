@@ -1,6 +1,6 @@
 pipeline "delete_elbv2_load_balancer" {
-  title       = "Delete ELBv2 Load Balancer"
-  description = "Deletes an Amazon EC2 Load Balancer via the ELBv2 service."
+  title       = "Delete ELB v2 Load Balancer"
+  description = "Deletes an Amazon EC2 Load Balancer via the ELB v2 service."
 
   param "region" {
     type        = string
