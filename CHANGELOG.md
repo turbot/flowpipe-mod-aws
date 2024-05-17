@@ -1,3 +1,10 @@
+## v0.3.0 [2024-05-17]
+
+_What's new?_
+
+- Added the following new pipeline:
+  - `delete_dynamodb_table`
+
 ## v0.2.0 [2024-05-13]
 
 _What's new?_
