@@ -50,6 +50,6 @@ pipeline "modify_elb_attributes" {
 
   output "load_balancer_attributes" {
     description = "Attributes after modification, specifically the connection draining settings."
-    value       = jsondecode(step.container.set_elb_attributes.stdout).LoadBalancerAttributes.ConnectionDraining
+    value       = jsondecode(step.container.modify_elb_attributes.stdout).LoadBalancerAttributes.ConnectionDraining
   }
 }
