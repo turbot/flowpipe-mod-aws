@@ -30,6 +30,11 @@ pipeline "modify_rds_db_instance" {
     optional    = true
   }
 
+  param "copy_tags_to_snapshot" {
+    type        = bool
+    description = "Enables or disables the copy tags to snapshot of a DB instance."
+    optional    = true
+  }
   param "db_instance_class" {
     type        = string
     description = "The new compute and memory capacity of the DB instance, for example `db.m4.large`."
@@ -65,6 +70,7 @@ pipeline "modify_rds_db_instance" {
       param.backup_retention_period != null ? ["--backup-retention-period", param.backup_retention_period] : [],
       param.engine_version != null ? ["--engine-version", param.engine_version] : [],
       param.deletion_protection != null ? param.deletion_protection ? ["--deletion-protection"] : ["--no-deletion-protection"] : [],
+      param.copy_tags_to_snapshot != null ? param.copy_tags_to_snapshot ? ["--copy-tags-to-snapshot"] : ["--no-copy-tags-to-snapshot"] : [],
     )
 
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
