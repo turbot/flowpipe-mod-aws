@@ -10,7 +10,7 @@ pipeline "update_dynamodb_table" {
   param "cred" {
     type        = string
     description = local.cred_param_description
-    default     = "aws_profile"
+    default     = "default"
   }
 
  	param "table_name" {
