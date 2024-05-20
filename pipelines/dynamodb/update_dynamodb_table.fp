@@ -13,7 +13,7 @@ pipeline "update_dynamodb_table" {
     default     = "default"
   }
 
- 	param "table_name" {
+  param "table_name" {
     type        = string
     description = "The name of the DynamoDB table to update."
   }
