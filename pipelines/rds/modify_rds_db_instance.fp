@@ -24,6 +24,12 @@ pipeline "modify_rds_db_instance" {
     optional    = true
   }
 
+  param "deletion_protection" {
+    type        = bool
+    description = "Specifies whether the DB instance has deletion proetection enabled."
+    optional    = true
+  }
+
   param "db_instance_class" {
     type        = string
     description = "The new compute and memory capacity of the DB instance, for example `db.m4.large`."
@@ -58,6 +64,7 @@ pipeline "modify_rds_db_instance" {
       param.db_instance_class != null ? ["--db-instance-class", param.db_instance_class] : [],
       param.backup_retention_period != null ? ["--backup-retention-period", param.backup_retention_period] : [],
       param.engine_version != null ? ["--engine-version", param.engine_version] : [],
+      param.deletion_protection != null ?  ["--deletion-protection"] : [],
     )
 
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
