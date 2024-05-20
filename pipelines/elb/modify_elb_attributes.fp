@@ -31,7 +31,7 @@ pipeline "modify_elb_attributes" {
     optional    = true
   }
 
-  step "container" "set_elb_attributes" {
+  step "container" "modify_elb_attributes" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = [
