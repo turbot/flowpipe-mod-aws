@@ -10,7 +10,7 @@ pipeline "modify_apigateway_rest_api_stage" {
   param "cred" {
     type        = string
     description = local.cred_param_description
-    default     = "aws_profile"
+    default     = "default"
   }
 
   param "rest_api_id" {
