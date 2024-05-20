@@ -1,6 +1,6 @@
 pipeline "update_dynamodb_table" {
   title       = "Update DynamoDB Table"
-  description = "Updates settings for a DynamoDB Table."
+  description = "Update settings for a DynamoDB Table."
 
   param "region" {
     type        = string
