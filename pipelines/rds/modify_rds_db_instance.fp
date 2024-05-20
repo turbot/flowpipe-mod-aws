@@ -64,7 +64,7 @@ pipeline "modify_rds_db_instance" {
       param.db_instance_class != null ? ["--db-instance-class", param.db_instance_class] : [],
       param.backup_retention_period != null ? ["--backup-retention-period", param.backup_retention_period] : [],
       param.engine_version != null ? ["--engine-version", param.engine_version] : [],
-      param.deletion_protection != null ?  ["--deletion-protection"] : [],
+      param.deletion_protection != null ? param.deletion_protection ? ["--deletion-protection"] : ["--no-deletion-protection"] : [],
     )
 
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
