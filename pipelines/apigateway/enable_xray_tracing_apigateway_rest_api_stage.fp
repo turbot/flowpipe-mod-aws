@@ -1,4 +1,4 @@
-pipeline "enabled_xray_tracing_apigateway_rest_api_stage" {
+pipeline "enable_xray_tracing_apigateway_rest_api_stage" {
   title       = "Enable API Gateway REST API stage X-Ray tracing"
   description = "Enable X-Ray tracing for API Gateway REST API stage."
 
@@ -15,15 +15,15 @@ pipeline "enabled_xray_tracing_apigateway_rest_api_stage" {
 
   param "rest_api_id" {
     type        = string
-    description = "The REST API id of API Gateway."
+    description = "The REST API ID of API Gateway."
   }
 
   param "stage_name" {
     type        = string
-    description = "The stage name of API Gateway."
+    description = "The stage name of API Gateway REST API."
   }
 
-  step "container" "enabled_xray_tracing_apigateway_rest_api_stage" {
+  step "container" "enable_xray_tracing_apigateway_rest_api_stage" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = [
