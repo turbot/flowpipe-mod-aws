@@ -26,7 +26,7 @@ pipeline "modify_rds_db_instance" {
 
   param "deletion_protection" {
     type        = bool
-    description = "Specifies whether the DB instance has deletion proetection enabled."
+    description = "Enables or disables the deletion protection property of a DB instance."
     optional    = true
   }
 
