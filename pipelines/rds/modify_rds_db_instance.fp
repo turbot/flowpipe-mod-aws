@@ -44,7 +44,7 @@ pipeline "modify_rds_db_instance" {
 
   param "iam_database_authentication" {
     type        = bool
-    description = "Enables or disables the iam database authentication property of a DB instance."
+    description = "Enables or disables the IAM database authentication property of a DB instance."
     optional    = true
   }
 
