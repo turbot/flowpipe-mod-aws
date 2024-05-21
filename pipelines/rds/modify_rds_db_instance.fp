@@ -50,7 +50,7 @@ pipeline "modify_rds_db_instance" {
 
   param "multi_az" {
     type        = bool
-    description = "Enables or disables the multi az property of a DB instance."
+    description = "Enables or disables the Multi-AZ property of a DB instance."
     optional    = true
   }
 
