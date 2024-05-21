@@ -19,7 +19,7 @@ pipeline "detach_network_interface" {
   }
 
   param "force_detach" {
-    type        = boolean
+    type        = bool
     description = "Forcefully detach the network interface."
     default     = true
     optional    = true
