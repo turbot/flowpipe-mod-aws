@@ -60,6 +60,11 @@ pipeline "modify_rds_db_cluster" {
     optional    = true
   }
 
+  param "engine" {
+    type        = string
+    description = "Indicates the database engine."
+  }
+
   param "db_cluster_parameter_group_name" {
     type        = string
     description = "The name of the DB cluster parameter group to apply to the DB cluster."
@@ -84,6 +89,12 @@ pipeline "modify_rds_db_cluster" {
     optional    = true
   }
 
+  param "enable_logging" {
+    type        = bool
+    description = "Enables or disables logging for the DB cluster based on the engine version."
+    optional    = true
+  }
+
   step "container" "modify_rds_db_cluster" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
@@ -100,8 +111,14 @@ pipeline "modify_rds_db_cluster" {
       param.vpc_security_group_ids != null ? ["--vpc-security-group-ids", join(",", param.vpc_security_group_ids)] : [],
       param.preferred_backup_window != null ? ["--preferred-backup-window", param.preferred_backup_window] : [],
       param.preferred_maintenance_window != null ? ["--preferred-maintenance-window", param.preferred_maintenance_window] : [],
+      param.enable_logging != null && param.enable_logging && param.engine != null ?
+      (contains(["aurora-mysql"], param.engine) ? ["--cloudwatch-logs-export-configuration", jsonencode({
+          "EnableLogTypes":["error","general","slowquery","audit"]
+        })] :
+      contains(["aurora-postgresql"], param.engine) ? ["--cloudwatch-logs-export-configuration",  jsonencode({
+          "EnableLogTypes": ["postgresql"]
+        })] : []) : [],
     )
-
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
