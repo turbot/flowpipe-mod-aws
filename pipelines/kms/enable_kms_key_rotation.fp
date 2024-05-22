@@ -2,9 +2,15 @@ pipeline "enable_kms_key_rotation" {
   title       = "Enable KMS Key Rotation"
   description = "Enables automatic key rotation for an AWS KMS key."
 
+  param "region" {
+    type        = string
+    description = local.region_param_description
+  }
+
   param "cred" {
-    type    = string
-    default = "default"
+    type        = string
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "key_id" {
@@ -19,7 +25,7 @@ pipeline "enable_kms_key_rotation" {
       "enable-key-rotation",
       "--key-id", "${param.key_id}"
     ]
-    env = credential.aws[param.cred].env
+    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
   output "result" {
