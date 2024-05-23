@@ -22,6 +22,11 @@ pipeline "update_cloudtrail_trail" {
     description = "The name of the CloudTrail trail."
   }
 
+  param "s3_bucket_name" {
+    type        = string
+    description = "The name of the S3 Bucket."
+  }
+
   param "enable_log_file_validation" {
     type        = bool
     description = "Enable the log file validation for CloudTrail trail."
@@ -31,11 +36,13 @@ pipeline "update_cloudtrail_trail" {
   param "cloudwatch_logs_log_group_arn" {
     type        = string
     description = "The ARN of the Cloudwatch Logs LogGroup"
+    default = ""
   }
 
   param "cloudwatch_logs_role_arn" {
     type        = string
     description = "The ARN of the IAM role for Cloudwatch Logs."
+    default = ""
   }
 
   step "container" "update_cloudtrail_trail" {
@@ -47,7 +54,9 @@ pipeline "update_cloudtrail_trail" {
       param.enable_log_file_validation != false ? ["--enable-log-file-validation"] : [],
       param.cloudwatch_logs_log_group_arn != null ? ["--cloud-watch-logs-log-group-arn", param.cloudwatch_logs_log_group_arn] : [],
       param.cloudwatch_logs_role_arn != null ?
-      ["--cloud-watch-logs-role-arn", param.cloudwatch_logs_role_arn] : []
+      ["--cloud-watch-logs-role-arn", param.cloudwatch_logs_role_arn] : [],
+      param.s3_bucket_name != null ?
+      ["--s3-bucket-name", param.s3_bucket_name] : []
     )
 
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
