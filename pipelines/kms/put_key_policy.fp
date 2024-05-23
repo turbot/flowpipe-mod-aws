@@ -18,6 +18,11 @@ pipeline "put_kms_key_policy" {
     description = "The ID of the KMS key."
   }
 
+  param "policy_name" {
+    type        = string
+    description = "The name of the policy to attach to the KMS key."
+  }
+
   param "policy" {
     type        = string
     description = "The policy to attach to the KMS key."
@@ -29,7 +34,7 @@ pipeline "put_kms_key_policy" {
     cmd = [
       "kms", "put-key-policy",
       "--key-id", param.key_id,
-      "--policy-name", "default",
+      "--policy-name", param.policy_name,
       "--policy", param.policy
     ]
 
