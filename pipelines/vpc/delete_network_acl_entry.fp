@@ -24,7 +24,7 @@ pipeline "delete_network_acl_entry" {
   }
 
   param "is_egress" {
-    type        = boolean
+    type        = bool
     description = "Set to true to delete an egress rule, or false for an ingress rule."
     default     = true
   }
