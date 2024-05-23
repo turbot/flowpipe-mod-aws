@@ -45,6 +45,12 @@ pipeline "update_cloudtrail_trail" {
     default = ""
   }
 
+  param "kms_id" {
+    type        = string
+    description = "The KMS key ID for the trail."
+    optional    = true
+  }
+
   step "container" "update_cloudtrail_trail" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
@@ -56,7 +62,8 @@ pipeline "update_cloudtrail_trail" {
       param.cloudwatch_logs_role_arn != null ?
       ["--cloud-watch-logs-role-arn", param.cloudwatch_logs_role_arn] : [],
       param.s3_bucket_name != null ?
-      ["--s3-bucket-name", param.s3_bucket_name] : []
+      ["--s3-bucket-name", param.s3_bucket_name] : [],
+      param.kms_id != null ? ["--kms-id", param.kms_id] : []
     )
 
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
