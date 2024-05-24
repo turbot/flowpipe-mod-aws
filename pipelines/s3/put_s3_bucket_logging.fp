@@ -1,6 +1,6 @@
-pipeline "put_s3_bucket_policy" {
-  title       = "Put S3 Bucket policy"
-  description = "Creates or modifies the Bucket policy configuration for an Amazon S3 bucket."
+pipeline "put_s3_bucket_logging" {
+  title       = "Put S3 Bucket logging"
+  description = "Creates or modifies the Bucket logging configuration for an Amazon S3 bucket."
 
   param "region" {
     type        = string
@@ -18,18 +18,18 @@ pipeline "put_s3_bucket_policy" {
     description = "The name of the S3 bucket."
   }
 
-  param "policy" {
+  param "bucket_logging_status" {
     type        = string
-    description = "Amazon S3 bucket policy for the bucket and its objects."
+    description = "Amazon S3 bucket logging enabled JSON string policy for this bucket."
   }
 
-  step "container" "put_s3_bucket_policy" {
+  step "container" "put_s3_bucket_logging" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
-      ["s3api", "put-bucket-policy"],
+      ["s3api", "put-bucket-logging"],
       ["--bucket", param.bucket],
-      ["--policy", param.policy]
+      ["--bucket-logging-status", param.bucket_logging_status]
     )
 
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
