@@ -4,12 +4,12 @@ pipeline "enable_security_hub_with_default_standards" {
 
   param "region" {
     type        = string
-    description = "The AWS region where you want to enable Security Hub."
+    description = local.region_param_description
   }
 
   param "cred" {
     type        = string
-    description = "The AWS credentials to use for authentication."
+    description = local.cred_param_description
     default     = "default"
   }
 
