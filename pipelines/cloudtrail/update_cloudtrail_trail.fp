@@ -2,10 +2,6 @@ pipeline "update_cloudtrail_trail" {
   title       = "Update Cloudtrail Trail"
   description = "Update the cloudtrail trail"
 
-  tags = {
-    type = "featured"
-  }
-
   param "region" {
     type        = string
     description = "The AWS region where the CloudTrail trail is located."
@@ -37,13 +33,13 @@ pipeline "update_cloudtrail_trail" {
   param "cloudwatch_logs_log_group_arn" {
     type        = string
     description = "The ARN of the Cloudwatch Logs LogGroup"
-    default = ""
+    optional    = true
   }
 
   param "cloudwatch_logs_role_arn" {
     type        = string
     description = "The ARN of the IAM role for Cloudwatch Logs."
-    default = ""
+    optional    = true
   }
 
   param "kms_key_id" {
@@ -71,7 +67,7 @@ pipeline "update_cloudtrail_trail" {
   }
 
   output "trail" {
-    description = "The CloudTrail trail with log file validation enabled."
+    description = "The updated CloudTrail trail."
     value       = jsondecode(step.container.update_cloudtrail_trail.stdout)
   }
 }

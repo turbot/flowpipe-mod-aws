@@ -25,9 +25,4 @@ pipeline "start_cloudtrail_trail_logging" {
 
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
-
-  output "trail" {
-    description = "Information about the logging status of trail."
-    value       = "Successfully started logging!"
-  }
 }

@@ -2,10 +2,6 @@ pipeline "put_cloudtrail_trail_event_selector" {
   title       = "Put event selectors to CloudTrail Trail"
   description = "Enables log file validation for an AWS CloudTrail trail."
 
-  tags = {
-    type = "featured"
-  }
-
   param "region" {
     type        = string
     description = "The AWS region where the CloudTrail trail is located."

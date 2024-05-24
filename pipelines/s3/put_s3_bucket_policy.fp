@@ -20,7 +20,7 @@ pipeline "put_s3_bucket_policy" {
 
   param "policy" {
     type        = string
-    description = "Amazon S3 bucket policy for this bucket and objects in this bucket."
+    description = "Amazon S3 bucket policy for the bucket and its objects."
   }
 
   step "container" "put_s3_bucket_policy" {

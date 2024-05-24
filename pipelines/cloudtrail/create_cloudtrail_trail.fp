@@ -25,17 +25,17 @@ pipeline "create_cloudtrail_trail" {
 
   param "is_multi_region_trail" {
     type        = bool
-    description = "Indicate wheather a multi region trail."
+    description = "Indicate whether a multi region trail."
   }
 
   param "include_global_service_events" {
     type        = bool
-    description = "Indicate wheather to include the global service events."
+    description = "Indicate whether to include the global service events."
   }
 
   param "enable_log_file_validation" {
     type        = bool
-    description = "Indicate wheather to enable log file validation."
+    description = "Indicate whether to enable log file validation."
   }
 
   step "container" "create_cloudtrail_trail" {
@@ -54,7 +54,7 @@ pipeline "create_cloudtrail_trail" {
   }
 
   output "trail" {
-    description = "Information about the created snapshot."
+    description = "Information about the created trail."
     value       = jsondecode(step.container.create_cloudtrail_trail.stdout)
   }
 }
