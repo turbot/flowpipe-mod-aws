@@ -25,6 +25,7 @@ pipeline "update_cloudtrail_trail" {
   param "s3_bucket_name" {
     type        = string
     description = "The name of the S3 Bucket."
+    optional    = true
   }
 
   param "enable_log_file_validation" {
@@ -45,7 +46,7 @@ pipeline "update_cloudtrail_trail" {
     default = ""
   }
 
-  param "kms_id" {
+  param "kms_key_id" {
     type        = string
     description = "The KMS key ID for the trail."
     optional    = true
@@ -63,7 +64,7 @@ pipeline "update_cloudtrail_trail" {
       ["--cloud-watch-logs-role-arn", param.cloudwatch_logs_role_arn] : [],
       param.s3_bucket_name != null ?
       ["--s3-bucket-name", param.s3_bucket_name] : [],
-      param.kms_id != null ? ["--kms-id", param.kms_id] : []
+      param.kms_key_id != null ? ["--kms-key-id", param.kms_key_id] : []
     )
 
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
