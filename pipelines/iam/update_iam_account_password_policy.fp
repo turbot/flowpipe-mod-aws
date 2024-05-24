@@ -4,7 +4,7 @@ pipeline "update_iam_account_password_policy" {
 
   param "cred" {
     type        = string
-    description = "The credential profile to use for authentication."
+    description = local.cred_param_description
     default     = "default"
   }
 

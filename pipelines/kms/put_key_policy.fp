@@ -4,12 +4,12 @@ pipeline "put_kms_key_policy" {
 
   param "region" {
     type        = string
-    description = "The AWS region where the KMS key is located."
+    description = local.region_param_description
   }
 
   param "cred" {
     type        = string
-    description = "The AWS credentials to use for authentication."
+    description = local.cred_param_description
     default     = "default"
   }
 

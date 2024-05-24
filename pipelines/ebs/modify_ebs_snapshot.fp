@@ -4,12 +4,12 @@ pipeline "modify_ebs_snapshot" {
 
   param "region" {
     type        = string
-    description = "The AWS region in which the snapshot exists."
+    description = local.region_param_description
   }
 
   param "cred" {
     type        = string
-    description = "The credentials used to authenticate with AWS."
+    description = local.cred_param_description
     default     = "default"
   }
 
