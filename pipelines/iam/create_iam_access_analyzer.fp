@@ -5,7 +5,6 @@ pipeline "create_iam_access_analyzer" {
   param "region" {
     type        = string
     description = "The AWS region where the Access Analyzer will be created."
-    default     = "us-east-1"
   }
 
   param "cred" {
@@ -17,7 +16,6 @@ pipeline "create_iam_access_analyzer" {
   param "analyzer_name" {
     type        = string
     description = "The name of the Access Analyzer to create."
-    default     = "my-access-analyzer"
   }
 
   param "analyzer_type" {
@@ -36,7 +34,7 @@ pipeline "create_iam_access_analyzer" {
       ["--region", param.region]
     )
 
-    env = credential.aws[param.cred].env
+    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
 
   output "analyzer" {
