@@ -14,9 +14,8 @@ pipeline "enable_security_hub_without_default_standards" {
   }
 
   step "container" "enable_security_hub" {
-    description = "Enables AWS Security Hub without default standards."
-
     image = "public.ecr.aws/aws-cli/aws-cli"
+
     cmd = [
       "securityhub", "enable-security-hub", "--no-enable-default-standards"
     ]
