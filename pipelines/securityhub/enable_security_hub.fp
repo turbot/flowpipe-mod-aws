@@ -28,7 +28,7 @@ pipeline "enable_security_hub" {
   }
 
   output "security_hub_status" {
-    description = "The status after enabling Security Hub with default standards."
+    description = "The status after enabling Security Hub."
     value       = step.container.enable_security_hub.stdout
   }
 }
