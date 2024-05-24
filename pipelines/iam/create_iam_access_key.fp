@@ -3,8 +3,9 @@ pipeline "create_iam_access_key" {
   description = "Creates a new AWS access key and secret for an IAM user."
 
   param "cred" {
-    type    = string
-    default = "default"
+    type        = string
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "user_name" {

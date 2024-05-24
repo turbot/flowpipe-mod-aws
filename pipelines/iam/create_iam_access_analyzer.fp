@@ -4,12 +4,12 @@ pipeline "create_iam_access_analyzer" {
 
   param "region" {
     type        = string
-    description = "The AWS region where the Access Analyzer will be created."
+    description = local.region_param_description
   }
 
   param "cred" {
     type        = string
-    description = "The AWS credentials to use for the operation."
+    description = local.cred_param_description
     default     = "default"
   }
 

@@ -4,12 +4,12 @@ pipeline "put_s3_bucket_policy" {
 
   param "region" {
     type        = string
-    description = "The AWS region where the S3 bucket is located."
+    description = local.region_param_description
   }
 
   param "cred" {
     type        = string
-    description = "The credentials to use for AWS."
+    description = local.cred_param_description
     default     = "default"
   }
 
