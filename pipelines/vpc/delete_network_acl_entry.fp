@@ -32,12 +32,13 @@ pipeline "delete_network_acl_entry" {
   step "container" "remove_acl_entry" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
-    cmd = [
+    cmd = concat([
       "ec2", "delete-network-acl-entry",
       "--network-acl-id", param.network_acl_id,
-      "--rule-number", param.rule_number,
-      param.is_egress ? "--egress" : "--ingress"
-    ]
+      "--rule-number", format("%d", param.rule_number)
+    ],
+    param.is_egress != null ? ["--egress"] : ["--ingress"]
+    )
 
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
