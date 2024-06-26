@@ -2,11 +2,6 @@ pipeline "put_alternate_contact" {
   title       = "Put Alternate Contact"
   description = "Sets an alternate contact for an AWS account."
 
-  param "region" {
-    type        = string
-    description = "The AWS region to use."
-  }
-
   param "cred" {
     type        = string
     description = "The credential profile to use."
@@ -56,6 +51,6 @@ pipeline "put_alternate_contact" {
       ["--title", param.title]
     )
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = credential.aws[param.cred].env
   }
 }
