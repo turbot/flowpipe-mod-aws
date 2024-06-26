@@ -3,8 +3,9 @@ pipeline "delete_iam_access_key" {
   description = "Deletes an IAM access key."
 
   param "cred" {
-    type    = string
-    default = "default"
+    type        = string
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "user_name" {
