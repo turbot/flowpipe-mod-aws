@@ -14,4 +14,4 @@ jobs:
   stale_workflow:
     uses: turbot/steampipe-workflows/.github/workflows/stale.yml@main
     with:
-      dryRun: ${{ gitlab.event.inputs.dryRun }}
+      dryRun: ${{ github.event.inputs.dryRun }}
