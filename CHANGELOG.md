@@ -2,7 +2,7 @@
 
 _What's new?_
 
-- Added 22 new pipelines to make it easy to connect your CloudWatch, EC2, IAM, KMS, VPC resources and more.
+- Added 22 new pipelines for seamless integration with your CloudWatch, EC2, IAM, KMS, VPC resources, and more.
 
 ## v0.3.0 [2024-05-17]
 
