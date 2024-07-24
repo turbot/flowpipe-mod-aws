@@ -1,3 +1,9 @@
+## v0.4.0 [2024-07-24]
+
+_What's new?_
+
+- Added 22 new pipelines to make it easy to connect your CloudWatch, EC2, IAM, KMS, VPC resources and more.
+
 ## v0.3.0 [2024-05-17]
 
 _What's new?_
