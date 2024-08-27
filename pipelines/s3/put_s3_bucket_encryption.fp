@@ -40,7 +40,7 @@ pipeline "put_s3_bucket_encryption" {
   }
 
   step "function" "build_encryption_config" {
-    source  = "./pipelines/s3/functions/update_s3_bucket_encryption"
+    source  = ".flowpipe/mods/github.com/turbot/flowpipe-mod-aws@v0.4.1/pipelines/s3/functions/update_s3_bucket_encryption"
     runtime = "python:3.10"
     handler = "main.build_encryption_config"
     event = {
