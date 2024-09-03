@@ -18,13 +18,14 @@ pipeline "put_s3_bucket_encryption" {
     description = "The name of the S3 bucket."
   }
 
-  # TODO: AWS defaults to disabling default encryption if this isn't specified,
-  # but we require it to prevent accidentally disabling encryption. Should it be required?
+  # TODO: AWS defaults to enabling Amazon S3 managed keys (SSE-S3) server-side encryption if this isn't specified,
+  # you can chose "aws:kms" or "aws:kms:dsse" for server-side encryption with AWS Key Management Service (AWS KMS) keys (SSE-KMS), or dual-layer server-side encryption with AWS KMS keys (DSSE-KMS) respectively.
   param "sse_algorithm" {
     type        = string
     description = "Server-side encryption algorithm to use for the default encryption."
   }
-
+  
+  # Required if using "aws:kms" or "aws:kms:dsse" for parameter "sse_algorithm"
   param "kms_master_key_id" {
     type        = string
     description = "Amazon Web Services Key Management Service (KMS) customer Amazon Web Services KMS key ID to use for the default encryption."
@@ -55,7 +56,7 @@ pipeline "put_s3_bucket_encryption" {
     cmd = concat(
       ["s3api", "put-bucket-encryption"],
       ["--bucket", param.bucket],
-      ["--server-side-encryption-configuration", jsonencode(step.function.build_encryption_config.result)],
+      ["--server-side-encryption-configuration", jsonencode(step.function.build_encryption_config.response)],
     )
 
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
