@@ -1,3 +1,9 @@
+## v0.4.1 [2024-09-13]
+
+_Bug fixes_
+
+- Fixed source for function `build_encryption_config` in `put_s3_bucket_encryption` pipeline. ([#68](https://github.com/turbot/flowpipe-mod-aws/pull/68))
+
 ## v0.4.0 [2024-07-24]
 
 _What's new?_
