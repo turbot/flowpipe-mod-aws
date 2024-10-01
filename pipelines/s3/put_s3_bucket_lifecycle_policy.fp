@@ -1,5 +1,5 @@
 pipeline "put_s3_bucket_lifecycle_policy" {
-  title       = "Put S3 Bucket Lifecycle policy"
+  title       = "Put S3 Bucket Lifecycle Policy"
   description = "Put lifecycle rules to a specified S3 bucket."
 
   param "region" {
@@ -7,10 +7,10 @@ pipeline "put_s3_bucket_lifecycle_policy" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "bucket_name" {
@@ -32,6 +32,6 @@ pipeline "put_s3_bucket_lifecycle_policy" {
       ["--lifecycle-configuration", param.lifecycle_rules]
     )
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 }

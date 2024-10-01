@@ -3,7 +3,7 @@ pipeline "stop_ec2_instances" {
   description = "Stops an Amazon EBS-backed instance."
 
   tags = {
-    type = "featured"
+    type = "recommended"
   }
 
   param "region" {

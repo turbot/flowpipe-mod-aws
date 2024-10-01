@@ -7,10 +7,10 @@ pipeline "get_s3_bucket_versioning" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "bucket" {
@@ -23,7 +23,7 @@ pipeline "get_s3_bucket_versioning" {
 
     cmd = ["s3api", "get-bucket-versioning", "--bucket", param.bucket]
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 
   output "status" {
