@@ -8,11 +8,6 @@ pipeline "put_alternate_contact" {
     default     = "default"
   }
 
-  param "account_id" {
-    type        = string
-    description = "The AWS account ID."
-  }
-
   param "alternate_contact_type" {
     type        = string
     description = "The type of alternate contact (BILLING, OPERATIONS, SECURITY)."
@@ -43,7 +38,6 @@ pipeline "put_alternate_contact" {
 
     cmd = concat(
       ["account", "put-alternate-contact"],
-      ["--account-id", param.account_id],
       ["--alternate-contact-type", param.alternate_contact_type],
       ["--email-address", param.email_address],
       ["--name", param.name],
