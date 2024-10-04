@@ -26,6 +26,6 @@ pipeline "detach_iam_user_policy" {
       "--policy-arn", param.policy_arn,
     ]
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = credential.aws[param.cred].env
   }
 }
