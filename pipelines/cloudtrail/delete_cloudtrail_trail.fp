@@ -27,9 +27,4 @@ pipeline "delete_cloudtrail_trail" {
 
     env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
   }
-
-  output "trail" {
-    description = "Information about the deleted trail."
-    value       = step.container.delete_cloudtrail_trail.stdout
-  }
 }
