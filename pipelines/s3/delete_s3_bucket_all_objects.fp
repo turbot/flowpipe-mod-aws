@@ -15,7 +15,7 @@ pipeline "delete_s3_bucket_all_objects" {
 
   param "bucket" {
     type        = string
-    description = "The name of the S3 bucket to delete."
+    description = "The name of the S3 bucket to delete objects."
   }
 
   step "container" "delete_s3_bucket_all_objects" {
