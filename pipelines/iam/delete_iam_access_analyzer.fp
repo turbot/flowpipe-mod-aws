@@ -1,6 +1,6 @@
 pipeline "delete_iam_access_analyzer" {
   title       = "Delete IAM Access Analyzer"
-  description = "Deletes an IAM Access Analyzer for your account."
+  description = "Deletes an IAM Access Analyzer."
 
   param "region" {
     type        = string
