@@ -1,6 +1,6 @@
 pipeline "delete_s3_bucket_all_objects" {
   title       = "Delete S3 Bucket all Objects"
-  description = "Deletes an Amazon S3 bucket all objects."
+  description = "Deletes all the objects of the specified S3 bucket."
 
   param "region" {
     type        = string
