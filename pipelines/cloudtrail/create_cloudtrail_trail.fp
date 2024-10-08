@@ -26,16 +26,22 @@ pipeline "create_cloudtrail_trail" {
   param "is_multi_region_trail" {
     type        = bool
     description = "Indicate whether a multi region trail."
+    optional    = true
+    default     = false
   }
 
   param "include_global_service_events" {
     type        = bool
     description = "Indicate whether to include the global service events."
+    optional    = true
+    default     = false
   }
 
   param "enable_log_file_validation" {
     type        = bool
     description = "Indicate whether to enable log file validation."
+    optional    = true
+    default     = false
   }
 
   step "container" "create_cloudtrail_trail" {
@@ -44,9 +50,9 @@ pipeline "create_cloudtrail_trail" {
     cmd = concat(
       ["cloudtrail", "create-trail", "--name", param.name],
       param.bucket_name != null ? ["--s3-bucket-name", param.bucket_name] : [],
-      param.is_multi_region_trail != null ? ["--is-multi-region-trail"] : [],
-      param.include_global_service_events != null ? ["--include-global-service-events"] : [],
-      param.enable_log_file_validation != null ? ["--enable-log-file-validation"] : [],
+      param.is_multi_region_trail ? ["--is-multi-region-trail"] : [],
+      param.include_global_service_events ? ["--include-global-service-events"] : [],
+      param.enable_log_file_validation ? ["--enable-log-file-validation"] : [],
 
     )
 
