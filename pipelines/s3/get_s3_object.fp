@@ -16,19 +16,16 @@ pipeline "get_s3_object" {
   param "bucket" {
     type        = string
     description = "Bucket name."
-    default     = ""
   }
 
   param "key" {
     type        = string
     description = "Key to object."
-    default     = ""
   }
 
   param "destination" {
     type        = string
     description = "Key to object."
-    default     = ""
   }
 
   step "container" "get_s3_object" {
