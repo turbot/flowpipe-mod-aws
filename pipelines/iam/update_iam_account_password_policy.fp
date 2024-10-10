@@ -2,10 +2,10 @@ pipeline "update_iam_account_password_policy" {
   title       = "Update IAM Account Password Policy"
   description = "Updates the account password policy for the AWS account."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "minimum_password_length" {
@@ -71,6 +71,6 @@ pipeline "update_iam_account_password_policy" {
       param.password_reuse_prevention != null ? ["--password-reuse-prevention", tostring(param.password_reuse_prevention)] : []
     )
 
-    env = credential.aws[param.cred].env
+    env = param.conn.env
   }
 }

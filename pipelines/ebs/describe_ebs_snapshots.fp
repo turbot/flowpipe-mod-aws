@@ -2,10 +2,10 @@ pipeline "describe_ebs_snapshots" {
   title       = "Describe EBS Snapshots"
   description = "Describes the specified EBS snapshots or all available snapshots."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "region" {
@@ -41,7 +41,7 @@ pipeline "describe_ebs_snapshots" {
       try(length(param.volume_ids), 0) > 0 ? concat(["--filter", "Name=volume-id,Values=${param.volume_ids}"]) : []
     )
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 
   output "snapshots" {

@@ -2,10 +2,10 @@ pipeline "create_iam_instance_profile" {
   title       = "Create Instance Profile"
   description = "Creates a new instance profile."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "instance_profile_name" {
@@ -20,7 +20,7 @@ pipeline "create_iam_instance_profile" {
       "--instance-profile-name", param.instance_profile_name,
     ]
 
-    env = credential.aws[param.cred].env
+    env = param.conn.env
   }
 
   output "instance_profile" {

@@ -2,10 +2,10 @@ pipeline "put_iam_role_policy" {
   title       = "Put IAM Role Policy"
   description = "Adds or updates an inline policy document that is embedded in the specified IAM role."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "role_name" {
@@ -32,6 +32,6 @@ pipeline "put_iam_role_policy" {
       "--policy-document", param.policy_document,
     ]
 
-    env = credential.aws[param.cred].env
+    env = param.conn.env
   }
 }

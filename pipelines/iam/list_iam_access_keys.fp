@@ -2,10 +2,10 @@ pipeline "list_iam_access_keys" {
   title       = "List IAM Access Keys"
   description = "Returns information about the access key IDs associated with the specified IAM user. If no user is specified, the user name defaults to the current user."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "user_name" {
@@ -22,7 +22,7 @@ pipeline "list_iam_access_keys" {
       param.user_name != null ? ["--user-name", "${param.user_name}"] : []
     )
 
-    env = credential.aws[param.cred].env
+    env = param.conn.env
   }
 
   output "access_keys" {

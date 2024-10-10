@@ -2,10 +2,10 @@ pipeline "detach_iam_user_policy" {
   title       = "Detach IAM User Policy"
   description = "Detaches the specified managed policy from the specified IAM user. When you detach a managed policy from a user, the user no longer has the permissions defined in that policy."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "user_name" {
@@ -26,6 +26,6 @@ pipeline "detach_iam_user_policy" {
       "--policy-arn", param.policy_arn,
     ]
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 }

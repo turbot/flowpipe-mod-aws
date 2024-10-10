@@ -7,10 +7,10 @@ pipeline "untag_resources" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "resource_arns" {
@@ -33,7 +33,7 @@ pipeline "untag_resources" {
       param.tag_keys
     )
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 
   output "failed_resources" {

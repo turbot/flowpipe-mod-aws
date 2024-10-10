@@ -2,10 +2,10 @@ pipeline "delete_iam_user" {
   title       = "Delete IAM User"
   description = "Deletes an IAM user."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "user_name" {
@@ -20,6 +20,6 @@ pipeline "delete_iam_user" {
       "delete-user",
       "--user-name", param.user_name
     ]
-    env = credential.aws[param.cred].env
+    env = param.conn.env
   }
 }

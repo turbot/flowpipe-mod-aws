@@ -20,6 +20,6 @@ pipeline "delete_iam_server_certificate" {
       "--server-certificate-name", param.server_certificate_name
     ]
 
-    env = credential.aws[param.cred].env
+    env = param.conn.env
   }
 }

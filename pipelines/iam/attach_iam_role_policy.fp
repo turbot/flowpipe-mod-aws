@@ -2,10 +2,10 @@ pipeline "attach_iam_role_policy" {
   title       = "Attach IAM Role Policy"
   description = "Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "role_name" {
@@ -26,6 +26,6 @@ pipeline "attach_iam_role_policy" {
       "--policy-arn", param.policy_arn,
     ]
 
-    env = credential.aws[param.cred].env
+    env = param.conn.env
   }
 }

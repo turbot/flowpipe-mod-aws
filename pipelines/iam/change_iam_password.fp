@@ -31,6 +31,6 @@ pipeline "change_iam_password" {
       "--new-password", param.new_password,
     ]
 
-    env = credential.aws[param.cred].env
+    env = param.conn.env
   }
 }

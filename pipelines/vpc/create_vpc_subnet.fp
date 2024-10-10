@@ -7,10 +7,10 @@ pipeline "create_vpc_subnet" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "vpc_id" {
@@ -32,7 +32,7 @@ pipeline "create_vpc_subnet" {
       "--cidr-block", param.cidr_block
     ]
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 
   output "subnet" {

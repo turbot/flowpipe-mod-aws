@@ -7,10 +7,10 @@ pipeline "terminate_emr_clusters" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "cluster_ids" {
@@ -26,7 +26,7 @@ pipeline "terminate_emr_clusters" {
       try(length(param.cluster_ids), 0) > 0 ? concat(["--cluster-ids"], param.cluster_ids) : [],
     )
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 
   output "clusters" {

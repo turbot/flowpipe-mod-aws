@@ -2,10 +2,10 @@ pipeline "delete_iam_policy" {
   title       = "Delete IAM Policy"
   description = "Deletes an IAM policy."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "policy_arn" {

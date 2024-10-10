@@ -6,10 +6,10 @@ pipeline "test_get_lambda_function" {
     type = "test"
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "region" {

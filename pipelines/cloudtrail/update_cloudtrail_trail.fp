@@ -63,7 +63,7 @@ pipeline "update_cloudtrail_trail" {
       param.kms_key_id != null ? ["--kms-key-id", param.kms_key_id] : []
     )
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 
   output "trail" {

@@ -6,10 +6,10 @@ pipeline "test_put_s3_bucket_versioning" {
     type = "test"
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "region" {
@@ -87,10 +87,10 @@ pipeline "test_put_s3_bucket_versioning_enable_disable" {
     description = "The name of the Region."
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "bucket" {

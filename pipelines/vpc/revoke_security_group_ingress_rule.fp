@@ -7,10 +7,10 @@ pipeline "revoke_vpc_security_group_ingress" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "security_group_id" {
@@ -32,6 +32,6 @@ pipeline "revoke_vpc_security_group_ingress" {
       "--security-group-rule-ids", param.security_group_rule_id
     ]
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 }

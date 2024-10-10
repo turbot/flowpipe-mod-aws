@@ -7,10 +7,10 @@ pipeline "enable_ebs_encryption_by_default" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   step "container" "enable_ebs_encryption_by_default" {
@@ -20,7 +20,7 @@ pipeline "enable_ebs_encryption_by_default" {
     cmd = [
       "ec2", "enable-ebs-encryption-by-default"
     ]
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 
   output "ebs_encryption_by_default" {

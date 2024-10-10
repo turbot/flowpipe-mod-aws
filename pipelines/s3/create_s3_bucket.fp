@@ -2,10 +2,10 @@ pipeline "create_s3_bucket" {
   title       = "Create S3 Bucket"
   description = "Creates a new Amazon S3 bucket."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "region" {
@@ -35,6 +35,6 @@ pipeline "create_s3_bucket" {
       param.region != "us-east-1" ? ["--create-bucket-configuration LocationConstraint=", param.region] : [],
     )
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 }

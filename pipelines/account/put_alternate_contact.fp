@@ -51,6 +51,6 @@ pipeline "put_alternate_contact" {
       ["--title", param.title]
     )
 
-    env = credential.aws[param.cred].env
+    env = param.conn.env
   }
 }

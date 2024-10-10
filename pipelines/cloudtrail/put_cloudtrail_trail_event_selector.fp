@@ -34,7 +34,7 @@ pipeline "put_cloudtrail_trail_event_selector" {
       ]
     )
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 
   output "trail" {

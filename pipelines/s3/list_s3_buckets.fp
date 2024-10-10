@@ -7,16 +7,16 @@ pipeline "list_s3_buckets" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   step "container" "list_s3_buckets" {
     image = "public.ecr.aws/aws-cli/aws-cli"
     cmd   = ["s3api", "list-buckets"]
-    env   = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env   = merge(param.conn.env, { AWS_REGION = param.region })
   }
 
   output "buckets" {
