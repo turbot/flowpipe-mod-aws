@@ -3,7 +3,7 @@ pipeline "create_vpc_security_group" {
   description = "Creates a security group."
 
   tags = {
-    type = "recommended"
+    recommended = true
   }
 
   param "region" {

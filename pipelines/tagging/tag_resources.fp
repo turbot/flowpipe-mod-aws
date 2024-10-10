@@ -3,7 +3,7 @@ pipeline "tag_resources" {
   description = "Applies one or more tags to the specified resources."
 
   tags = {
-    type = "recommended"
+    recommend = true
   }
 
   param "region" {

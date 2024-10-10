@@ -3,7 +3,7 @@ pipeline "run_ec2_instances" {
   description = "Launches an Amazon EC2 instance."
 
   tags = {
-    type = "recommended"
+    recommended = true
   }
 
   param "region" {
