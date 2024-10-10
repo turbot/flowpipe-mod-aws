@@ -32,7 +32,7 @@ pipeline "test_start_and_stop_ec2_instance" {
   step "pipeline" "run_ec2_instances" {
     pipeline = pipeline.run_ec2_instances
     args = {
-      cred          = param.cred
+      conn          = param.conn
       region        = param.region
       instance_type = param.instance_type
       image_id      = param.image_id
@@ -43,7 +43,7 @@ pipeline "test_start_and_stop_ec2_instance" {
     if       = !is_error(step.pipeline.run_ec2_instances)
     pipeline = pipeline.stop_ec2_instances
     args = {
-      cred         = param.cred
+      conn         = param.conn
       region       = param.region
       instance_ids = [step.pipeline.run_ec2_instances.output.instances[0].InstanceId]
     }
@@ -60,7 +60,7 @@ pipeline "test_start_and_stop_ec2_instance" {
     depends_on = [step.pipeline.stop_ec2_instances]
     pipeline   = pipeline.start_ec2_instances
     args = {
-      cred         = param.cred
+      conn         = param.conn
       region       = param.region
       instance_ids = [step.pipeline.run_ec2_instances.output.instances[0].InstanceId]
     }
@@ -79,7 +79,7 @@ pipeline "test_start_and_stop_ec2_instance" {
 
     pipeline = pipeline.terminate_ec2_instances
     args = {
-      cred         = param.cred
+      conn         = param.conn
       region       = param.region
       instance_ids = [step.pipeline.run_ec2_instances.output.instances[0].InstanceId]
     }

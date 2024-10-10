@@ -2,10 +2,10 @@ pipeline "change_iam_password" {
   title       = "Change IAM User Password"
   description = "Changes the password of the specified IAM user."
 
-  param "cred" {
-    type        = string
-    description = "The name of the credential to use."
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "user_name" {

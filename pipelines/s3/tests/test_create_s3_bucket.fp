@@ -27,7 +27,7 @@ pipeline "test_create_s3_bucket" {
     output "base_args" {
       value = {
         bucket = param.bucket
-        cred   = param.cred
+        conn   = param.conn
         region = param.region
       }
     }
@@ -44,7 +44,7 @@ pipeline "test_create_s3_bucket" {
 
     pipeline = pipeline.list_s3_buckets
     args = {
-      cred   = param.cred
+      conn   = param.conn
       region = param.region
     }
 

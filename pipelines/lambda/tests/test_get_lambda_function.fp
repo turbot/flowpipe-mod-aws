@@ -47,7 +47,7 @@ EOT
   step "pipeline" "create_iam_role" {
     pipeline = pipeline.create_iam_role
     args = {
-      cred                        = param.cred
+      conn                        = param.conn
       assume_role_policy_document = param.assume_role_policy_document
       role_name                   = param.role_name
     }
@@ -58,7 +58,7 @@ EOT
     if       = !is_error(step.pipeline.create_iam_role)
     pipeline = pipeline.create_lambda_function
     args = {
-      cred          = param.cred
+      conn          = param.conn
       region        = param.region
       function_name = param.function_name
       role          = step.pipeline.create_iam_role.output.role.Arn
@@ -70,7 +70,7 @@ EOT
     if       = !is_error(step.pipeline.create_lambda_function)
     pipeline = pipeline.get_lambda_function
     args = {
-      cred          = param.cred
+      conn          = param.conn
       region        = param.region
       function_name = param.function_name
     }
@@ -81,7 +81,7 @@ EOT
     if       = !is_error(step.pipeline.create_lambda_function)
     pipeline = pipeline.delete_lambda_function
     args = {
-      cred          = param.cred
+      conn          = param.conn
       region        = param.region
       function_name = param.function_name
     }
@@ -92,7 +92,7 @@ EOT
     depends_on = [step.pipeline.delete_lambda_function]
     pipeline   = pipeline.delete_iam_role
     args = {
-      cred      = param.cred
+      conn      = param.conn
       region    = param.region
       role_name = param.role_name
     }

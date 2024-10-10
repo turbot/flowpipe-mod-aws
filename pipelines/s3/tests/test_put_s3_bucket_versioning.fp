@@ -26,7 +26,7 @@ pipeline "test_put_s3_bucket_versioning" {
   step "transform" "base_args" {
     output "base_args" {
       value = {
-        cred   = param.cred
+        conn   = param.conn
         region = param.region
         bucket = param.bucket
       }
@@ -102,7 +102,7 @@ pipeline "test_put_s3_bucket_versioning_enable_disable" {
   step "transform" "base_args" {
     output "base_args" {
       value = {
-        cred   = param.cred
+        conn   = param.conn
         region = param.region
         bucket = param.bucket
       }

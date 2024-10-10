@@ -2,10 +2,10 @@ pipeline "delete_iam_server_certificate" {
   title       = "Delete IAM Server Certificate"
   description = "Deletes the specified server certificate from AWS IAM."
 
-  param "cred" {
-    type        = string
-    description = "The name of the credential to use."
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "server_certificate_name" {

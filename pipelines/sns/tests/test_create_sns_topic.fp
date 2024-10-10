@@ -38,7 +38,7 @@ pipeline "test_create_sns_topic" {
   step "pipeline" "create_sns_topic" {
     pipeline = pipeline.create_sns_topic
     args = {
-      cred   = param.cred
+      conn   = param.conn
       region = param.region
       name   = param.topic_name
     }
@@ -49,7 +49,7 @@ pipeline "test_create_sns_topic" {
     depends_on = [step.pipeline.create_sns_topic]
     pipeline   = pipeline.set_sns_topic_attributes
     args = {
-      cred            = param.cred
+      conn            = param.conn
       region          = param.region
       topic_arn       = step.pipeline.create_sns_topic.output.topic_arn
       attribute_name  = param.attribute_name
@@ -62,7 +62,7 @@ pipeline "test_create_sns_topic" {
     depends_on = [step.pipeline.set_sns_topic_attributes]
     pipeline   = pipeline.get_sns_topic_attributes
     args = {
-      cred      = param.cred
+      conn      = param.conn
       region    = param.region
       topic_arn = step.pipeline.create_sns_topic.output.topic_arn
     }
@@ -74,7 +74,7 @@ pipeline "test_create_sns_topic" {
 
     pipeline = pipeline.delete_sns_topic
     args = {
-      cred      = param.cred
+      conn      = param.conn
       region    = param.region
       topic_arn = step.pipeline.create_sns_topic.output.topic_arn
     }

@@ -16,6 +16,6 @@ pipeline "delete_iam_policy" {
   step "container" "delete_policy" {
     image = "public.ecr.aws/aws-cli/aws-cli"
     cmd   = ["iam", "delete-policy", "--policy-arn", param.policy_arn]
-    env   = credential.aws["default"].env
+    env   = param.conn.env
   }
 }

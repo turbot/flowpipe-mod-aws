@@ -20,7 +20,7 @@ pipeline "test_list_iam_users" {
   step "pipeline" "create_iam_user" {
     pipeline = pipeline.create_iam_user
     args = {
-      cred      = param.cred
+      conn      = param.conn
       user_name = param.user_name
     }
   }
@@ -34,7 +34,7 @@ pipeline "test_list_iam_users" {
     if       = !is_error(step.pipeline.create_iam_user)
     pipeline = pipeline.list_iam_groups_for_user
     args = {
-      cred      = param.cred
+      conn      = param.conn
       user_name = param.user_name
     }
   }
@@ -43,7 +43,7 @@ pipeline "test_list_iam_users" {
     if       = !is_error(step.pipeline.create_iam_user)
     pipeline = pipeline.create_iam_access_key
     args = {
-      cred      = param.cred
+      conn      = param.conn
       user_name = param.user_name
     }
   }
@@ -52,7 +52,7 @@ pipeline "test_list_iam_users" {
     depends_on = [step.pipeline.create_iam_access_key]
     pipeline   = pipeline.list_iam_access_keys
     args = {
-      cred      = param.cred
+      conn      = param.conn
       user_name = param.user_name
     }
   }
@@ -61,7 +61,7 @@ pipeline "test_list_iam_users" {
     depends_on = [step.pipeline.list_iam_access_keys]
     pipeline   = pipeline.delete_iam_access_key
     args = {
-      cred          = param.cred
+      conn          = param.conn
       user_name     = param.user_name
       access_key_id = step.pipeline.create_iam_access_key.output.access_key.AccessKeyId
     }
@@ -72,7 +72,7 @@ pipeline "test_list_iam_users" {
     depends_on = [step.pipeline.delete_iam_access_key]
     pipeline   = pipeline.delete_iam_user
     args = {
-      cred      = param.cred
+      conn      = param.conn
       user_name = param.user_name
     }
   }

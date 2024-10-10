@@ -16,6 +16,6 @@ pipeline "delete_iam_role" {
   step "container" "delete_role" {
     image = "public.ecr.aws/aws-cli/aws-cli"
     cmd   = ["iam", "delete-role", "--role-name", param.role_name]
-    env   = credential.aws["default"].env
+    env   = param.conn.env
   }
 }

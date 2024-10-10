@@ -7,10 +7,10 @@ pipeline "put_cloudtrail_trail_event_selector" {
     description = "The AWS region where the CloudTrail trail is located."
   }
 
-  param "cred" {
-    type        = string
-    description = "The AWS credentials to use."
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "trail_name" {

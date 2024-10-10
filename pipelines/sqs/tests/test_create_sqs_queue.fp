@@ -34,7 +34,7 @@ pipeline "test_create_sqs_queue" {
   step "pipeline" "create_sqs_queue" {
     pipeline = pipeline.create_sqs_queue
     args = {
-      cred       = param.cred
+      conn       = param.conn
       region     = param.region
       queue_name = param.queue_name
     }
@@ -45,7 +45,7 @@ pipeline "test_create_sqs_queue" {
     depends_on = [step.pipeline.create_sqs_queue]
     pipeline   = pipeline.set_sqs_queue_attributes
     args = {
-      cred       = param.cred
+      conn       = param.conn
       region     = param.region
       queue_url  = step.pipeline.create_sqs_queue.output.queue_url
       attributes = param.attributes
@@ -57,7 +57,7 @@ pipeline "test_create_sqs_queue" {
     depends_on = [step.pipeline.set_sqs_queue_attributes]
     pipeline   = pipeline.get_sqs_queue_attributes
     args = {
-      cred      = param.cred
+      conn      = param.conn
       region    = param.region
       queue_url = step.pipeline.create_sqs_queue.output.queue_url
     }
