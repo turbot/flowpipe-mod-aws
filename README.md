@@ -52,8 +52,6 @@ connection "aws" "aws_session_token" {
 }
 ```
 
-**TODO: Check this link**
-
 For more information on connections in Flowpipe, please see [Managing Connections](https://flowpipe.io/docs/run/connections).
 
 ### Usage
