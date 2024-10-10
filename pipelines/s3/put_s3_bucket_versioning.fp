@@ -3,7 +3,7 @@ pipeline "put_s3_bucket_versioning" {
   description = "Sets the versioning state of an existing bucket."
 
   tags = {
-    recommended = true
+    recommended = "true"
   }
 
   param "region" {
