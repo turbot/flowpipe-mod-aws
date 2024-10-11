@@ -26,7 +26,7 @@ pipeline "delete_network_acl_entry" {
   param "is_egress" {
     type        = bool
     description = "Set to true to delete an egress rule, or false for an ingress rule."
-    default     = true
+    default     = false
   }
 
   step "container" "remove_acl_entry" {
@@ -37,7 +37,7 @@ pipeline "delete_network_acl_entry" {
       "--network-acl-id", param.network_acl_id,
       "--rule-number", format("%d", param.rule_number)
     ],
-    param.is_egress != null ? ["--egress"] : ["--ingress"]
+    param.is_egress ? ["--egress"] : ["--ingress"]
     )
 
     env = merge(param.conn.env, { AWS_REGION = param.region })

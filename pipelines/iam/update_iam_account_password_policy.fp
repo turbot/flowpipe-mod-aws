@@ -62,13 +62,13 @@ pipeline "update_iam_account_password_policy" {
     cmd = concat(
       ["iam", "update-account-password-policy"],
       param.minimum_password_length != null ? ["--minimum-password-length", tostring(param.minimum_password_length)] : [],
-      param.require_symbols != null ? ["--require-symbols"] : [],
-      param.require_numbers != null ? ["--require-numbers"] : [],
-      param.require_uppercase_characters != null ? ["--require-uppercase-characters"] : [],
-      param.require_lowercase_characters != null ? ["--require-lowercase-characters"] : [],
-      param.allow_users_to_change_password != null ? ["--allow-users-to-change-password"] : [],
-      param.max_password_age != null ? ["--max-password-age", tostring(param.max_password_age)] : [],
-      param.password_reuse_prevention != null ? ["--password-reuse-prevention", tostring(param.password_reuse_prevention)] : []
+      param.require_symbols ? ["--require-symbols"] : [],
+      param.require_numbers ? ["--require-numbers"] : [],
+      param.require_uppercase_characters ? ["--require-uppercase-characters"] : [],
+      param.require_lowercase_characters ? ["--require-lowercase-characters"] : [],
+      param.allow_users_to_change_password ? ["--allow-users-to-change-password"] : [],
+      param.max_password_age > 0 ? ["--max-password-age", tostring(param.max_password_age)] : [],
+      param.password_reuse_prevention > 0 ? ["--password-reuse-prevention", tostring(param.password_reuse_prevention)] : []
     )
 
     env = param.conn.env

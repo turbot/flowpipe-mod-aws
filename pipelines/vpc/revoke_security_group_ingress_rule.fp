@@ -34,4 +34,9 @@ pipeline "revoke_vpc_security_group_ingress" {
 
     env = merge(param.conn.env, { AWS_REGION = param.region })
   }
+
+  output "delete_security_group_rule" {
+    description = "Confirmation of security group removal"
+    value       = jsondecode(step.container.delete_security_group_rule.stdout)
+  }
 }
