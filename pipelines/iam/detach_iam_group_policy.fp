@@ -2,10 +2,10 @@ pipeline "detach_iam_group_policy" {
   title       = "Detach IAM Group Policy"
   description = "Detaches a policy from an IAM group."
 
-  param "cred" {
-    type        = string
-    description = "The AWS credentials to use for detaching the policy."
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "group_name" {
@@ -27,7 +27,7 @@ pipeline "detach_iam_group_policy" {
       ["--policy-arn", param.policy_arn],
     )
 
-    env = credential.aws[param.cred].env
+    env = param.conn.env
   }
 
   output "result" {

@@ -2,10 +2,10 @@ pipeline "delete_alternate_contact" {
   title       = "Delete Alternate Contact"
   description = "Delete an alternate contact for an AWS account."
 
-  param "cred" {
-    type        = string
-    description = "The credential profile to use."
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "alternate_contact_type" {
@@ -21,6 +21,6 @@ pipeline "delete_alternate_contact" {
       ["--alternate-contact-type", param.alternate_contact_type]
     )
 
-    env = credential.aws[param.cred].env
+    env = param.conn.env
   }
 }
