@@ -18,9 +18,9 @@ pipeline "put_s3_bucket_lifecycle_policy" {
     description = "The name of the S3 bucket."
   }
 
-  param "lifecycle_rules" {
+  param "lifecycle_configuration" {
     type        = string
-    description = "A JSON string of lifecycle rules for the S3 bucket."
+    description = "Specifies lifecycle configuration rules for an Amazon S3 bucket."
   }
 
   step "container" "put_s3_bucket_lifecycle_policy" {
@@ -29,7 +29,7 @@ pipeline "put_s3_bucket_lifecycle_policy" {
     cmd = concat(
       ["s3api", "put-bucket-lifecycle"],
       ["--bucket", param.bucket_name],
-      ["--lifecycle-configuration", param.lifecycle_rules]
+      ["--lifecycle-configuration", param.lifecycle_configuration]
     )
 
     env = merge(param.conn.env, { AWS_REGION = param.region })
