@@ -119,7 +119,7 @@ flowpipe pipeline run describe_ec2_instances --arg 'instance_ids=["i-1234567890a
 To use a specific `connection`, specify the `conn` pipeline argument:
 
 ```sh
-flowpipe pipeline run describe_ec2_instances --arg conn=aws_profile --arg instance_type=t2.micro --arg region=us-east-1
+flowpipe pipeline run describe_ec2_instances --arg conn=connection.aws.aws_profile --arg instance_type=t2.micro --arg region=us-east-1
 ```
 
 ## Open Source & Contributing
