@@ -1,5 +1,5 @@
 pipeline "put_s3_bucket_policy" {
-  title       = "Put S3 Bucket policy"
+  title       = "Put S3 Bucket Policy"
   description = "Creates or modifies the Bucket policy configuration for an Amazon S3 bucket."
 
   param "region" {

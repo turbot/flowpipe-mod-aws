@@ -1,5 +1,5 @@
 pipeline "put_s3_bucket_logging" {
-  title       = "Put S3 Bucket logging"
+  title       = "Put S3 Bucket Logging"
   description = "Creates or modifies the Bucket logging configuration for an Amazon S3 bucket."
 
   param "region" {

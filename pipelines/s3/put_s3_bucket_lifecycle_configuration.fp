@@ -1,6 +1,6 @@
-pipeline "put_s3_bucket_lifecycle_policy" {
-  title       = "Put S3 Bucket Lifecycle Policy"
-  description = "Put lifecycle rules to a specified S3 bucket."
+pipeline "put_s3_bucket_lifecycle_configuration" {
+  title       = "Put S3 Bucket Lifecycle Configuration"
+  description = "Creates a new lifecycle configuration for the bucket or replaces an existing lifecycle configuration."
 
   param "region" {
     type        = string
@@ -20,14 +20,14 @@ pipeline "put_s3_bucket_lifecycle_policy" {
 
   param "lifecycle_configuration" {
     type        = string
-    description = "Specifies lifecycle configuration rules for an Amazon S3 bucket."
+    description = "Container for lifecycle rules. You can add as many as 1,000 rules."
   }
 
-  step "container" "put_s3_bucket_lifecycle_policy" {
+  step "container" "put_s3_bucket_lifecycle_configuration" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
-      ["s3api", "put-bucket-lifecycle"],
+      ["s3api", "put-bucket-lifecycle-configuration"],
       ["--bucket", param.bucket_name],
       ["--lifecycle-configuration", param.lifecycle_configuration]
     )

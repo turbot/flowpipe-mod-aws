@@ -1,6 +1,6 @@
 pipeline "get_s3_object" {
-  title       = "Get object from S3 bucket"
-  description = "Gets an object from an S3 buckets owned by the authenticated sender of the request."
+  title       = "Get S3 Object"
+  description = "Retrieves an object from Amazon S3."
 
   param "region" {
     type        = string

@@ -1,5 +1,5 @@
 pipeline "modify_apigateway_rest_api_stage" {
-  title       = "Modify API Gateway REST API stage"
+  title       = "Modify API Gateway REST API Stage"
   description = "Modifies settings for API Gateway REST API stage."
 
   param "region" {
