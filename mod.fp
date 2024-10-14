@@ -11,4 +11,10 @@ mod "aws" {
     description = "Run pipelines to supercharge your AWS workflows using Flowpipe."
     image       = "/images/mods/turbot/aws-social-graphic.png"
   }
+
+  require {
+    flowpipe {
+      min_version = "1.0.0"
+    }
+  }
 }
