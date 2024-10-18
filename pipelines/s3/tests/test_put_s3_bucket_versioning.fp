@@ -3,7 +3,7 @@ pipeline "test_put_s3_bucket_versioning" {
   description = "Test the put_s3_bucket_versioning pipeline."
 
   tags = {
-    type = "test"
+    folder = "Tests"
   }
 
   param "conn" {
@@ -79,7 +79,7 @@ pipeline "test_put_s3_bucket_versioning_enable_disable" {
   description = "Test enabling and disabling S3 bucket versioning."
 
   tags = {
-    type = "test"
+    folder = "Tests"
   }
 
   param "region" {

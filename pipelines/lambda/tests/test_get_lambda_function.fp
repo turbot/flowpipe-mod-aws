@@ -3,7 +3,7 @@ pipeline "test_get_lambda_function" {
   description = "Tests the creation, retrieval, and deletion of a Lambda function"
 
   tags = {
-    type = "test"
+    folder = "Tests"
   }
 
   param "conn" {

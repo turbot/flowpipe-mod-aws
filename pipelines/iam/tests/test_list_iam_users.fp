@@ -2,7 +2,7 @@ pipeline "test_list_iam_users" {
   title = "Test List IAM Users"
 
   tags = {
-    type = "test"
+    folder = "Tests"
   }
 
   param "conn" {

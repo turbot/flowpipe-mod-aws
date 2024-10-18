@@ -3,7 +3,7 @@ pipeline "test_modify_ec2_instance_metadata_options" {
   description = "Test the run_ec2_instances pipeline."
 
   tags = {
-    type = "test"
+    folder = "Tests"
   }
 
   param "conn" {

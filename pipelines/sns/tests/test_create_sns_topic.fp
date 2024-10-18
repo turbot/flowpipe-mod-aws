@@ -3,7 +3,7 @@ pipeline "test_create_sns_topic" {
   description = "Test the create_sns_topic pipeline."
 
   tags = {
-    type = "test"
+    folder = "Tests"
   }
 
   param "conn" {

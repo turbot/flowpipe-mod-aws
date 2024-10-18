@@ -3,7 +3,7 @@ pipeline "test_start_and_stop_ec2_instance" {
   description = "Tests the start_ec2_instances and the start_ec2_instances pipelines."
 
   tags = {
-    type = "test"
+    folder = "Tests"
   }
 
   param "conn" {

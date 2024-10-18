@@ -3,7 +3,7 @@ pipeline "test_create_sqs_queue" {
   description = "Test the create_sqs_queue pipeline."
 
   tags = {
-    type = "test"
+    folder = "Tests"
   }
 
   param "conn" {

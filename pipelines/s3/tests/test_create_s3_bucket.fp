@@ -3,7 +3,7 @@ pipeline "test_create_s3_bucket" {
   description = "Test the create_s3_bucket pipeline."
 
   tags = {
-    type = "test"
+    folder = "Tests"
   }
 
   param "conn" {
