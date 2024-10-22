@@ -1,6 +1,6 @@
-pipeline "release_eip" {
-  title       = "Release VPC EIP"
-  description = "Release a VPC Elastic IP address."
+pipeline "delete_cloudtrail_trail" {
+  title       = "Delete CloudTrail Trail"
+  description = "Delete a trail with specified name."
 
   param "region" {
     type        = string
@@ -13,19 +13,16 @@ pipeline "release_eip" {
     default     = connection.aws.default
   }
 
-  param "allocation_id" {
+  param "name" {
     type        = string
-    description = "The ID representing the allocation of the address for use with EC2-VPC."
+    description = "The name of the trail."
   }
 
-  step "container" "release_eip" {
+  step "container" "delete_cloudtrail_trail" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
     cmd = concat(
-      [
-        "ec2", "release-address",
-        "--allocation-id", param.allocation_id
-      ],
+      ["cloudtrail", "delete-trail", "--name", param.name]
     )
 
     env = merge(param.conn.env, { AWS_REGION = param.region })

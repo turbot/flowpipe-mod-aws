@@ -3,7 +3,7 @@ pipeline "tag_resources" {
   description = "Applies one or more tags to the specified resources."
 
   tags = {
-    type = "featured"
+    recommended = "true"
   }
 
   param "region" {
@@ -11,10 +11,10 @@ pipeline "tag_resources" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "resource_arns" {
@@ -37,7 +37,7 @@ pipeline "tag_resources" {
       [join(",", [for key, value in param.tags : "${key}=${value}"])]
     )
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 
   output "failed_resources" {

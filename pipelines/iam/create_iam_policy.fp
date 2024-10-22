@@ -2,10 +2,10 @@ pipeline "create_iam_policy" {
   title       = "Create IAM Policy"
   description = "Creates a new policy for your Amazon Web Services account."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "policy_name" {
@@ -26,7 +26,7 @@ pipeline "create_iam_policy" {
       "--policy-document", param.policy_document,
     ]
 
-    env = credential.aws[param.cred].env
+    env = param.conn.env
   }
 
   output "policy" {

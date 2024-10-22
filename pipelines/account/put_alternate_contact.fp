@@ -2,15 +2,10 @@ pipeline "put_alternate_contact" {
   title       = "Put Alternate Contact"
   description = "Sets an alternate contact for an AWS account."
 
-  param "cred" {
-    type        = string
-    description = "The credential profile to use."
-    default     = "default"
-  }
-
-  param "account_id" {
-    type        = string
-    description = "The AWS account ID."
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "alternate_contact_type" {
@@ -43,7 +38,6 @@ pipeline "put_alternate_contact" {
 
     cmd = concat(
       ["account", "put-alternate-contact"],
-      ["--account-id", param.account_id],
       ["--alternate-contact-type", param.alternate_contact_type],
       ["--email-address", param.email_address],
       ["--name", param.name],
@@ -51,6 +45,6 @@ pipeline "put_alternate_contact" {
       ["--title", param.title]
     )
 
-    env = credential.aws[param.cred].env
+    env = param.conn.env
   }
 }

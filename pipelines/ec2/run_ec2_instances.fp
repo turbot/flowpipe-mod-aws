@@ -3,7 +3,7 @@ pipeline "run_ec2_instances" {
   description = "Launches an Amazon EC2 instance."
 
   tags = {
-    type = "featured"
+    recommended = "true"
   }
 
   param "region" {
@@ -11,10 +11,10 @@ pipeline "run_ec2_instances" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "instance_type" {
@@ -43,7 +43,7 @@ pipeline "run_ec2_instances" {
       "--count", param.count,
     ]
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 
   output "instances" {

@@ -2,10 +2,10 @@ pipeline "list_iam_groups_for_user" {
   title       = "List IAM Groups for User"
   description = "Lists the IAM groups that the specified IAM user belongs to."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "user_name" {
@@ -20,7 +20,7 @@ pipeline "list_iam_groups_for_user" {
       "--user-name", param.user_name
     ]
 
-    env = credential.aws[param.cred].env
+    env = param.conn.env
   }
 
   output "groups" {

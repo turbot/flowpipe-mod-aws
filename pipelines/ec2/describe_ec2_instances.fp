@@ -2,10 +2,10 @@ pipeline "describe_ec2_instances" {
   title       = "Describe EC2 Instances"
   description = "Describes the specified instances or all instances."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "region" {
@@ -51,7 +51,7 @@ pipeline "describe_ec2_instances" {
       ]) : []
     )
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 
   # Transform the reservation list of instance lists into a single list of instances for output.

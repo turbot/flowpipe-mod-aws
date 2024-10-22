@@ -7,10 +7,10 @@ pipeline "get_sqs_queue_attributes" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "queue_url" {
@@ -27,7 +27,7 @@ pipeline "get_sqs_queue_attributes" {
       ["--queue-url", param.queue_url],
     )
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 
   output "attributes" {

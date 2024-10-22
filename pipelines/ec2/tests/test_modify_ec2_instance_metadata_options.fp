@@ -3,13 +3,13 @@ pipeline "test_modify_ec2_instance_metadata_options" {
   description = "Test the run_ec2_instances pipeline."
 
   tags = {
-    type = "test"
+    folder = "Tests"
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "region" {
@@ -32,7 +32,7 @@ pipeline "test_modify_ec2_instance_metadata_options" {
   step "pipeline" "run_ec2_instances" {
     pipeline = pipeline.run_ec2_instances
     args = {
-      cred          = param.cred
+      conn          = param.conn
       region        = param.region
       instance_type = param.instance_type
       image_id      = param.image_id
@@ -44,7 +44,7 @@ pipeline "test_modify_ec2_instance_metadata_options" {
     depends_on = [step.pipeline.run_ec2_instances]
     pipeline   = pipeline.modify_ec2_instance_metadata_options
     args = {
-      cred          = param.cred
+      conn          = param.conn
       region        = param.region
       instance_id   = step.pipeline.run_ec2_instances.output.instances[0].InstanceId
       http_tokens   = "required"
@@ -70,7 +70,7 @@ pipeline "test_modify_ec2_instance_metadata_options" {
 
     pipeline = pipeline.terminate_ec2_instances
     args = {
-      cred         = param.cred
+      conn         = param.conn
       region       = param.region
       instance_ids = [step.pipeline.run_ec2_instances.output.instances[0].InstanceId]
     }

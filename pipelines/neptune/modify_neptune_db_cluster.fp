@@ -7,10 +7,10 @@ pipeline "modify_neptune_db_cluster" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "db_cluster_identifier" {
@@ -33,7 +33,7 @@ pipeline "modify_neptune_db_cluster" {
       try(length(param.enable_cloudwatch_log_types), 0) > 0 ? ["--cloudwatch-logs-export-configuration",format("EnableLogTypes=%s", join(",", param.enable_cloudwatch_log_types))] : []
     )
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 
   output "db_cluster_modification" {

@@ -7,10 +7,10 @@ pipeline "delete_dynamodb_table" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "table_name" {
@@ -26,6 +26,6 @@ pipeline "delete_dynamodb_table" {
       "--table-name", param.table_name
     ]
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 }
