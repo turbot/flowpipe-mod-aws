@@ -3,13 +3,13 @@ pipeline "test_create_s3_bucket" {
   description = "Test the create_s3_bucket pipeline."
 
   tags = {
-    type = "test"
+    folder = "Tests"
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "region" {
@@ -27,7 +27,7 @@ pipeline "test_create_s3_bucket" {
     output "base_args" {
       value = {
         bucket = param.bucket
-        cred   = param.cred
+        conn   = param.conn
         region = param.region
       }
     }
@@ -44,7 +44,7 @@ pipeline "test_create_s3_bucket" {
 
     pipeline = pipeline.list_s3_buckets
     args = {
-      cred   = param.cred
+      conn   = param.conn
       region = param.region
     }
 

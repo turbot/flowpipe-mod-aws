@@ -2,10 +2,10 @@ pipeline "create_iam_user" {
   title       = "Create IAM User"
   description = "Creates an IAM user with the given name."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "user_name" {
@@ -20,7 +20,7 @@ pipeline "create_iam_user" {
       "create-user",
       "--user-name", param.user_name
     ]
-    env = credential.aws[param.cred].env
+    env = param.conn.env
   }
 
   output "user" {

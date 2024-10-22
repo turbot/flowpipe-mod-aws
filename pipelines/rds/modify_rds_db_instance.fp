@@ -7,10 +7,10 @@ pipeline "modify_rds_db_instance" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "db_instance_identifier" {
@@ -95,7 +95,7 @@ pipeline "modify_rds_db_instance" {
       param.multi_az != null ? param.multi_az ? ["--multi-az"] : ["--no-multi-az"] : [],
     )
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 
   output "db_instance" {

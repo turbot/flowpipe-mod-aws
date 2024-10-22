@@ -2,10 +2,10 @@ pipeline "create_iam_access_key" {
   title       = "Create IAM Access Key"
   description = "Creates a new AWS access key and secret for an IAM user."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "user_name" {
@@ -20,7 +20,7 @@ pipeline "create_iam_access_key" {
       "create-access-key",
       "--user-name", "${param.user_name}"
     ]
-    env = credential.aws[param.cred].env
+    env = param.conn.env
   }
 
   output "access_key" {

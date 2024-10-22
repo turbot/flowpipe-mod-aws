@@ -1,6 +1,6 @@
-pipeline "release_eip" {
-  title       = "Release VPC EIP"
-  description = "Release a VPC Elastic IP address."
+pipeline "delete_s3_bucket_all_objects" {
+  title       = "Delete S3 Bucket all Objects"
+  description = "Deletes all the objects of the specified S3 bucket."
 
   param "region" {
     type        = string
@@ -13,20 +13,19 @@ pipeline "release_eip" {
     default     = connection.aws.default
   }
 
-  param "allocation_id" {
+  param "bucket" {
     type        = string
-    description = "The ID representing the allocation of the address for use with EC2-VPC."
+    description = "The name of the S3 bucket to delete objects."
   }
 
-  step "container" "release_eip" {
+  step "container" "delete_s3_bucket_all_objects" {
     image = "public.ecr.aws/aws-cli/aws-cli"
 
-    cmd = concat(
-      [
-        "ec2", "release-address",
-        "--allocation-id", param.allocation_id
-      ],
-    )
+    cmd = [
+      "s3",
+      "rm",
+      "s3://${param.bucket}"
+    ]
 
     env = merge(param.conn.env, { AWS_REGION = param.region })
   }

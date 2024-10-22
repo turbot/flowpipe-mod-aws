@@ -1,5 +1,5 @@
 pipeline "put_s3_bucket_policy" {
-  title       = "Put S3 Bucket policy"
+  title       = "Put S3 Bucket Policy"
   description = "Creates or modifies the Bucket policy configuration for an Amazon S3 bucket."
 
   param "region" {
@@ -7,10 +7,10 @@ pipeline "put_s3_bucket_policy" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "bucket" {
@@ -32,6 +32,6 @@ pipeline "put_s3_bucket_policy" {
       ["--policy", param.policy]
     )
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 }

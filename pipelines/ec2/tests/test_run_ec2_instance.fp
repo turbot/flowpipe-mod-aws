@@ -3,13 +3,13 @@ pipeline "test_run_ec2_instance" {
   description = "Test the run_ec2_instances pipeline."
 
   tags = {
-    type = "test"
+    folder = "Tests"
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "region" {
@@ -32,7 +32,7 @@ pipeline "test_run_ec2_instance" {
   step "pipeline" "run_ec2_instances" {
     pipeline = pipeline.run_ec2_instances
     args = {
-      cred          = param.cred
+      conn          = param.conn
       region        = param.region
       instance_type = param.instance_type
       image_id      = param.image_id
@@ -43,7 +43,7 @@ pipeline "test_run_ec2_instance" {
     if       = !is_error(step.pipeline.run_ec2_instances)
     pipeline = pipeline.describe_ec2_instances
     args = {
-      cred         = param.cred
+      conn         = param.conn
       region       = param.region
       instance_ids = [step.pipeline.run_ec2_instances.output.instances[0].InstanceId]
     }
@@ -62,7 +62,7 @@ pipeline "test_run_ec2_instance" {
 
     pipeline = pipeline.terminate_ec2_instances
     args = {
-      cred         = param.cred
+      conn         = param.conn
       region       = param.region
       instance_ids = [step.pipeline.run_ec2_instances.output.instances[0].InstanceId]
     }

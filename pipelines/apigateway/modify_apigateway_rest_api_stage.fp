@@ -1,5 +1,5 @@
 pipeline "modify_apigateway_rest_api_stage" {
-  title       = "Modify API Gateway REST API stage"
+  title       = "Modify API Gateway REST API Stage"
   description = "Modifies settings for API Gateway REST API stage."
 
   param "region" {
@@ -7,10 +7,10 @@ pipeline "modify_apigateway_rest_api_stage" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "rest_api_id" {
@@ -33,6 +33,6 @@ pipeline "modify_apigateway_rest_api_stage" {
         "--patch-operations", "op=replace,path=/tracingEnabled,value=true",
       ]
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 }

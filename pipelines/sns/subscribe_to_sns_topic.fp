@@ -7,10 +7,10 @@ pipeline "subscribe_to_sns_topic" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "sns_topic_arn" {
@@ -38,7 +38,7 @@ pipeline "subscribe_to_sns_topic" {
       "--notification-endpoint", param.endpoint,
     ]
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 
   output "subscription_arn" {

@@ -2,10 +2,10 @@ pipeline "list_iam_users" {
   title       = "List IAM Users"
   description = "Lists the IAM users that have the specified path prefix. If no path prefix is specified, the operation returns all users in the Amazon Web Services account."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "path_prefix" {
@@ -22,7 +22,7 @@ pipeline "list_iam_users" {
       param.path_prefix != null ? ["--path-prefix", "${param.path_prefix}"] : []
     )
 
-    env = credential.aws[param.cred].env
+    env = param.conn.env
   }
 
   output "users" {

@@ -2,10 +2,10 @@ pipeline "update_iam_access_key" {
   title       = "Update IAM Access Key"
   description = "Changes the status of the specified access key from Active to Inactive, or vice versa. This operation can be used to disable a user's key as part of a key rotation workflow."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "access_key_id" {
@@ -34,6 +34,6 @@ pipeline "update_iam_access_key" {
       param.user_name != null ? ["--user-name", param.user_name] : []
     )
 
-    env = credential.aws[param.cred].env
+    env = param.conn.env
   }
 }

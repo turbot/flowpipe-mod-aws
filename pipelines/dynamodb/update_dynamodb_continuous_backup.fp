@@ -7,10 +7,10 @@ pipeline "update_dynamodb_continuous_backup" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "table_name" {
@@ -25,7 +25,7 @@ pipeline "update_dynamodb_continuous_backup" {
       "dynamodb", "update-continuous-backups", "--table-name", param.table_name, "--point-in-time-recovery-specification",  "PointInTimeRecoveryEnabled=true",
       ]
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 
   output "continuous_backups_description" {

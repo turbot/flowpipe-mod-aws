@@ -7,10 +7,10 @@ pipeline "delete_network_acl_entry" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "network_acl_id" {
@@ -26,7 +26,7 @@ pipeline "delete_network_acl_entry" {
   param "is_egress" {
     type        = bool
     description = "Set to true to delete an egress rule, or false for an ingress rule."
-    default     = true
+    default     = false
   }
 
   step "container" "remove_acl_entry" {
@@ -37,10 +37,10 @@ pipeline "delete_network_acl_entry" {
       "--network-acl-id", param.network_acl_id,
       "--rule-number", format("%d", param.rule_number)
     ],
-    param.is_egress != null ? ["--egress"] : ["--ingress"]
+    param.is_egress ? ["--egress"] : ["--ingress"]
     )
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 
   output "acl_entry_removal" {

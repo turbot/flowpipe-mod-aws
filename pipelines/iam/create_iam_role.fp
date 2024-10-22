@@ -2,10 +2,10 @@ pipeline "create_iam_role" {
   title       = "Create IAM Role"
   description = "Creates a new role for your Amazon Web Services account."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "role_name" {
@@ -26,7 +26,7 @@ pipeline "create_iam_role" {
       "--assume-role-policy-document", param.assume_role_policy_document,
     ]
 
-    env = credential.aws[param.cred].env
+    env = param.conn.env
   }
 
   output "role" {

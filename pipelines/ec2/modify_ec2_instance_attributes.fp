@@ -7,10 +7,10 @@ pipeline "modify_ec2_instance_attributes" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "instance_id" {
@@ -33,6 +33,6 @@ pipeline "modify_ec2_instance_attributes" {
       param.security_group_ids != null ? ["--groups", join(",", param.security_group_ids)] : [],
     )
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 }

@@ -7,10 +7,10 @@ pipeline "describe_iam_instance_profile_associations" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "instance_id" {
@@ -27,7 +27,7 @@ pipeline "describe_iam_instance_profile_associations" {
       param.instance_id != null ? ["--filters", "Name=instance-id,Values=${param.instance_id}"] : [],
     )
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 
   output "iam_instance_profile_associations" {

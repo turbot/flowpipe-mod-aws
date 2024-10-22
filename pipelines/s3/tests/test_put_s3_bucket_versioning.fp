@@ -3,13 +3,13 @@ pipeline "test_put_s3_bucket_versioning" {
   description = "Test the put_s3_bucket_versioning pipeline."
 
   tags = {
-    type = "test"
+    folder = "Tests"
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "region" {
@@ -26,7 +26,7 @@ pipeline "test_put_s3_bucket_versioning" {
   step "transform" "base_args" {
     output "base_args" {
       value = {
-        cred   = param.cred
+        conn   = param.conn
         region = param.region
         bucket = param.bucket
       }
@@ -79,7 +79,7 @@ pipeline "test_put_s3_bucket_versioning_enable_disable" {
   description = "Test enabling and disabling S3 bucket versioning."
 
   tags = {
-    type = "test"
+    folder = "Tests"
   }
 
   param "region" {
@@ -87,10 +87,10 @@ pipeline "test_put_s3_bucket_versioning_enable_disable" {
     description = "The name of the Region."
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "bucket" {
@@ -102,7 +102,7 @@ pipeline "test_put_s3_bucket_versioning_enable_disable" {
   step "transform" "base_args" {
     output "base_args" {
       value = {
-        cred   = param.cred
+        conn   = param.conn
         region = param.region
         bucket = param.bucket
       }

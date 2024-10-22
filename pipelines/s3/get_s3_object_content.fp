@@ -7,10 +7,10 @@ pipeline "get_s3_object_content" {
     description = local.region_param_description
   }
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.aws
+    description = local.conn_param_description
+    default     = connection.aws.default
   }
 
   param "bucket" {
@@ -27,7 +27,7 @@ pipeline "get_s3_object_content" {
     image = "public.ecr.aws/aws-cli/aws-cli"
     cmd   = ["s3", "cp", "s3://${param.bucket}/${param.path_to_file}", "-"]
 
-    env = merge(credential.aws[param.cred].env, { AWS_REGION = param.region })
+    env = merge(param.conn.env, { AWS_REGION = param.region })
   }
 
   output "content" {
