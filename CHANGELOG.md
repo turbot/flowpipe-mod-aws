@@ -1,4 +1,11 @@
-## v1.0.0 (2024-10-22)
+## v1.1.0 [2024-12-13]
+
+_What's new?_
+
+- New pipelines added
+  - `generate_iam_credential_report`
+
+## v1.0.0 [2024-10-22]
 
 _Breaking changes_
 
